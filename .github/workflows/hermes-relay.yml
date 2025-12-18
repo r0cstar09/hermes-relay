@@ -1,0 +1,30 @@
+name: Hermes Relay
+
+on:
+  schedule:
+    - cron: '0 10 * * *'  # 6:00 AM Eastern (10:00 UTC)
+  workflow_dispatch:
+
+jobs:
+  hermes-relay:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: pip install feedparser
+
+      - name: Run Hermes Relay
+        run: python hermes-relay.py
+
+      - name: Upload output
+        uses: actions/upload-artifact@v3
+        with:
+          name: hermes-relay-output
+          path: hermes_relay_*.json
