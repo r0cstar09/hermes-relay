@@ -1,6 +1,8 @@
 import os
 import subprocess
 import sys
+from dotenv import load_dotenv
+load_dotenv()
 
 def check_env():
     required = ["AZURE_OPENAI_ENDPOINT", "AZURE_OPENAI_API_KEY"]
