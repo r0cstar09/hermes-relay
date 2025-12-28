@@ -10,8 +10,7 @@ from datetime import date
 AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 
-DEPLOYMENT_NAME = "gpt-5.2-chat"   # change if needed
-API_VERSION = "2024-02-15-preview" # safe default for chat completions
+DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.2-chat")   # change if needed
 
 OUTPUT_FILE = f"hermes_llm_top3_{date.today().isoformat()}.json"
 
@@ -27,7 +26,7 @@ if not AZURE_OPENAI_ENDPOINT or not AZURE_OPENAI_API_KEY:
 # HELPERS
 # -----------------------------
 def load_articles():
-    files = sorted(glob.glob("hermes_relay_*.json"), reverse=True)
+    files = sorted(glob.glob("hermes_signal_*.json"), reverse=True)
 
     if not files:
         raise FileNotFoundError("No hermes_relay_*.json files found")
@@ -58,11 +57,8 @@ Articles:
 
 
 def call_llm(prompt):
-    url = (
-        f"{AZURE_OPENAI_ENDPOINT}/openai/deployments/"
-        f"{DEPLOYMENT_NAME}/chat/completions"
-        f"?api-version={API_VERSION}"
-    )
+    base = AZURE_OPENAI_ENDPOINT.rstrip("/")
+    url = f"{base}/openai/deployments/{DEPLOYMENT_NAME}/chat/completions"
 
     headers = {
         "Content-Type": "application/json",
@@ -78,7 +74,15 @@ def call_llm(prompt):
     }
 
     response = requests.post(url, headers=headers, json=payload)
-    response.raise_for_status()
+    try:
+        response.raise_for_status()
+    except requests.HTTPError:
+        print(f"LLM request failed: {response.status_code} {response.text}")
+        # Write a helpful error file for debugging
+        with open(OUTPUT_FILE, "w") as f:
+            json.dump({"error": "LLM request failed", "status": response.status_code, "response": response.text}, f, indent=2)
+        import sys
+        sys.exit(1)
 
     return response.json()["choices"][0]["message"]["content"]
 

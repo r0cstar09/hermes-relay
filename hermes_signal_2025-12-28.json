@@ -1,5 +1,11 @@
 [
   {
+    "title": "Dismantling Defenses: Trump 2.0 Cyber Year in Review",
+    "link": "https://krebsonsecurity.com/2025/12/dismantling-defenses-trump-2-0-cyber-year-in-review/",
+    "published": "Fri, 19 Dec 2025 15:14:55 +0000",
+    "summary": "The Trump administration has pursued a staggering range of policy pivots this past year that threaten to weaken the nation’s ability and willingness to address a broad spectrum of technology challenges, from cybersecurity and privacy to countering disinformation, fraud and corruption. These shifts, along with the president’s efforts to restrict free speech and freedom of the press, have come at such a rapid clip that many readers probably aren’t even aware of them all."
+  },
+  {
     "title": "Most Parked Domains Now Serving Malicious Content",
     "link": "https://krebsonsecurity.com/2025/12/most-parked-domains-now-serving-malicious-content/",
     "published": "Tue, 16 Dec 2025 14:14:48 +0000",
@@ -54,88 +60,70 @@
     "summary": "Microsoft this week pushed security updates to fix more than 60 vulnerabilities in its Windows operating systems and supported software, including at least one zero-day bug that is already being exploited. Microsoft also fixed a glitch that prevented some Windows 10 users from taking advantage of an extra year of security updates, which is nice because the zero-day flaw and other critical weaknesses patched today affect all versions of Windows, including Windows 10."
   },
   {
-    "title": "Google Sues to Disrupt Chinese SMS Phishing Triad",
-    "link": "https://krebsonsecurity.com/2025/11/google-sues-to-disrupt-chinese-sms-phishing-triad/",
-    "published": "Thu, 13 Nov 2025 14:47:22 +0000",
-    "summary": "Google is suing more than two dozen unnamed individuals allegedly involved in peddling a popular China-based mobile phishing service that helps scammers impersonate hundreds of trusted brands, blast out text message lures, and convert phished payment card data into mobile wallets from Apple and Google."
+    "title": "Exploited MongoBleed flaw leaks MongoDB secrets, 87K servers exposed",
+    "link": "https://www.bleepingcomputer.com/news/security/exploited-mongobleed-flaw-leaks-mongodb-secrets-87k-servers-exposed/",
+    "published": "Sun, 28 Dec 2025 15:38:15 -0500",
+    "summary": "A severe vulnerability affecting multiple MongoDB versions, dubbed MongoBleed (CVE-2025-14847), is being actively exploited in the wild, with over 80,000 potentially vulnerable servers exposed on the public web. [...]"
   },
   {
-    "title": "New password spraying attacks target Cisco, PAN VPN gateways",
-    "link": "https://www.bleepingcomputer.com/news/security/new-password-spraying-attacks-target-cisco-pan-vpn-gateways/",
-    "published": "Thu, 18 Dec 2025 12:27:25 -0500",
-    "summary": "An automated campaign is targeting multiple VPN platforms, with credential-based attacks being observed on Palo Alto Networks GlobalProtect and Cisco SSL VPN. [...]"
+    "title": "Hacker claims to leak WIRED database with 2.3 million records",
+    "link": "https://www.bleepingcomputer.com/news/security/hacker-claims-to-leak-wired-database-with-23-million-records/",
+    "published": "Sun, 28 Dec 2025 12:57:34 -0500",
+    "summary": "A hacker claims to have breached Condé Nast and leaked an alleged WIRED database containing more than 2.3 million subscriber records, while also warning that they plan to release up to 40 million additional records for other Condé Nast properties. [...]"
   },
   {
-    "title": "US seizes E-Note crypto exchange for laundering ransomware payments",
-    "link": "https://www.bleepingcomputer.com/news/security/us-seizes-e-note-crypto-exchange-for-laundering-ransomware-payments/",
-    "published": "Thu, 18 Dec 2025 11:13:03 -0500",
-    "summary": "Law enforcement has seized the servers and domains of the E-Note cryptocurrency exchange, allegedly used by cybercriminal groups to launder more than $70 million. [...]"
+    "title": "Massive Rainbow Six Siege breach gives players billions of credits",
+    "link": "https://www.bleepingcomputer.com/news/security/massive-rainbow-six-siege-breach-gives-players-billions-of-credits/",
+    "published": "Sun, 28 Dec 2025 00:44:21 -0500",
+    "summary": "Ubisoft's Rainbow Six Siege (R6) suffered a breach that allowed hackers to abuse internal systems to ban and unban players, manipulate in-game moderation feeds, and grant massive amounts of in-game currency and cosmetic items to accounts worldwide. [...]"
   },
   {
-    "title": "NIS2 compliance: How to get passwords and MFA right",
-    "link": "https://www.bleepingcomputer.com/news/security/nis2-compliance-how-to-get-passwords-and-mfa-right/",
-    "published": "Thu, 18 Dec 2025 10:01:11 -0500",
-    "summary": "NIS2 puts identity and access controls under the spotlight, with weak passwords and poor authentication now a compliance risk. Specops Software explains how to align password policies and MFA with NIS2 requirements. [...]"
+    "title": "OpenAI's ChatGPT ads will allegedly prioritize sponsored content in answers",
+    "link": "https://www.bleepingcomputer.com/news/artificial-intelligence/openais-chatgpt-ads-will-allegedly-prioritize-sponsored-content-in-answers/",
+    "published": "Sat, 27 Dec 2025 04:46:54 -0500",
+    "summary": "OpenAI is reportedly mulling a new form of ads on ChatGPT called \"sponsored content,\" which could influence your buying decisions. [...]"
   },
   {
-    "title": "France arrests Latvian for installing malware on Italian ferry",
-    "link": "https://www.bleepingcomputer.com/news/security/france-arrests-latvian-for-installing-malware-on-italian-ferry/",
-    "published": "Thu, 18 Dec 2025 08:47:59 -0500",
-    "summary": "French authorities arrested two crew members of an Italian passenger ferry suspected of infecting the ship with malware that could have enabled them to remotely control the vessel. [...]"
+    "title": "Fake Grubhub emails promise tenfold return on sent cryptocurrency",
+    "link": "https://www.bleepingcomputer.com/news/security/fake-grubhub-emails-promise-tenfold-return-on-sent-cryptocurrency/",
+    "published": "Fri, 26 Dec 2025 15:22:28 -0500",
+    "summary": "Grubhub users received fraudulent messages, apparently from a company email address, promising a tenfold bitcoin payout in return for a transfer to a specified wallet. [...]"
   },
   {
-    "title": "HPE warns of maximum severity RCE flaw in OneView software",
-    "link": "https://www.bleepingcomputer.com/news/security/hpe-warns-of-maximum-severity-rce-flaw-in-oneview-software/",
-    "published": "Thu, 18 Dec 2025 06:35:53 -0500",
-    "summary": "Hewlett Packard Enterprise (HPE) has patched a maximum-severity vulnerability in its HPE OneView software that enables attackers to execute arbitrary code remotely. [...]"
+    "title": "Trust Wallet confirms extension hack led to $7 million crypto theft",
+    "link": "https://www.bleepingcomputer.com/news/security/trust-wallet-confirms-extension-hack-led-to-7-million-crypto-theft/",
+    "published": "Fri, 26 Dec 2025 04:47:08 -0500",
+    "summary": "Several users of the Trust Wallet Chrome extension report having their cryptocurrency wallets drained after installing a compromised extension update released on December 24, prompting an urgent response from the company and warnings to affected users. Simultaneously, BleepingComputer observed a phishing domain launched by hackers. [...]"
   },
   {
-    "title": "Microsoft: Recent Windows updates break RemoteApp connections",
-    "link": "https://www.bleepingcomputer.com/news/microsoft/microsoft-recent-updates-break-azure-virtual-desktop-remoteapp-sessions/",
-    "published": "Thu, 18 Dec 2025 05:04:25 -0500",
-    "summary": "Microsoft has confirmed that recent Windows updates trigger RemoteApp connection failures on Windows 11 24H2/25H2 and Windows Server 2025 devices in Azure Virtual Desktop environments. [...]"
+    "title": "ChatGPT’s new formatting blocks make its UI look more like a task tool",
+    "link": "https://www.bleepingcomputer.com/news/artificial-intelligence/chatgpts-new-formatting-blocks-make-its-ui-look-more-like-a-task-tool/",
+    "published": "Thu, 25 Dec 2025 17:39:19 -0500",
+    "summary": "OpenAI has quietly rolled out 'formatting blocks,' which tweak GPT's layout to match the UI of the task it is supposed to execute. [...]"
   },
   {
-    "title": "Zeroday Cloud hacking event awards $320,0000 for 11 zero days",
-    "link": "https://www.bleepingcomputer.com/news/security/zeroday-cloud-hacking-event-awards-320-0000-for-11-zero-days/",
-    "published": "Wed, 17 Dec 2025 18:09:36 -0500",
-    "summary": "The Zeroday Cloud hacking competition in London has awarded researchers $320,000 for demonstrating critical remote code execution vulnerabilities in components used in cloud infrastructure. [...]"
+    "title": "Google will finally allow you to change your @gmail.com address",
+    "link": "https://www.bleepingcomputer.com/news/google/google-will-finally-allow-you-to-change-your-gmailcom-address/",
+    "published": "Thu, 25 Dec 2025 09:30:58 -0500",
+    "summary": "Google will finally allow you to change your @gmail address or create a new alias, according to a new support document. [...]"
   },
   {
-    "title": "France arrests suspect tied to cyberattack on Interior Ministry",
-    "link": "https://www.bleepingcomputer.com/news/security/france-arrests-suspect-tied-to-cyberattack-on-interior-ministry/",
-    "published": "Wed, 17 Dec 2025 17:20:02 -0500",
-    "summary": "French authorities arrested a 22-year-old suspect on Tuesday for a cyberattack that targeted France's Ministry of the Interior earlier this month. [...]"
+    "title": "OpenAI is reportedly testing Claude-like Skills for ChatGPT",
+    "link": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-is-reportedly-testing-claude-like-skills-for-chatgpt/",
+    "published": "Wed, 24 Dec 2025 17:31:28 -0500",
+    "summary": "OpenAI is testing a new ChatGPT feature called \"Skills,\" which will be similar to Claude's feature, also called Skills. [...]"
   },
   {
-    "title": "Amazon: Ongoing cryptomining campaign uses hacked AWS accounts",
-    "link": "https://www.bleepingcomputer.com/news/security/amazon-ongoing-cryptomining-campaign-uses-hacked-aws-accounts/",
-    "published": "Wed, 17 Dec 2025 16:48:33 -0500",
-    "summary": "Amazon's AWS GuardDuty security team is warning of an ongoing crypto-mining campaign that targets its Elastic Compute Cloud (EC2) and Elastic Container Service (ECS) using compromised credentials for Identity and Access Management (IAM). [...]"
+    "title": "Fake MAS Windows activation domain used to spread PowerShell malware",
+    "link": "https://www.bleepingcomputer.com/news/security/fake-mas-windows-activation-domain-used-to-spread-powershell-malware/",
+    "published": "Wed, 24 Dec 2025 12:44:46 -0500",
+    "summary": "A typosquatted domain impersonating the Microsoft Activation Scripts (MAS) tool was used to distribute malicious PowerShell scripts that infect Windows systems with the 'Cosmali Loader'. [...]"
   },
   {
-    "title": "WhatsApp device linking abused in account hijacking attacks",
-    "link": "https://www.bleepingcomputer.com/news/security/whatsapp-device-linking-abused-in-account-hijacking-attacks/",
-    "published": "Wed, 17 Dec 2025 14:14:30 -0500",
-    "summary": "Threat actors are abusing the legitimate device-linking feature to hijack WhatsApp accounts via pairing codes in a campaign dubbed GhostPairing. [...]"
-  },
-  {
-    "title": "Cisco warns of unpatched AsyncOS zero-day exploited in attacks",
-    "link": "https://www.bleepingcomputer.com/news/security/cisco-warns-of-unpatched-asyncos-zero-day-exploited-in-attacks/",
-    "published": "Wed, 17 Dec 2025 13:45:36 -0500",
-    "summary": "​Cisco warned customers today of an unpatched, maximum-severity Cisco AsyncOS zero-day actively exploited in attacks targeting Secure Email Gateway (SEG) and Secure Email and Web Manager (SEWM) appliances. [...]"
-  },
-  {
-    "title": "Sonicwall warns of new SMA1000 zero-day exploited in attacks",
-    "link": "https://www.bleepingcomputer.com/news/security/sonicwall-warns-of-new-sma1000-zero-day-exploited-in-attacks/",
-    "published": "Wed, 17 Dec 2025 12:44:18 -0500",
-    "summary": "SonicWall warned customers today to patch a vulnerability in the SonicWall SMA1000 Appliance Management Console (AMC) that was chained in zero-day attacks to escalate privileges. [...]"
-  },
-  {
-    "title": "Critical React2Shell flaw exploited in ransomware attacks",
-    "link": "https://www.bleepingcomputer.com/news/security/critical-react2shell-flaw-exploited-in-ransomware-attacks/",
-    "published": "Wed, 17 Dec 2025 11:09:51 -0500",
-    "summary": "A ransomware gang exploited the critical React2Shell vulnerability (CVE-2025-55182) to gain initial access to corporate networks and deployed the file-encrypting malware less than a minute later. [...]"
+    "title": "New Microsoft e-book: 3 reasons point solutions are holding you back",
+    "link": "https://www.microsoft.com/en-us/security/blog/2025/12/18/new-microsoft-e-book-3-reasons-point-solutions-are-holding-you-back/",
+    "published": "Thu, 18 Dec 2025 17:00:00 +0000",
+    "summary": "<p>Explore the new Microsoft e-book on how a unified, AI-ready platform delivers speed, resilience, and measurable security gains.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2025/12/18/new-microsoft-e-book-3-reasons-point-solutions-are-holding-you-back/\">New Microsoft e-book: 3 reasons point solutions are holding you back</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
   },
   {
     "title": "Access Fabric: A modern approach to identity and network access",
@@ -190,12 +178,6 @@
     "link": "https://www.microsoft.com/en-us/security/blog/2025/12/08/stronger-together-new-beazley-collaboration-enhances-cyber-resilience/",
     "published": "Mon, 08 Dec 2025 17:00:00 +0000",
     "summary": "<p>To bolster security for our customers, we need to align with our ecosystem partners. Our new collaboration with Beazley as an incident response partner is a step in that direction.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2025/12/08/stronger-together-new-beazley-collaboration-enhances-cyber-resilience/\">Stronger together: New Beazley collaboration enhances cyber resilience</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
-  },
-  {
-    "title": "Microsoft named a leader in the 2025 Gartner® Magic Quadrant™ for Email Security",
-    "link": "https://www.microsoft.com/en-us/security/blog/2025/12/05/microsoft-named-a-leader-in-the-2025-gartner-magic-quadrant-for-email-security/",
-    "published": "Fri, 05 Dec 2025 20:00:00 +0000",
-    "summary": "<p>Microsoft has been named a Leader in the 2025 Gartner® Magic Quadrant™ for Email Security, which we believe highlights the innovative capabilities of Microsoft Defender for Office 365.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2025/12/05/microsoft-named-a-leader-in-the-2025-gartner-magic-quadrant-for-email-security/\">Microsoft named a leader in the 2025 Gartner® Magic Quadrant™ for Email Security</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
   },
   {
     "title": "TAG Bulletin: Q3 2025",
@@ -318,6 +300,12 @@
     "summary": "Threat Analysis Group shares findings on a new campaign by North Korean actors targeting security researchers."
   },
   {
+    "title": "Who Does Cybersecurity Need? You!",
+    "link": "https://unit42.paloaltonetworks.com/cybersecurity-is-for-everyone/",
+    "published": "Wed, 24 Dec 2025 00:00:41 +0000",
+    "summary": "<p>Cybersecurity thrives on diverse skills, not just coding and engineering. From writers to designers, there’s a place for you in this field.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/cybersecurity-is-for-everyone/\">Who Does Cybersecurity Need? You!</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
     "title": "From Linear to Complex: An Upgrade in RansomHouse Encryption",
     "link": "https://unit42.paloaltonetworks.com/ransomhouse-encryption-upgrade/",
     "published": "Wed, 17 Dec 2025 11:00:54 +0000",
@@ -402,10 +390,94 @@
     "summary": "<p>Commercial-grade LANDFALL spyware exploits CVE-2025-21042 in Samsung Android’s image processing library. The spyware was embedded in malicious DNG files.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/landfall-is-new-commercial-grade-android-spyware/\">LANDFALL: New Commercial-Grade Android Spyware in Exploit Chain Targeting Samsung Devices</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
   },
   {
-    "title": "Know Ourselves Before Knowing Our Enemies: Threat Intelligence at the Expense of Asset Management",
-    "link": "https://unit42.paloaltonetworks.com/asset-management/",
-    "published": "Wed, 05 Nov 2025 00:00:02 +0000",
-    "summary": "<p>Effective cyber defense starts with knowing your own network. Unit 42 explains why asset management is the foundation of threat intelligence.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/asset-management/\">Know Ourselves Before Knowing Our Enemies: Threat Intelligence at the Expense of Asset Management</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+    "title": "Mentorship and Diversity: Shaping the Next Generation of Cyber Experts",
+    "link": "https://www.darkreading.com/cybersecurity-careers/mentorship-and-diversity-shaping-the-next-generation-of-cyber-experts",
+    "published": "Fri, 26 Dec 2025 15:15:00 GMT",
+    "summary": "Patricia Voight, CISO at Webster Bank, shares her expertise on advancing cybersecurity careers, combating financial crimes, and championing diversity in a rapidly changing industry."
+  },
+  {
+    "title": "As More Coders Adopt AI Agents, Security Pitfalls Lurk in 2026",
+    "link": "https://www.darkreading.com/application-security/coders-adopt-ai-agents-security-pitfalls-lurk-2026",
+    "published": "Fri, 26 Dec 2025 13:04:07 GMT",
+    "summary": "Developers are leaning more heavily on AI for code generation, but in 2026, the development pipeline and security need to be prioritized."
+  },
+  {
+    "title": "Dark Reading Opens The State of Application Security Survey",
+    "link": "https://www.darkreading.com/application-security/dark-reading-opens-state-appsec-survey",
+    "published": "Fri, 26 Dec 2025 12:00:48 GMT",
+    "summary": "Take part in the new survey from Dark Reading and help uncover trends, challenges, and solutions shaping the future of application security."
+  },
+  {
+    "title": "Industry Continues to Push Back on HIPAA Security Rule Overhaul",
+    "link": "https://www.darkreading.com/cyber-risk/industry-oppose-hipaa-security-rule-overhaul",
+    "published": "Tue, 23 Dec 2025 20:22:19 GMT",
+    "summary": "Healthcare cyberattacks are on the rise, but industry organizations say the proposed changes to the security rules fall short of what's needed."
+  },
+  {
+    "title": "ServiceNow Buys Armis for $7.75B, Boosts 'AI Control Tower'",
+    "link": "https://www.darkreading.com/cybersecurity-operations/servicenow-buys-armis-gets-ai-control-tower",
+    "published": "Tue, 23 Dec 2025 20:03:15 GMT",
+    "summary": "Its latest cybersecurity acquisition will help further ServiceNow's plans for autonomous cybersecurity, and building a security stack to proactively manage AI."
+  },
+  {
+    "title": "Amazon Fends Off 1,800 Suspected DPRK IT Job Scammers",
+    "link": "https://www.darkreading.com/remote-workforce/amazon-fends-off-dprk-it-job-scammers",
+    "published": "Tue, 23 Dec 2025 17:42:50 GMT",
+    "summary": "The tech giant has been beset by a deluge of state-sponsored North Korean operatives, showcasing the sheer scale of the IT worker scam problem."
+  },
+  {
+    "title": "Sprawling 'Operation Sentinel' Neutralizes African Cybercrime Syndicates",
+    "link": "https://www.darkreading.com/threat-intelligence/operation-sentinel-african-cybercrime-syndicates",
+    "published": "Tue, 23 Dec 2025 17:16:35 GMT",
+    "summary": "Interpol said law enforcement across 19 countries made 574 arrests and recovered $3 million, against a backdrop of spiraling cybercrime in the region, including business email compromise, digital extortion, and ransomware schemes."
+  },
+  {
+    "title": "Threat Actors Exploit Zero-Day in WatchGuard Firebox Devices",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/threat-actors-zero-day-watchguard-firebox",
+    "published": "Mon, 22 Dec 2025 20:29:34 GMT",
+    "summary": "With attacks on the critical firewall vulnerability, WatchGuard joins a list of edge device vendors whose products have been targeted in recent weeks."
+  },
+  {
+    "title": "Uzbek Users Under Attack by Android SMS-Stealers",
+    "link": "https://www.darkreading.com/cyber-risk/uzbek-users-android-sms-stealers",
+    "published": "Mon, 22 Dec 2025 17:07:10 GMT",
+    "summary": "Telegram users in Uzbekistan are being targeted with Android SMS-stealer malware, and what's worse, the attackers are improving their methods."
+  },
+  {
+    "title": "Cisco VPNs, Email Services Hit in Separate Threat Campaigns",
+    "link": "https://www.darkreading.com/endpoint-security/cisco-vpns-email-services-threat-campaigns",
+    "published": "Fri, 19 Dec 2025 20:05:38 GMT",
+    "summary": "The company suffered one sophisticated five-alarm campaign and one messy spray-and-pray attack, mere days apart."
+  },
+  {
+    "title": "LongNosedGoblin Caught Snooping on Asian Governments",
+    "link": "https://www.darkreading.com/threat-intelligence/longnosedgoblin-caught-snooping-on-asian-governments",
+    "published": "Fri, 19 Dec 2025 16:38:48 GMT",
+    "summary": "New China-aligned APT group is deploying Group Policy to sniff through government networks across Southeast Asia and Japan."
+  },
+  {
+    "title": "Identity Fraud Among Home-Care Workers Puts Patients at Risk",
+    "link": "https://www.darkreading.com/identity-access-management-security/identity-fraud-among-home-care-workers-puts-patients-at-risk",
+    "published": "Fri, 19 Dec 2025 15:04:50 GMT",
+    "summary": "Reports of patients being cared for by unqualified home-care aides with fake identities continue to emerge, highlighting a need for more stringent identity authentication."
+  },
+  {
+    "title": "A Cybersecurity Playbook for AI Adoption",
+    "link": "https://www.darkreading.com/cyber-risk/cybersecurity-playbook-ai-adoption",
+    "published": "Fri, 19 Dec 2025 14:00:00 GMT",
+    "summary": "AI adds real value to cybersecurity today, but it cannot yet serve as a single security guardian. Here's how organizations can safely combine AI-driven analysis with deterministic rules and proven security practices."
+  },
+  {
+    "title": "A Good Year for North Korean Cybercriminals",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/good-year-north-korean-cybercriminals",
+    "published": "Fri, 19 Dec 2025 14:00:00 GMT",
+    "summary": "North Korea shifted its strategy to patiently target &quot;bigger fish&quot; for larger payouts, using sophisticated methods to execute attacks at opportune times."
+  },
+  {
+    "title": "SonicWall Edge Access Devices Hit by Zero-Day Attacks",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/sonicwall-edge-devices-zero-day-attacks",
+    "published": "Thu, 18 Dec 2025 22:25:46 GMT",
+    "summary": "In the latest attacks against the vendor's SMA1000 devices, threat actors have chained a new zero-day flaw with a critical vulnerability disclosed earlier this year."
   },
   {
     "title": "Dormant Iran APT is Still Alive, Spying on Dissidents",
@@ -471,7 +543,7 @@
     "title": "Why You Should Train Your SOC Like a Triathlete",
     "link": "https://www.darkreading.com/cybersecurity-operations/why-you-should-train-your-soc-like-triathlete",
     "published": "Tue, 16 Dec 2025 22:20:33 GMT",
-    "summary": "The key elements in a security operations center's strategy map very closely to the swim/bike/run events in a triathlon. SOCs, like triathletes, perform well when their &quot;inputs&quot; are strong."
+    "summary": "The key elements in a security operations center's strategy map align closely to the swim/bike/run events in a triathlon. SOCs, like triathletes, perform well when their &quot;inputs&quot; are strong."
   },
   {
     "title": "Venezuelan Oil Company Downplays Alleged US Cyberattack",
@@ -495,7 +567,7 @@
     "title": "Enterprises Gear Up Ahead of 2026's IT Transformation Shift",
     "link": "https://www.darkreading.com/cybersecurity-operations/enterprises-gear-up-for-2026-s-it-transformation",
     "published": "Tue, 16 Dec 2025 15:08:23 GMT",
-    "summary": "Experts predict big changes are coming for IT infrastructure in 2026 driven by AI adoption, hybrid cloud strategies, and evolving security demands."
+    "summary": "Experts predict big changes are coming for IT infrastructure in 2026, driven by AI adoption, hybrid cloud strategies, and evolving security demands."
   },
   {
     "title": "How Cyber Insurance MGAs Shape Policies for Evolving Cyber-Risks",
@@ -616,95 +688,5 @@
     "link": "https://www.darkreading.com/cyberattacks-data-breaches/japanese-firms-suffer-long-tail-ransomware-damage",
     "published": "Wed, 10 Dec 2025 00:00:00 GMT",
     "summary": "Ransomware actors have targeted manufacturers, retailers, and the Japanese government, with many organizations requiring months to recover."
-  },
-  {
-    "title": "Microsoft Fixes Exploited Zero Day in Light Patch Tuesday",
-    "link": "https://www.darkreading.com/application-security/microsoft-fixes-exploited-zero-day-light-patch-tuesday",
-    "published": "Tue, 09 Dec 2025 22:24:18 GMT",
-    "summary": "Proof-of-concept exploit code is publicly available for two other flaws in this month's Patch Tuesday. In total, the company issued patches for more than 1,150 flaws this year."
-  },
-  {
-    "title": "Packer-as-a-Service Shanya Hides Ransomware, Kills EDR",
-    "link": "https://www.darkreading.com/threat-intelligence/packer-as-a-service-shanya-hides-ransomware-kills-edr",
-    "published": "Tue, 09 Dec 2025 20:10:32 GMT",
-    "summary": "Shanya is the latest in an emerging field of packing malware, selling obfuscation functionality in order to help ransomware actors reach their target."
-  },
-  {
-    "title": "Analysts Warn of Cybersecurity Risks in Humanoid Robots",
-    "link": "https://www.darkreading.com/ics-ot-security/cybersecurity-risks-humanoid-robots",
-    "published": "Tue, 09 Dec 2025 16:41:27 GMT",
-    "summary": "Think &quot;Blade Runner,&quot; but the robots can be hacked more easily than your home computer."
-  },
-  {
-    "title": "Gemini Enterprise No-Click Flaw Exposes Sensitive Data",
-    "link": "https://www.darkreading.com/remote-workforce/gemini-enterprise-exposes-sensitive-data",
-    "published": "Tue, 09 Dec 2025 12:08:41 GMT",
-    "summary": "Google has fixed a critical vulnerability that enabled attackers to add malicious instructions to common documents to exfiltrate sensitive corporate information."
-  },
-  {
-    "title": "Apache Issues Max-Severity Tika CVE After Patch Miss",
-    "link": "https://www.darkreading.com/application-security/apache-max-severity-tika-cve-patch-miss",
-    "published": "Mon, 08 Dec 2025 22:01:47 GMT",
-    "summary": "The Apache Software Foundation's earlier fix for a critical Tika flaw missed the full scope of the vulnerability, prompting an updated advisory and CVE."
-  },
-  {
-    "title": "Exploitation Activity Ramps Up Against React2Shell",
-    "link": "https://www.darkreading.com/vulnerabilities-threats/exploitation-activity-ramps-react2shell",
-    "published": "Mon, 08 Dec 2025 21:41:25 GMT",
-    "summary": "Attacks against CVE-2025-55182, which began almost immediately after public disclosure last week, have increased as more threat actors take advantage of the flaw."
-  },
-  {
-    "title": "US Treasury Tracks $4.5B in Ransom Payments since 2013",
-    "link": "https://www.darkreading.com/cyberattacks-data-breaches/us-treasury-45b-ransom-payments-2013",
-    "published": "Mon, 08 Dec 2025 20:21:00 GMT",
-    "summary": "The US Treasury's Financial Crimes Enforcement Network shared data showing how dramatically ransomware attacks have changed over time."
-  },
-  {
-    "title": "'Broadside' Mirai Variant Targets Maritime Logistics Sector",
-    "link": "https://www.darkreading.com/threat-intelligence/broadside-mirai-variant-maritime-logistics",
-    "published": "Mon, 08 Dec 2025 11:17:12 GMT",
-    "summary": "&quot;Broadside&quot; is targeting a critical flaw in DVR systems to conduct command injection attacks, which can hijack devices to achieve persistence and move laterally."
-  },
-  {
-    "title": "Rust Code Delivers Better Security, Also Streamlines DevOps",
-    "link": "https://www.darkreading.com/application-security/rust-code-delivers-better-security-streamlines-devops",
-    "published": "Fri, 05 Dec 2025 22:01:05 GMT",
-    "summary": "Software teams at Google and other Rust adopters see safer code when using the memory-safe language, as well as fewer rollbacks and less code review."
-  },
-  {
-    "title": "India Rolls Back App Mandate Amid Surveillance Concerns",
-    "link": "https://www.darkreading.com/cybersecurity-operations/india-app-mandate-surveillance-concerns",
-    "published": "Fri, 05 Dec 2025 20:06:26 GMT",
-    "summary": "Remember when Apple put that U2 album in everyone's music libraries? India wanted to do that to all of its citizens, but with a cybersecurity app. It wasn't a good idea."
-  },
-  {
-    "title": "Threat Landscape Grows Increasingly Dangerous for Manufacturers",
-    "link": "https://www.darkreading.com/cyberattacks-data-breaches/threat-landscape-increasingly-dangerous-manufacturers",
-    "published": "Fri, 05 Dec 2025 15:34:58 GMT",
-    "summary": "Manufacturers are the top target for cyberattacks in 2025 because of their still-plentiful cybersecurity gaps and a lack of expertise."
-  },
-  {
-    "title": "React2Shell Vulnerability Under Attack From China-Nexus Groups",
-    "link": "https://www.darkreading.com/vulnerabilities-threats/react2shell-under-attack-china-nexus-groups",
-    "published": "Fri, 05 Dec 2025 15:14:26 GMT",
-    "summary": "A maximum-severity vulnerability affecting the React JavaScript library has been exploited in the wild, further stressing the need to patch now."
-  },
-  {
-    "title": "CISOs Should Be Asking These Quantum Questions Today",
-    "link": "https://www.darkreading.com/cybersecurity-operations/cisos-should-be-asking-these-quantum-questions-today",
-    "published": "Fri, 05 Dec 2025 15:00:00 GMT",
-    "summary": "As quantum quietly moves beyond lab experiment and into production workflows, here's what enterprise security leaders should be focused on, according to Lineswala."
-  },
-  {
-    "title": "How Agentic AI Can Boost Cyber Defense",
-    "link": "https://www.darkreading.com/cybersecurity-analytics/how-agentic-ai-can-boost-cyber-defense",
-    "published": "Thu, 04 Dec 2025 23:05:15 GMT",
-    "summary": "Transurban head of cyber defense Muhammad Ali Paracha shares how his team is automating the triaging and scoring of security threats as part of the Black Hat Middle East conference."
-  },
-  {
-    "title": "A Tale of Two CISOs: Why An Engineering-Focused CISO Can Be a Liability",
-    "link": "https://www.darkreading.com/cyber-risk/why-an-engineering-focused-ciso-can-be-a-liability",
-    "published": "Thu, 04 Dec 2025 22:13:41 GMT",
-    "summary": "When hiring a CISO, understand the key difference between engineering and holistic security leaders."
   }
 ]
