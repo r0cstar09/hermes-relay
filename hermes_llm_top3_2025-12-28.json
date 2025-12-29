@@ -1,5 +1,0 @@
-{
-  "error": "LLM request failed",
-  "status": 404,
-  "response": "{\"error\":{\"code\":\"404\",\"message\": \"Resource not found\"}}"
-}
