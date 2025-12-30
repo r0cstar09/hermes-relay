@@ -44,16 +44,30 @@ if not AZURE_OPENAI_ENDPOINT or not AZURE_OPENAI_API_KEY:
 # HELPERS
 # -----------------------------
 def load_articles():
-    files = sorted(glob.glob("hermes_signal_*.json"), reverse=True)
-
-    if not files:
-        raise FileNotFoundError("No hermes_relay_*.json files found")
-
-    latest_file = files[0]
-    print(f"Loading articles from: {latest_file}")
-
-    with open(latest_file, "r") as f:
-        return json.load(f)
+    """Load articles from today's file (new articles only)."""
+    # Look for today's specific file first
+    today_file = f"hermes_signal_{today}.json"
+    
+    if not Path(today_file).exists():
+        # Fallback: get the latest file if today's doesn't exist
+        files = sorted(glob.glob("hermes_signal_*.json"), reverse=True)
+        if not files:
+            raise FileNotFoundError(f"No hermes_signal_*.json files found. Expected today's file: {today_file}")
+        latest_file = files[0]
+        print(f"Warning: Today's file ({today_file}) not found. Using latest file: {latest_file}")
+        file_to_load = latest_file
+    else:
+        file_to_load = today_file
+        print(f"Loading new articles from today's file: {file_to_load}")
+    
+    with open(file_to_load, "r", encoding="utf-8") as f:
+        articles = json.load(f)
+    
+    if not articles:
+        raise ValueError(f"No articles found in {file_to_load}. The file may be empty.")
+    
+    print(f"Loaded {len(articles)} new article(s) from today")
+    return articles
 
 
 def build_prompt(articles):
@@ -61,8 +75,9 @@ def build_prompt(articles):
 You are a senior cybersecurity analyst advising executives.
 
 Task:
+- You are analyzing NEW articles from today ({today}) - these are fresh cybersecurity news items that have just been published.
 - Score each article from 1–10 based on business risk, reputational damage, and executive concern.
-- Select the top 3.
+- Select the top 3 most critical articles from these new items.
 - For each article, provide in this EXACT format (use "---" to separate each article):
 
 1) [Headline - use exact title from article]
@@ -398,71 +413,106 @@ def send_email(html_content, subject="Daily Cybersecurity Briefing"):
 # MAIN
 # -----------------------------
 def main():
-    # Check if HTML or JSON file already exists for today
     html_file = OUTPUT_DIR / f"hermes_briefing_{today}.html"
+    signal_file = Path(f"hermes_signal_{today}.json")
     
-    if html_file.exists():
-        print(f"Found existing HTML file: {html_file}")
-        print("Reading existing HTML and sending email...")
-        with open(html_file, "r", encoding="utf-8") as f:
-            html_email = f.read()
-        send_email(html_email)
-        print("Done! Email sent from existing file.")
-        return
+    # First, check if today's signal file exists and has new articles
+    has_new_articles = False
+    signal_file_time = 0
+    output_file_time = 0
     
-    # Check if JSON exists (in case HTML was deleted but JSON remains)
+    if signal_file.exists():
+        signal_file_time = signal_file.stat().st_mtime
+        try:
+            with open(signal_file, "r", encoding="utf-8") as f:
+                signal_articles = json.load(f)
+                if signal_articles and len(signal_articles) > 0:
+                    has_new_articles = True
+                    print(f"Found {len(signal_articles)} new article(s) in today's signal file")
+        except (json.JSONDecodeError, FileNotFoundError):
+            print(f"Warning: Could not read {signal_file}")
+    
+    # Check if output files exist and get their modification time
     if OUTPUT_FILE.exists():
-        print(f"Found existing JSON file: {OUTPUT_FILE}")
-        print("Loading existing data and generating HTML...")
-        with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        
-        # Load articles to match headlines to links
+        output_file_time = OUTPUT_FILE.stat().st_mtime
+    
+    # Determine if we need to regenerate
+    should_regenerate = False
+    
+    if not has_new_articles:
+        print("No new articles found in today's signal file.")
+        if html_file.exists():
+            print("Using existing HTML file...")
+            with open(html_file, "r", encoding="utf-8") as f:
+                html_email = f.read()
+            send_email(html_email)
+            print("Done! Email sent from existing file.")
+            return
+        else:
+            print("No HTML file exists and no new articles. Nothing to send.")
+            return
+    
+    # If we have new articles, check if signal file is newer than output
+    if has_new_articles:
+        if not OUTPUT_FILE.exists() or signal_file_time > output_file_time:
+            should_regenerate = True
+            print("Signal file is newer than output files. Regenerating summaries...")
+        else:
+            print("Output files exist and are up to date. Using existing files...")
+            if html_file.exists():
+                with open(html_file, "r", encoding="utf-8") as f:
+                    html_email = f.read()
+                send_email(html_email)
+                print("Done! Email sent from existing file.")
+                return
+            elif OUTPUT_FILE.exists():
+                # Regenerate HTML from existing JSON
+                with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
+                    data = json.load(f)
+                articles = load_articles()
+                html_email = format_email_html(data["top_articles"], articles)
+                with open(html_file, "w", encoding="utf-8") as f:
+                    f.write(html_email)
+                send_email(html_email)
+                print("Done! Email sent from regenerated HTML.")
+                return
+    
+    # Generate new summaries from today's new articles
+    if should_regenerate:
+        print("Generating new summaries from today's new articles...")
         articles = load_articles()
         
-        # Generate HTML from existing JSON
-        html_email = format_email_html(data["top_articles"], articles)
+        if not articles or len(articles) == 0:
+            print("No articles to process. Exiting.")
+            return
         
-        # Save HTML
+        prompt = build_prompt(articles)
+
+        print("Calling Azure OpenAI…")
+        result = call_llm(prompt)
+
+        # Save JSON output (for backup/debugging)
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "date": date.today().isoformat(),
+                    "top_articles": result,
+                },
+                f,
+                indent=2,
+            )
+        print(f"Saved output → {OUTPUT_FILE}")
+
+        # Format as HTML email and send
+        html_email = format_email_html(result, articles)
+        
+        # Save HTML to the same directory as JSON
         with open(html_file, "w", encoding="utf-8") as f:
             f.write(html_email)
         print(f"Saved HTML → {html_file}")
         
-        # Send email
         send_email(html_email)
-        print("Done! Email sent from regenerated HTML.")
-        return
-    
-    # No existing files - generate new summaries
-    print("No existing files found. Generating new summaries...")
-    articles = load_articles()
-    prompt = build_prompt(articles)
-
-    print("Calling Azure OpenAI…")
-    result = call_llm(prompt)
-
-    # Save JSON output (for backup/debugging)
-    with open(OUTPUT_FILE, "w") as f:
-        json.dump(
-            {
-                "date": date.today().isoformat(),
-                "top_articles": result,
-            },
-            f,
-            indent=2,
-        )
-    print(f"Saved output → {OUTPUT_FILE}")
-
-    # Format as HTML email and send
-    html_email = format_email_html(result, articles)
-    
-    # Save HTML to the same directory as JSON
-    with open(html_file, "w", encoding="utf-8") as f:
-        f.write(html_email)
-    print(f"Saved HTML → {html_file}")
-    
-    send_email(html_email)
-    print("Done! New summaries generated and email sent.")
+        print("Done! New summaries generated and email sent.")
 
 
 if __name__ == "__main__":

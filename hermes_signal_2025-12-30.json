@@ -1,0 +1,74 @@
+[
+  {
+    "title": "Happy 16th Birthday, KrebsOnSecurity.com!",
+    "link": "https://krebsonsecurity.com/2025/12/happy-16th-birthday-krebsonsecurity-com/",
+    "published": "Mon, 29 Dec 2025 20:23:26 +0000",
+    "summary": "KrebsOnSecurity.com celebrates its 16th anniversary today! A huge \"thank you\" to all of our readers -- newcomers, long-timers and drive-by critics alike. Your engagement this past year here has been tremendous and truly a salve on a handful of dark days. Happily, comeuppance was a strong theme running through our coverage in 2025, with a primary focus on entities that enabled complex and globally-dispersed cybercrime services."
+  },
+  {
+    "title": "Chinese state hackers use rootkit to hide ToneShell malware activity",
+    "link": "https://www.bleepingcomputer.com/news/security/chinese-state-hackers-use-rootkit-to-hide-toneshell-malware-activity/",
+    "published": "Mon, 29 Dec 2025 19:08:42 -0500",
+    "summary": "A new sample of the ToneShell backdoor, typically seen in Chinese cyberespionage campaigns, has been delivered through a kernel-mode loader in attacks against government organizations. [...]"
+  },
+  {
+    "title": "Coupang to split $1.17 billion among 33.7 million data breach victims",
+    "link": "https://www.bleepingcomputer.com/news/security/coupang-to-split-117-billion-among-337-million-data-breach-victims/",
+    "published": "Mon, 29 Dec 2025 17:27:01 -0500",
+    "summary": "Coupang, the largest retailer in South Korea, announced $1.17 billion (1.685 trillion Won) total compensation for the 33.7 million customers whose information was exposed in the data breach discovered last month. [...]"
+  },
+  {
+    "title": "Hacker arrested for KMSAuto malware campaign with 2.8 million downloads",
+    "link": "https://www.bleepingcomputer.com/news/security/hacker-arrested-for-kmsauto-malware-campaign-with-28-million-downloads/",
+    "published": "Mon, 29 Dec 2025 14:25:29 -0500",
+    "summary": "A Lithuanian national has been arrested for his alleged involvement in infecting 2.8 million systems with clipboard-stealing malware disguised as the KMSAuto tool for illegally activating Windows and Office software. [...]"
+  },
+  {
+    "title": "Trust Wallet says 2,596 wallets drained in $7 million crypto theft attack",
+    "link": "https://www.bleepingcomputer.com/news/security/trust-wallet-says-7-million-crypto-theft-attack-drained-2-596-wallets/",
+    "published": "Mon, 29 Dec 2025 11:43:02 -0500",
+    "summary": "Trust Wallet says attackers who compromised its browser extension right before Christmas have drained approximately $7 million from nearly 3,000 cryptocurrency wallet addresses. [...]"
+  },
+  {
+    "title": "The Real-World Attacks Behind OWASP Agentic AI Top 10",
+    "link": "https://www.bleepingcomputer.com/news/security/the-real-world-attacks-behind-owasp-agentic-ai-top-10/",
+    "published": "Mon, 29 Dec 2025 10:00:10 -0500",
+    "summary": "OWASP's new Agentic AI Top 10 highlights real-world attacks already targeting autonomous AI systems, from goal hijacking to malicious MCP servers. Koi Security breaks down real-world incidents behind multiple categories, including two cases cited by OWASP, showing how agent tools and runtime behavior are being abused. [...]"
+  },
+  {
+    "title": "ChatGPT finally rolls out Thinking time toggle on mobile",
+    "link": "https://www.bleepingcomputer.com/news/artificial-intelligence/chatgpt-finally-rolls-out-thinking-time-toggle-on-mobile/",
+    "published": "Mon, 29 Dec 2025 10:00:00 -0500",
+    "summary": "OpenAI is rolling out an update to ChatGPT on mobile that finally allows you to select the Thinking time toggle, also called \"juice\" of the model. [...]"
+  },
+  {
+    "title": "Romanian energy provider hit by Gentlemen ransomware attack",
+    "link": "https://www.bleepingcomputer.com/news/security/romanian-energy-provider-hit-by-gentlemen-ransomware-attack/",
+    "published": "Mon, 29 Dec 2025 09:26:00 -0500",
+    "summary": "A ransomware attack hit Oltenia Energy Complex (Complexul Energetic Oltenia), Romania's largest coal-based energy producer, on the second day of Christmas, taking down its IT infrastructure. [...]"
+  },
+  {
+    "title": "Former Coinbase support agent arrested for helping hackers",
+    "link": "https://www.bleepingcomputer.com/news/security/former-coinbase-support-agent-arrested-for-helping-hackers/",
+    "published": "Mon, 29 Dec 2025 09:16:47 -0500",
+    "summary": "A former Coinbase customer service agent was arrested in India for helping hackers earlier this year steal sensitive customer information from a company database. [...]"
+  },
+  {
+    "title": "SBOMs in 2026: Some Love, Some Hate, Much Ambivalence",
+    "link": "https://www.darkreading.com/application-security/sboms-in-2026-some-love-some-hate-much-ambivalence",
+    "published": "Mon, 29 Dec 2025 14:51:59 GMT",
+    "summary": "With a new year upon us, software and cybersecurity experts disagree on the utility of software bill of materials — in theory, SBOMs are great, but in practice, they're a mess."
+  },
+  {
+    "title": "5 Threats That Defined Security in 2025",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/five-threats-that-defined-security-2025",
+    "published": "Mon, 29 Dec 2025 14:00:00 GMT",
+    "summary": "2025 included a number of monumental threats, from the global attacks of Salt Typhoon to dangerous vulnerabilities like React2Shell."
+  },
+  {
+    "title": "Dark Reading Confidential: Stop Secrets Creep Across Developer Platforms",
+    "link": "https://www.darkreading.com/cybersecurity-operations/stop-secrets-creep-across-developer-platforms",
+    "published": "Thu, 18 Dec 2025 18:55:13 GMT",
+    "summary": "Dark Reading Confidential Episode 13: Developers are exposing their organizations' most sensitive information; our guests explain why it's happening and how to stop it."
+  }
+]
