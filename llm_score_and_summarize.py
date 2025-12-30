@@ -16,7 +16,7 @@ AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 
 # Deployment name - change this to match your Azure OpenAI deployment name
-DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-5.2-chat")
+DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
 
 # API version - required for Azure OpenAI
 API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")

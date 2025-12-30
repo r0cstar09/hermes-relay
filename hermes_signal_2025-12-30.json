@@ -6,6 +6,30 @@
     "summary": "KrebsOnSecurity.com celebrates its 16th anniversary today! A huge \"thank you\" to all of our readers -- newcomers, long-timers and drive-by critics alike. Your engagement this past year here has been tremendous and truly a salve on a handful of dark days. Happily, comeuppance was a strong theme running through our coverage in 2025, with a primary focus on entities that enabled complex and globally-dispersed cybercrime services."
   },
   {
+    "title": "European Space Agency confirms breach of \"external servers\"",
+    "link": "https://www.bleepingcomputer.com/news/security/european-space-agency-confirms-breach-of-external-servers/",
+    "published": "Tue, 30 Dec 2025 11:26:56 -0500",
+    "summary": "The European Space Agency (ESA) confirmed that attackers recently breached servers outside its corporate network, which contained what it described as \"unclassified\" information on collaborative engineering activities. [...]"
+  },
+  {
+    "title": "Zoom Stealer browser extensions harvest corporate meeting intelligence",
+    "link": "https://www.bleepingcomputer.com/news/security/zoom-stealer-browser-extensions-harvest-corporate-meeting-intelligence/",
+    "published": "Tue, 30 Dec 2025 10:41:53 -0500",
+    "summary": "A newly discovered campaign, which researchers call Zoom Stealer, is affecting 2.2 million Chrome, Firefox, and Microsoft Edge users through 18 extensions that collect online meeting-related data like URLs, IDs, topics, descriptions, and embedded passwords. [...]"
+  },
+  {
+    "title": "US cybersecurity experts plead guilty to BlackCat ransomware attacks",
+    "link": "https://www.bleepingcomputer.com/news/security/us-cybersecurity-experts-plead-guilty-to-blackcat-alphv-ransomware-attacks/",
+    "published": "Tue, 30 Dec 2025 10:25:17 -0500",
+    "summary": "Two former employees of cybersecurity incident response companies Sygnia and DigitalMint have pleaded guilty to targeting U.S. companies in BlackCat (ALPHV) ransomware attacks in 2023. [...]"
+  },
+  {
+    "title": "CISA orders feds to patch MongoBleed flaw exploited in attacks",
+    "link": "https://www.bleepingcomputer.com/news/security/cisa-orders-federal-agencies-to-patch-mongobleed-flaw-actively-exploited-in-attacks/",
+    "published": "Tue, 30 Dec 2025 09:40:13 -0500",
+    "summary": "CISA ordered U.S. federal agencies to patch an actively exploited MongoDB vulnerability (MongoBleed) that can be exploited to steal credentials, API keys, and other sensitive data. [...]"
+  },
+  {
     "title": "Chinese state hackers use rootkit to hide ToneShell malware activity",
     "link": "https://www.bleepingcomputer.com/news/security/chinese-state-hackers-use-rootkit-to-hide-toneshell-malware-activity/",
     "published": "Mon, 29 Dec 2025 19:08:42 -0500",
@@ -54,6 +78,12 @@
     "summary": "A former Coinbase customer service agent was arrested in India for helping hackers earlier this year steal sensitive customer information from a company database. [...]"
   },
   {
+    "title": "New Tech Deployments That Cyber Insurers Recommend for 2026",
+    "link": "https://www.darkreading.com/cyber-risk/cybersecurity-tech-recommended-by-cyber-insurer-claims-data",
+    "published": "Tue, 30 Dec 2025 13:56:23 GMT",
+    "summary": "An analysis of cyber-insurance claims data shows which cyber defenses actually work for policyholders. Here are six technologies that will pay off for companies in 2026."
+  },
+  {
     "title": "SBOMs in 2026: Some Love, Some Hate, Much Ambivalence",
     "link": "https://www.darkreading.com/application-security/sboms-in-2026-some-love-some-hate-much-ambivalence",
     "published": "Mon, 29 Dec 2025 14:51:59 GMT",
@@ -63,7 +93,7 @@
     "title": "5 Threats That Defined Security in 2025",
     "link": "https://www.darkreading.com/vulnerabilities-threats/five-threats-that-defined-security-2025",
     "published": "Mon, 29 Dec 2025 14:00:00 GMT",
-    "summary": "2025 included a number of monumental threats, from the global attacks of Salt Typhoon to dangerous vulnerabilities like React2Shell."
+    "summary": "2025 included a number of monumental threats, from global nation-state attacks to a critical vulnerability under widespread exploitation."
   },
   {
     "title": "Dark Reading Confidential: Stop Secrets Creep Across Developer Platforms",
