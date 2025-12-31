@@ -1,0 +1,20 @@
+[
+  {
+    "title": "IBM warns of critical API Connect auth bypass vulnerability",
+    "link": "https://www.bleepingcomputer.com/news/security/ibm-warns-of-critical-api-connect-auth-bypass-vulnerability/",
+    "published": "Wed, 31 Dec 2025 05:34:38 -0500",
+    "summary": "IBM urged customers to patch a critical authentication bypass vulnerability in its API Connect enterprise platform that could allow attackers to access apps remotely. [...]"
+  },
+  {
+    "title": "Disney will pay $10 million to settle children's data privacy lawsuit",
+    "link": "https://www.bleepingcomputer.com/news/security/disney-will-pay-10m-to-settle-claims-of-childrens-privacy-violations-on-youtube/",
+    "published": "Wed, 31 Dec 2025 04:43:26 -0500",
+    "summary": "Disney has agreed to pay a $10 million civil penalty to settle claims that it violated the Children's Online Privacy Protection Act by mislabeling videos and allowing data collection for targeted advertising. [...]"
+  },
+  {
+    "title": "New ErrTraffic service enables ClickFix attacks via fake browser glitches",
+    "link": "https://www.bleepingcomputer.com/news/security/new-errtraffic-service-enables-clickfix-attacks-via-fake-browser-glitches/",
+    "published": "Tue, 30 Dec 2025 16:08:28 -0500",
+    "summary": "A new cybercrime tool called ErrTraffic allows threat actors to automate ClickFix attacks by generating 'fake glitches' on compromised websites to lure users into downloading payloads or following malicious instructions [...]"
+  }
+]
