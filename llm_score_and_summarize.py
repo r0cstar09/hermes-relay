@@ -18,13 +18,17 @@ AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 # Deployment name - change this to match your Azure OpenAI deployment name
 # If not set in environment, defaults to gpt-4o-mini
 DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
-# Ensure deployment name is not empty
+# Ensure deployment name is not empty (handle case where secret exists but is empty)
 if not DEPLOYMENT_NAME or DEPLOYMENT_NAME.strip() == "":
     DEPLOYMENT_NAME = "gpt-4o-mini"
     print(f"Warning: AZURE_OPENAI_DEPLOYMENT was empty, using default: {DEPLOYMENT_NAME}")
 
 # API version - required for Azure OpenAI
 API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
+# Ensure API version is not empty (handle case where secret exists but is empty)
+if not API_VERSION or API_VERSION.strip() == "":
+    API_VERSION = "2024-02-15-preview"
+    print(f"Warning: AZURE_OPENAI_API_VERSION was empty, using default: {API_VERSION}")
 
 # Email configuration
 ICLOUD_EMAIL = os.getenv("ICLOUD_EMAIL")
@@ -45,16 +49,21 @@ if not AZURE_OPENAI_ENDPOINT or not AZURE_OPENAI_API_KEY:
         "Missing AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY environment variables"
     )
 
-# Validate deployment name
+# Final validation - ensure values are set
 if not DEPLOYMENT_NAME or DEPLOYMENT_NAME.strip() == "":
     raise EnvironmentError(
-        f"DEPLOYMENT_NAME is empty or not set. Please set AZURE_OPENAI_DEPLOYMENT environment variable or ensure default is set correctly."
+        f"DEPLOYMENT_NAME is empty. Please set AZURE_OPENAI_DEPLOYMENT environment variable."
+    )
+if not API_VERSION or API_VERSION.strip() == "":
+    raise EnvironmentError(
+        f"API_VERSION is empty. Please set AZURE_OPENAI_API_VERSION environment variable."
     )
 
-print(f"Configuration loaded:")
-print(f"  - Deployment: {DEPLOYMENT_NAME}")
-print(f"  - API Version: {API_VERSION}")
-print(f"  - Endpoint: {AZURE_OPENAI_ENDPOINT[:50]}..." if AZURE_OPENAI_ENDPOINT else "  - Endpoint: NOT SET")
+print(f"=== Configuration Loaded ===")
+print(f"  Deployment: '{DEPLOYMENT_NAME}'")
+print(f"  API Version: '{API_VERSION}'")
+print(f"  Endpoint: {AZURE_OPENAI_ENDPOINT[:50]}..." if AZURE_OPENAI_ENDPOINT else "  Endpoint: NOT SET")
+print(f"============================")
 
 # -----------------------------
 # HELPERS
