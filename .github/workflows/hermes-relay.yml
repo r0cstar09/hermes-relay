@@ -23,17 +23,25 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Set up environment variables
-        env:
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}
-          AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION }}
-          ICLOUD_EMAIL: ${{ secrets.ICLOUD_EMAIL }}
-          ICLOUD_PASSWORD: ${{ secrets.ICLOUD_PASSWORD }}
-          EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
+      - name: Validate environment variables
         run: |
-          echo "Environment variables configured"
+          echo "Checking required secrets..."
+          if [ -z "${{ secrets.AZURE_OPENAI_ENDPOINT }}" ]; then
+            echo "❌ AZURE_OPENAI_ENDPOINT is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.AZURE_OPENAI_API_KEY }}" ]; then
+            echo "❌ AZURE_OPENAI_API_KEY is not set"
+            exit 1
+          fi
+          if [ -z "${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" ]; then
+            echo "⚠️  AZURE_OPENAI_DEPLOYMENT is not set, will use default: gpt-4o-mini"
+          else
+            echo "✓ AZURE_OPENAI_DEPLOYMENT is set"
+          fi
+          echo "✓ All required secrets are configured"
+          echo "Deployment name: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}"
+          echo "Endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}"
 
       - name: Run Hermes Relay Orchestrator
         env:

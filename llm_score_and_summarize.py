@@ -16,7 +16,12 @@ AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
 AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
 
 # Deployment name - change this to match your Azure OpenAI deployment name
+# If not set in environment, defaults to gpt-4o-mini
 DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
+# Ensure deployment name is not empty
+if not DEPLOYMENT_NAME or DEPLOYMENT_NAME.strip() == "":
+    DEPLOYMENT_NAME = "gpt-4o-mini"
+    print(f"Warning: AZURE_OPENAI_DEPLOYMENT was empty, using default: {DEPLOYMENT_NAME}")
 
 # API version - required for Azure OpenAI
 API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
@@ -39,6 +44,17 @@ if not AZURE_OPENAI_ENDPOINT or not AZURE_OPENAI_API_KEY:
     raise EnvironmentError(
         "Missing AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY environment variables"
     )
+
+# Validate deployment name
+if not DEPLOYMENT_NAME or DEPLOYMENT_NAME.strip() == "":
+    raise EnvironmentError(
+        f"DEPLOYMENT_NAME is empty or not set. Please set AZURE_OPENAI_DEPLOYMENT environment variable or ensure default is set correctly."
+    )
+
+print(f"Configuration loaded:")
+print(f"  - Deployment: {DEPLOYMENT_NAME}")
+print(f"  - API Version: {API_VERSION}")
+print(f"  - Endpoint: {AZURE_OPENAI_ENDPOINT[:50]}..." if AZURE_OPENAI_ENDPOINT else "  - Endpoint: NOT SET")
 
 # -----------------------------
 # HELPERS
@@ -128,14 +144,28 @@ Articles:
 
 
 def call_llm(prompt):
+    # Validate environment variables
+    if not AZURE_OPENAI_ENDPOINT:
+        raise ValueError("AZURE_OPENAI_ENDPOINT is not set")
+    if not AZURE_OPENAI_API_KEY:
+        raise ValueError("AZURE_OPENAI_API_KEY is not set")
+    if not DEPLOYMENT_NAME:
+        raise ValueError("DEPLOYMENT_NAME is not set")
+    
     # Clean the endpoint URL
     base = AZURE_OPENAI_ENDPOINT.rstrip("/")
     
     # Construct the API URL with API version parameter (required for Azure OpenAI)
     url = f"{base}/openai/deployments/{DEPLOYMENT_NAME}/chat/completions?api-version={API_VERSION}"
     
-    print(f"Calling Azure OpenAI endpoint: {url}")
-    print(f"Using deployment: {DEPLOYMENT_NAME}")
+    print(f"=== Azure OpenAI Configuration ===")
+    print(f"Endpoint base: {base}")
+    print(f"Deployment name: {DEPLOYMENT_NAME}")
+    print(f"API version: {API_VERSION}")
+    print(f"Full URL: {url}")
+    print(f"API key present: {'Yes' if AZURE_OPENAI_API_KEY else 'No'}")
+    print(f"API key length: {len(AZURE_OPENAI_API_KEY) if AZURE_OPENAI_API_KEY else 0} characters")
+    print(f"================================")
 
     headers = {
         "Content-Type": "application/json",
@@ -154,9 +184,15 @@ def call_llm(prompt):
     try:
         response.raise_for_status()
     except requests.HTTPError:
-        print(f"LLM request failed: {response.status_code}")
+        print(f"\n❌ LLM request failed!")
+        print(f"Status code: {response.status_code}")
         print(f"Response: {response.text}")
-        print(f"URL called: {url}")
+        print(f"\nDebugging info:")
+        print(f"  - Endpoint: {AZURE_OPENAI_ENDPOINT}")
+        print(f"  - Deployment: {DEPLOYMENT_NAME}")
+        print(f"  - API Version: {API_VERSION}")
+        print(f"  - URL called: {url}")
+        
         # Write a helpful error file for debugging
         with open(OUTPUT_FILE, "w") as f:
             json.dump({
@@ -164,8 +200,19 @@ def call_llm(prompt):
                 "status": response.status_code, 
                 "response": response.text,
                 "url": url,
-                "deployment": DEPLOYMENT_NAME
+                "deployment": DEPLOYMENT_NAME,
+                "endpoint": AZURE_OPENAI_ENDPOINT,
+                "api_version": API_VERSION
             }, f, indent=2)
+        
+        # Provide helpful error message
+        if response.status_code == 404:
+            print(f"\n💡 Troubleshooting 404 'Resource not found' error:")
+            print(f"   1. Verify DEPLOYMENT_NAME matches your Azure deployment exactly")
+            print(f"   2. Check that the deployment exists in your Azure OpenAI resource")
+            print(f"   3. Ensure the deployment name in GitHub secrets is: {DEPLOYMENT_NAME}")
+            print(f"   4. Verify the endpoint URL is correct: {AZURE_OPENAI_ENDPOINT}")
+        
         import sys
         sys.exit(1)
 
