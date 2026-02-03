@@ -119,14 +119,8 @@ Board-Level Impact:
 - Strategic risk (competitive disadvantage, market position)
 Write this as a board briefing - direct, factual, focused on business consequences]
 
-Actionable Defender Guidance:
-[Write concrete, operational guidance that a threat intelligence or SOC team would use. Include:
-- Specific detection steps (e.g. SIEM queries, EDR rules, log sources, IOCs or patterns to look for)
-- Immediate mitigation or containment actions (patches, config changes, blocking, isolation)
-- Hunting or validation steps (how to confirm exposure or rule out compromise)
-- Recommended controls or hardening (config, segmentation, least privilege)
-- References to vendor advisories, CVEs, or playbooks where relevant
-Use clear bullets or numbered steps. Write as if briefing a defender who will act on this today—actionable and valuable, not generic advice.]
+Briefing Paragraph:
+[You are a senior cybersecurity practitioner writing for LinkedIn. Your audience is security leaders, practitioners, and technical managers. Translate this article into ONE concise, insightful paragraph that: contains NO bullet points, NO lists, NO headings; sounds natural and human, not academic or AI-generated; focuses on practical, real-world implications; provides actionable guidance that a security team could realistically act on; avoids generic advice like "implement MFA" unless directly relevant; avoids restating the article headline. Write as if you are explaining "why this matters" and "what I would do next" based on experience, not theory. Length: 90–140 words. Tone: Calm, confident, practical. Style: Executive-technical (clear but not oversimplified). End with a subtle forward-looking insight, not a question.]
 
 ---
 
@@ -177,7 +171,7 @@ def call_llm(prompt):
 
     payload = {
         "messages": [
-            {"role": "system", "content": "You are a senior threat intelligence analyst. You produce actionable, operational guidance for defenders: detection steps, mitigation actions, hunting tips, and concrete controls. Your output is what a SOC or threat intel team would use to act on a threat the same day."},
+            {"role": "system", "content": "You are a senior cybersecurity practitioner writing for LinkedIn. Your audience is security leaders, practitioners, and technical managers. You write in a calm, confident, practical tone with an executive-technical style. You explain why things matter and what you would do next based on experience, not theory. You avoid bullet points, lists, headings, and generic advice. You end with a subtle forward-looking insight, not a question."},
             {"role": "user", "content": prompt},
         ],
         "temperature": 1,
@@ -261,9 +255,9 @@ def format_email_html(llm_response, articles):
             .link {{ color: #007AFF; text-decoration: none; font-weight: 600; }}
             .link:hover {{ text-decoration: underline; }}
             .executive-note {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 4px; }}
-            .defender-guidance {{ background: #e8f5e9; border-left: 4px solid #2e7d32; padding: 20px; margin: 20px 0; border-radius: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }}
-            .defender-guidance h3 {{ color: #1b5e20; margin-top: 0; font-size: 16px; }}
-            .defender-guidance .guidance-text {{ background: white; padding: 15px; border-radius: 4px; font-size: 14px; line-height: 1.6; color: #333; }}
+            .briefing-paragraph {{ background: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; margin: 20px 0; border-radius: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }}
+            .briefing-paragraph h3 {{ color: #1565c0; margin-top: 0; font-size: 16px; }}
+            .briefing-paragraph .briefing-text {{ background: white; padding: 15px; border-radius: 4px; font-size: 15px; line-height: 1.7; color: #333; }}
             .footer {{ margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px; text-align: center; }}
             p {{ margin: 10px 0; }}
         </style>
@@ -327,13 +321,13 @@ def format_email_html(llm_response, articles):
                 html_content += f'<div class="score">Score: {score}/10</div>\n'
             
             # Extract Key Takeaways bullets (limit to 2-3)
-            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=Board-Level Impact|Actionable Defender Guidance|$)', section, re.IGNORECASE | re.DOTALL)
+            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=Board-Level Impact|Briefing Paragraph|$)', section, re.IGNORECASE | re.DOTALL)
             bullets = []
             if takeaways_match:
                 takeaways_text = takeaways_match.group(1)
                 bullets = re.findall(r'[-•]\s*(.+?)(?=\n|$)', takeaways_text, re.MULTILINE)
             else:
-                # Fallback: look for bullets before "Board-Level Impact" or "Actionable Defender Guidance"
+                # Fallback: look for bullets before "Board-Level Impact" or "Briefing Paragraph"
                 bullets_match = re.search(r'^[-•]\s*(.+?)$', section, re.MULTILINE)
                 if bullets_match:
                     all_bullets = re.findall(r'^[-•]\s*(.+?)$', section, re.MULTILINE)
@@ -349,7 +343,7 @@ def format_email_html(llm_response, articles):
                 html_content += '</ul>\n'
             
             # Extract Board-Level Impact section
-            board_match = re.search(r'Board-Level Impact:(.+?)(?=Actionable Defender Guidance|$)', section, re.IGNORECASE | re.DOTALL)
+            board_match = re.search(r'Board-Level Impact:(.+?)(?=Briefing Paragraph|$)', section, re.IGNORECASE | re.DOTALL)
             if board_match:
                 board_text = board_match.group(1).strip()
                 # Convert newlines to <br> for HTML display
@@ -364,18 +358,17 @@ def format_email_html(llm_response, articles):
                 </div>
                 '''
             
-            # Extract Actionable Defender Guidance section
-            guidance_match = re.search(r'Actionable Defender Guidance[^:]*:(.+?)(?=\n---|$)', section, re.IGNORECASE | re.DOTALL)
-            if guidance_match:
-                guidance_text = guidance_match.group(1).strip()
-                # Clean up markdown; preserve line breaks for bullets/steps
-                guidance_clean = guidance_text.replace('**', '').replace('*', '').strip()
-                guidance_html = guidance_clean.replace('\n', '<br>')
+            # Extract Briefing Paragraph section (LinkedIn-style one paragraph)
+            briefing_match = re.search(r'Briefing Paragraph[^:]*:(.+?)(?=\n---|$)', section, re.IGNORECASE | re.DOTALL)
+            if briefing_match:
+                briefing_text = briefing_match.group(1).strip()
+                briefing_clean = briefing_text.replace('**', '').replace('*', '').strip()
+                briefing_html = briefing_clean.replace('\n', '<br>')
                 
                 html_content += f'''
-                <div class="defender-guidance">
-                    <h3>🛡️ Actionable Defender Guidance</h3>
-                    <div class="guidance-text">{guidance_html}</div>
+                <div class="briefing-paragraph">
+                    <h3>📱 Briefing (LinkedIn-ready)</h3>
+                    <div class="briefing-text">{briefing_html}</div>
                 </div>
                 '''
             
