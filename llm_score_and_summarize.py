@@ -120,7 +120,7 @@ Board-Level Impact:
 Write this as a board briefing - direct, factual, focused on business consequences]
 
 Briefing Paragraph:
-[You are a senior cybersecurity practitioner writing for LinkedIn. Your audience is security leaders, practitioners, and technical managers. Translate this article into ONE concise, insightful paragraph that: contains NO bullet points, NO lists, NO headings; sounds natural and human, not academic or AI-generated; focuses on practical, real-world implications; provides actionable guidance that a security team could realistically act on; avoids generic advice like "implement MFA" unless directly relevant; avoids restating the article headline. Write as if you are explaining "why this matters" and "what I would do next" based on experience, not theory. Length: 90–140 words. Tone: Calm, confident, practical. Style: Executive-technical (clear but not oversimplified). End with a subtle forward-looking insight, not a question.]
+[REQUIRED: Write exactly ONE paragraph (90–140 words) on the next line. You are a senior cybersecurity practitioner writing for LinkedIn; audience is security leaders, practitioners, and technical managers. The paragraph must: contain NO bullet points, NO lists, NO headings; sound natural and human, not academic or AI-generated; focus on practical, real-world implications; give actionable guidance a security team could act on; avoid generic advice like "implement MFA" unless directly relevant; avoid restating the article headline. Explain "why this matters" and "what I would do next" from experience. Tone: calm, confident, practical. Style: executive-technical. End with a subtle forward-looking insight, not a question. Output the paragraph directly under "Briefing Paragraph:" with no subheadings.]
 
 ---
 
@@ -134,6 +134,7 @@ IMPORTANT:
 - Use the exact article title/headline as it appears in the articles list below
 - Use "---" on its own line to separate each of the 3 articles
 - Make sure you provide all 3 articles
+- You MUST include "Briefing Paragraph:" followed by a single paragraph (90–140 words) for every article. Do not skip this section.
 
 Articles:
 {json.dumps(articles, indent=2)}
@@ -359,13 +360,22 @@ def format_email_html(llm_response, articles):
                 '''
             
             # Extract Briefing Paragraph section (LinkedIn-style one paragraph)
-            briefing_match = re.search(r'Briefing Paragraph[^:]*:(.+?)(?=\n---|$)', section, re.IGNORECASE | re.DOTALL)
+            briefing_text = None
+            briefing_match = re.search(r'Briefing Paragraph[^:]*:\s*(.+?)(?=\n---|\Z)', section, re.IGNORECASE | re.DOTALL)
             if briefing_match:
                 briefing_text = briefing_match.group(1).strip()
+            # Fallback: if model skipped the label, take the last block of text after Board-Level Impact (often the briefing)
+            if not briefing_text and board_match:
+                after_board = section[board_match.end():].strip()
+                # Remove "Briefing Paragraph" if present without content, then take first substantial block
+                after_board = re.sub(r'^\s*Briefing Paragraph[^:]*:\s*', '', after_board, flags=re.IGNORECASE)
+                if len(after_board) > 80 and not re.match(r'^\s*[-*]\s', after_board):
+                    briefing_text = after_board.split('\n---')[0].strip()
+            if briefing_text:
                 briefing_clean = briefing_text.replace('**', '').replace('*', '').strip()
-                briefing_html = briefing_clean.replace('\n', '<br>')
-                
-                html_content += f'''
+                if len(briefing_clean) > 50:
+                    briefing_html = briefing_clean.replace('\n', '<br>')
+                    html_content += f'''
                 <div class="briefing-paragraph">
                     <h3>📱 Briefing (LinkedIn-ready)</h3>
                     <div class="briefing-text">{briefing_html}</div>
