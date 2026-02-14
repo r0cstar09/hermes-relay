@@ -139,49 +139,70 @@ def get_lens_for_date(d: date) -> tuple[str, str]:
     return lens["name"], lens["description"]
 
 
+# Angles the LLM can choose from per article (judgment call: which aspect matters most for this story).
+# Model picks ONE per article and writes everything through that angle. Encouraged to vary across the 3 articles.
+ARTICLE_ANGLES = [
+    "First 24 hours — what to know or do immediately",
+    "Supply chain or third-party risk",
+    "Explain to non-security leadership (CFO, board, legal)",
+    "One concrete detection or mitigation step",
+    "Trend and threat landscape — what this signals",
+    "Regulatory or compliance implications",
+    "What I would do next (practitioner priorities)",
+    "The number that matters (impact, scope, cost, timeline)",
+    "Executive or privileged access risk",
+    "Active exploitation vs. theoretical risk",
+]
+
+
 def build_prompt(articles, lens_name: str, lens_description: str):
+    angles_list = "\n".join(f'- "{a}"' for a in ARTICLE_ANGLES)
     return f"""
 You are a senior cybersecurity analyst advising executives.
 
-Today's lens (use this angle for both Board-Level Impact and BOTH briefing variants): "{lens_name}". {lens_description}
+Today's lens (optional nudge): "{lens_name}". {lens_description}
 
 Task:
-- You are analyzing NEW articles from today ({today}) - these are fresh cybersecurity news items that have just been published.
-- Score each article from 1–10 based on business risk, reputational damage, and executive concern.
-- Select the top 3 most critical articles from these new items.
-- For each article, provide in this EXACT format (use "---" to separate each article):
+- You are analyzing NEW articles from today ({today}). Score each from 1–10, select the top 3.
+- For each article you MUST make a judgment call: which aspect of this story is most important? Pick ONE angle from the list below and write the entire article block through that angle.
+- Prefer different angles for each of the 3 articles when it makes sense (so the briefing has variety). You may use today's lens or any angle from the list.
+
+For each article, use this EXACT format (use "---" to separate each article):
 
 1) [Headline - use exact title from article]
 Score: [X]/10
 
 Key Takeaways:
-- [2-3 short, critical bullet points only - most important points]
+- [2-3 short, critical bullet points only]
+
+Angle for this story:
+[Pick exactly ONE from this list and write it on the next line. This is your judgment of what matters most for this story. Then write everything below through this angle.]
+{angles_list}
 
 One-Line Board Take:
-[Exactly one line, under 15 words, that captures the board-level so-what. Use for subject lines or quick scans.]
+[One line, under 15 words, through the angle you chose. Board-level so-what.]
 
 Board-Level Impact:
-[Write 2-3 paragraphs explaining why the board should care, through today's lens. Focus on financial exposure, reputational risk, regulatory/legal exposure, and strategic risk. Write as a board briefing—direct, factual, focused on business consequences.]
+[2-3 paragraphs through your chosen angle. Why the board should care. Financial, reputational, regulatory, strategic risk.]
 
 Briefing - Variant A:
-[ONE paragraph, 90–140 words. LinkedIn-ready. Through today's lens. Lead with the so-what—why this matters. No bullet points, no lists, no headings. Natural, human tone. Actionable guidance. Avoid generic advice; avoid restating the headline. End with a subtle forward-looking insight, not a question.]
+[ONE paragraph, 90–140 words. LinkedIn-ready. Through your chosen angle. Lead with the so-what. No bullets. Natural tone. End with a forward-looking insight, not a question.]
 
 Briefing - Variant B:
-[ONE paragraph, 90–140 words. LinkedIn-ready. Through today's lens. Lead with one concrete detail (number, technique, or specific fact), then expand. Same tone and style as Variant A but different opening. No bullet points. End with a subtle forward-looking insight, not a question.]
+[ONE paragraph, 90–140 words. LinkedIn-ready. Through your chosen angle. Lead with one concrete detail (number, technique, or fact), then expand. Different opening from A. End with a forward-looking insight, not a question.]
 
 ---
 
-[Repeat for article 2]
+[Repeat for article 2 — choose an angle, ideally different from article 1 when appropriate]
 
 ---
 
-[Repeat for article 3]
+[Repeat for article 3 — choose an angle, ideally different from articles 1 and 2 when appropriate]
 
 IMPORTANT:
-- Use the exact article title/headline as it appears in the articles list below.
-- Use "---" on its own line to separate each of the 3 articles.
-- Apply today's lens to Board-Level Impact and to BOTH Briefing Variant A and Variant B.
-- You MUST include One-Line Board Take, Board-Level Impact, Briefing - Variant A, and Briefing - Variant B for every article.
+- Use the exact article title/headline as in the articles list below.
+- For each article output "Angle for this story:" then the exact angle text from the list. Then write One-Line Board Take, Board-Level Impact, Briefing - Variant A, and Briefing - Variant B through that angle.
+- Vary the chosen angle across the three articles when it fits the stories.
 
 Articles:
 {json.dumps(articles, indent=2)}
@@ -303,6 +324,7 @@ def format_email_html(llm_response, articles, lens_name=None):
             li {{ margin: 10px 0; }}
             .link {{ color: #007AFF; text-decoration: none; font-weight: 600; }}
             .link:hover {{ text-decoration: underline; }}
+            .angle-tag {{ background: #e8eaf6; border-left: 4px solid #3f51b5; padding: 10px 15px; margin: 10px 0; border-radius: 4px; font-size: 14px; color: #283593; }}
             .board-one-liner {{ background: #f0f4f8; border-left: 4px solid #5c6bc0; padding: 12px 15px; margin: 12px 0; border-radius: 4px; font-style: italic; color: #37474f; }}
             .executive-note {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 4px; }}
             .briefing-paragraph {{ background: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; margin: 20px 0; border-radius: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }}
@@ -373,7 +395,7 @@ def format_email_html(llm_response, articles, lens_name=None):
                 html_content += f'<div class="score">Score: {score}/10</div>\n'
             
             # Extract Key Takeaways bullets (limit to 2-3)
-            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=One-Line Board Take|Board-Level Impact|Briefing|$)', section, re.IGNORECASE | re.DOTALL)
+            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=Angle for this story|One-Line Board Take|Board-Level Impact|Briefing|$)', section, re.IGNORECASE | re.DOTALL)
             bullets = []
             if takeaways_match:
                 takeaways_text = takeaways_match.group(1)
@@ -391,6 +413,13 @@ def format_email_html(llm_response, articles, lens_name=None):
                     if bullet and len(bullet) > 5:
                         html_content += f'<li>{bullet}</li>\n'
                 html_content += '</ul>\n'
+            
+            # Extract Angle for this story (LLM's chosen angle for this article)
+            angle_match = re.search(r'Angle for this story[^:]*:\s*(?:\n\s*)?([^\n]+)', section, re.IGNORECASE)
+            if angle_match:
+                angle_line = angle_match.group(1).strip().replace('**', '').replace('*', '').strip()[:120]
+                if angle_line:
+                    html_content += f'<div class="angle-tag"><strong>Angle for this story:</strong> {angle_line}</div>\n'
             
             # Extract One-Line Board Take (single line, under 15 words)
             one_liner_match = re.search(r'One-Line Board Take[^:]*:\s*([^\n]+)', section, re.IGNORECASE)
