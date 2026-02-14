@@ -95,9 +95,55 @@ def load_articles():
     return articles
 
 
-def build_prompt(articles):
+# Lens of the day: applied to both Board-Level Impact and Briefing. Rotates by day of year.
+LENSES = [
+    {
+        "name": "First 24 hours",
+        "description": "Focus on what the board and security teams should know or do in the first 24 hours after this kind of incident or disclosure.",
+    },
+    {
+        "name": "Supply chain and third-party risk",
+        "description": "Focus on supply chain, vendor, or third-party implications—how this affects or depends on partners, suppliers, or software supply chain.",
+    },
+    {
+        "name": "Explain to non-security leadership",
+        "description": "Frame everything so a CFO, COO, or general counsel can understand why it matters and what the organization should do.",
+    },
+    {
+        "name": "One concrete detection or mitigation step",
+        "description": "Emphasize at least one specific, actionable detection or mitigation step a team can take (e.g. a control, a query, a config change).",
+    },
+    {
+        "name": "Trend and threat landscape",
+        "description": "Place this incident or vulnerability in the broader trend and threat landscape—what’s shifting and what it signals.",
+    },
+    {
+        "name": "Regulatory and compliance",
+        "description": "Focus on regulatory, legal, or compliance implications and what boards or security leaders should consider from that angle.",
+    },
+    {
+        "name": "What I would do next",
+        "description": "Write from experience: what you would actually do next as a practitioner or leader—priorities, order of operations, and trade-offs.",
+    },
+    {
+        "name": "The number that matters",
+        "description": "Lead with or center the one number that matters (e.g. impact, scope, cost, timeline) and build the narrative around it.",
+    },
+]
+
+
+def get_lens_for_date(d: date) -> tuple[str, str]:
+    """Return (lens_name, lens_description) for the given date. Deterministic by day of year."""
+    idx = (d.toordinal() % len(LENSES))
+    lens = LENSES[idx]
+    return lens["name"], lens["description"]
+
+
+def build_prompt(articles, lens_name: str, lens_description: str):
     return f"""
 You are a senior cybersecurity analyst advising executives.
+
+Today's lens (use this angle for both Board-Level Impact and BOTH briefing variants): "{lens_name}". {lens_description}
 
 Task:
 - You are analyzing NEW articles from today ({today}) - these are fresh cybersecurity news items that have just been published.
@@ -111,16 +157,17 @@ Score: [X]/10
 Key Takeaways:
 - [2-3 short, critical bullet points only - most important points]
 
-Board-Level Impact:
-[Write 2-3 paragraphs explaining why the board should care. Focus on:
-- Financial exposure (potential costs, fines, revenue impact)
-- Reputational risk (customer trust, brand damage, media attention)
-- Regulatory/legal exposure (compliance issues, lawsuits, regulatory fines)
-- Strategic risk (competitive disadvantage, market position)
-Write this as a board briefing - direct, factual, focused on business consequences]
+One-Line Board Take:
+[Exactly one line, under 15 words, that captures the board-level so-what. Use for subject lines or quick scans.]
 
-Briefing Paragraph:
-[REQUIRED: Write exactly ONE paragraph (90–140 words) on the next line. You are a senior cybersecurity practitioner writing for LinkedIn; audience is security leaders, practitioners, and technical managers. The paragraph must: contain NO bullet points, NO lists, NO headings; sound natural and human, not academic or AI-generated; focus on practical, real-world implications; give actionable guidance a security team could act on; avoid generic advice like "implement MFA" unless directly relevant; avoid restating the article headline. Explain "why this matters" and "what I would do next" from experience. Tone: calm, confident, practical. Style: executive-technical. End with a subtle forward-looking insight, not a question. Output the paragraph directly under "Briefing Paragraph:" with no subheadings.]
+Board-Level Impact:
+[Write 2-3 paragraphs explaining why the board should care, through today's lens. Focus on financial exposure, reputational risk, regulatory/legal exposure, and strategic risk. Write as a board briefing—direct, factual, focused on business consequences.]
+
+Briefing - Variant A:
+[ONE paragraph, 90–140 words. LinkedIn-ready. Through today's lens. Lead with the so-what—why this matters. No bullet points, no lists, no headings. Natural, human tone. Actionable guidance. Avoid generic advice; avoid restating the headline. End with a subtle forward-looking insight, not a question.]
+
+Briefing - Variant B:
+[ONE paragraph, 90–140 words. LinkedIn-ready. Through today's lens. Lead with one concrete detail (number, technique, or specific fact), then expand. Same tone and style as Variant A but different opening. No bullet points. End with a subtle forward-looking insight, not a question.]
 
 ---
 
@@ -130,11 +177,11 @@ Briefing Paragraph:
 
 [Repeat for article 3]
 
-IMPORTANT: 
-- Use the exact article title/headline as it appears in the articles list below
-- Use "---" on its own line to separate each of the 3 articles
-- Make sure you provide all 3 articles
-- You MUST include "Briefing Paragraph:" followed by a single paragraph (90–140 words) for every article. Do not skip this section.
+IMPORTANT:
+- Use the exact article title/headline as it appears in the articles list below.
+- Use "---" on its own line to separate each of the 3 articles.
+- Apply today's lens to Board-Level Impact and to BOTH Briefing Variant A and Variant B.
+- You MUST include One-Line Board Take, Board-Level Impact, Briefing - Variant A, and Briefing - Variant B for every article.
 
 Articles:
 {json.dumps(articles, indent=2)}
@@ -239,8 +286,9 @@ def match_headline_to_article(headline, articles):
     return None
 
 
-def format_email_html(llm_response, articles):
+def format_email_html(llm_response, articles, lens_name=None):
     """Convert LLM markdown response to HTML email with article links."""
+    lens_line = f'<p><strong>Today\'s lens:</strong> {lens_name}</p>\n            ' if lens_name else ""
     html_content = f"""
     <html>
     <head>
@@ -255,10 +303,12 @@ def format_email_html(llm_response, articles):
             li {{ margin: 10px 0; }}
             .link {{ color: #007AFF; text-decoration: none; font-weight: 600; }}
             .link:hover {{ text-decoration: underline; }}
+            .board-one-liner {{ background: #f0f4f8; border-left: 4px solid #5c6bc0; padding: 12px 15px; margin: 12px 0; border-radius: 4px; font-style: italic; color: #37474f; }}
             .executive-note {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 4px; }}
             .briefing-paragraph {{ background: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; margin: 20px 0; border-radius: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }}
             .briefing-paragraph h3 {{ color: #1565c0; margin-top: 0; font-size: 16px; }}
             .briefing-paragraph .briefing-text {{ background: white; padding: 15px; border-radius: 4px; font-size: 15px; line-height: 1.7; color: #333; }}
+            .briefing-variant {{ margin: 12px 0; }}
             .footer {{ margin-top: 40px; padding-top: 20px; border-top: 1px solid #ddd; color: #666; font-size: 14px; text-align: center; }}
             p {{ margin: 10px 0; }}
         </style>
@@ -267,6 +317,7 @@ def format_email_html(llm_response, articles):
         <div class="container">
             <h1>🔒 Daily Cybersecurity Briefing</h1>
             <p><strong>Date:</strong> {date.today().strftime('%B %d, %Y')}</p>
+            {lens_line}
     """
     
     # Split response into sections by "---" (on its own line)
@@ -322,36 +373,38 @@ def format_email_html(llm_response, articles):
                 html_content += f'<div class="score">Score: {score}/10</div>\n'
             
             # Extract Key Takeaways bullets (limit to 2-3)
-            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=Board-Level Impact|Briefing Paragraph|$)', section, re.IGNORECASE | re.DOTALL)
+            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=One-Line Board Take|Board-Level Impact|Briefing|$)', section, re.IGNORECASE | re.DOTALL)
             bullets = []
             if takeaways_match:
                 takeaways_text = takeaways_match.group(1)
                 bullets = re.findall(r'[-•]\s*(.+?)(?=\n|$)', takeaways_text, re.MULTILINE)
             else:
-                # Fallback: look for bullets before "Board-Level Impact" or "Briefing Paragraph"
                 bullets_match = re.search(r'^[-•]\s*(.+?)$', section, re.MULTILINE)
                 if bullets_match:
                     all_bullets = re.findall(r'^[-•]\s*(.+?)$', section, re.MULTILINE)
-                    # Take first 3 bullets
                     bullets = [b.strip() for b in all_bullets[:3] if b.strip() and len(b.strip()) > 5]
             
             if bullets:
                 html_content += '<ul>\n'
-                for bullet in bullets[:3]:  # Limit to 3 bullets
+                for bullet in bullets[:3]:
                     bullet = bullet.strip()
                     if bullet and len(bullet) > 5:
                         html_content += f'<li>{bullet}</li>\n'
                 html_content += '</ul>\n'
             
-            # Extract Board-Level Impact section
-            board_match = re.search(r'Board-Level Impact:(.+?)(?=Briefing Paragraph|$)', section, re.IGNORECASE | re.DOTALL)
+            # Extract One-Line Board Take (single line, under 15 words)
+            one_liner_match = re.search(r'One-Line Board Take[^:]*:\s*([^\n]+)', section, re.IGNORECASE)
+            if one_liner_match:
+                one_liner = one_liner_match.group(1).strip().replace('**', '').replace('*', '').strip()
+                if one_liner and len(one_liner) < 200:
+                    html_content += f'<div class="board-one-liner"><strong>One-line board take:</strong> {one_liner}</div>\n'
+            
+            # Extract Board-Level Impact section (stop at Briefing - Variant A)
+            board_match = re.search(r'Board-Level Impact:(.+?)(?=Briefing - Variant A|Briefing - Variant B|Variant A|Variant B|$)', section, re.IGNORECASE | re.DOTALL)
             if board_match:
                 board_text = board_match.group(1).strip()
-                # Convert newlines to <br> for HTML display
                 board_text_html = board_text.replace('\n', '<br>')
-                # Convert markdown bold to HTML
                 board_text_html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', board_text_html)
-                
                 html_content += f'''
                 <div class="executive-note">
                     <strong>Board-Level Impact:</strong><br>
@@ -359,26 +412,29 @@ def format_email_html(llm_response, articles):
                 </div>
                 '''
             
-            # Extract Briefing Paragraph section (LinkedIn-style one paragraph)
-            briefing_text = None
-            briefing_match = re.search(r'Briefing Paragraph[^:]*:\s*(.+?)(?=\n---|\Z)', section, re.IGNORECASE | re.DOTALL)
-            if briefing_match:
-                briefing_text = briefing_match.group(1).strip()
-            # Fallback: if model skipped the label, take the last block of text after Board-Level Impact (often the briefing)
-            if not briefing_text and board_match:
-                after_board = section[board_match.end():].strip()
-                # Remove "Briefing Paragraph" if present without content, then take first substantial block
-                after_board = re.sub(r'^\s*Briefing Paragraph[^:]*:\s*', '', after_board, flags=re.IGNORECASE)
-                if len(after_board) > 80 and not re.match(r'^\s*[-*]\s', after_board):
-                    briefing_text = after_board.split('\n---')[0].strip()
-            if briefing_text:
-                briefing_clean = briefing_text.replace('**', '').replace('*', '').strip()
-                if len(briefing_clean) > 50:
-                    briefing_html = briefing_clean.replace('\n', '<br>')
-                    html_content += f'''
-                <div class="briefing-paragraph">
-                    <h3>📱 Briefing (LinkedIn-ready)</h3>
-                    <div class="briefing-text">{briefing_html}</div>
+            # Extract Briefing Variant A and Variant B (LinkedIn-ready paragraphs)
+            variant_a_text = None
+            variant_b_text = None
+            variant_a_match = re.search(r'Briefing - Variant A[^:]*:\s*(.+?)(?=Briefing - Variant B|Variant B[^:]*:|$)', section, re.IGNORECASE | re.DOTALL)
+            if variant_a_match:
+                variant_a_text = variant_a_match.group(1).strip()
+            variant_b_match = re.search(r'Briefing - Variant B[^:]*:\s*(.+?)(?=\n---|\Z)', section, re.IGNORECASE | re.DOTALL)
+            if variant_b_match:
+                variant_b_text = variant_b_match.group(1).strip()
+            # Fallback: legacy single "Briefing Paragraph" if present
+            if not variant_a_text and not variant_b_text:
+                legacy_match = re.search(r'Briefing Paragraph[^:]*:\s*(.+?)(?=\n---|\Z)', section, re.IGNORECASE | re.DOTALL)
+                if legacy_match:
+                    variant_a_text = legacy_match.group(1).strip()
+            for label, text in [("Variant A (lead with so-what)", variant_a_text), ("Variant B (lead with concrete detail)", variant_b_text)]:
+                if text:
+                    clean = text.replace('**', '').replace('*', '').strip()
+                    if len(clean) > 50:
+                        clean_html = clean.replace('\n', '<br>')
+                        html_content += f'''
+                <div class="briefing-paragraph briefing-variant">
+                    <h3>📱 {label} — LinkedIn-ready</h3>
+                    <div class="briefing-text">{clean_html}</div>
                 </div>
                 '''
             
@@ -521,7 +577,7 @@ def main():
                 with open(OUTPUT_FILE, "r", encoding="utf-8") as f:
                     data = json.load(f)
                 articles = load_articles()
-                html_email = format_email_html(data["top_articles"], articles)
+                html_email = format_email_html(data["top_articles"], articles, lens_name=data.get("lens"))
                 with open(html_file, "w", encoding="utf-8") as f:
                     f.write(html_email)
                 send_email(html_email)
@@ -537,7 +593,10 @@ def main():
             print("No articles to process. Exiting.")
             return
         
-        prompt = build_prompt(articles)
+        lens_name, lens_description = get_lens_for_date(date.today())
+        print(f"Today's lens: {lens_name}")
+
+        prompt = build_prompt(articles, lens_name, lens_description)
 
         print("Calling Azure OpenAI…")
         result = call_llm(prompt)
@@ -547,6 +606,7 @@ def main():
             json.dump(
                 {
                     "date": date.today().isoformat(),
+                    "lens": lens_name,
                     "top_articles": result,
                 },
                 f,
@@ -555,7 +615,7 @@ def main():
         print(f"Saved output → {OUTPUT_FILE}")
 
         # Format as HTML email and send
-        html_email = format_email_html(result, articles)
+        html_email = format_email_html(result, articles, lens_name=lens_name)
         
         # Save HTML to the same directory as JSON
         with open(html_file, "w", encoding="utf-8") as f:
