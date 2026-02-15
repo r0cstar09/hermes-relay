@@ -95,7 +95,7 @@ def load_articles():
     return articles
 
 
-# Lens of the day: applied to both Board-Level Impact and Briefing. Rotates by day of year.
+# Lens of the day: applied to Article Summary and Briefing. Rotates by day of year.
 LENSES = [
     {
         "name": "First 24 hours",
@@ -182,8 +182,8 @@ Angle for this story:
 One-Line Board Take:
 [One line, under 15 words, through the angle you chose. Board-level so-what.]
 
-Board-Level Impact:
-[2-3 paragraphs through your chosen angle. Why the board should care. Financial, reputational, regulatory, strategic risk.]
+Article Summary:
+[2-3 short paragraphs that summarize what the article is actually about. Give you and your readers a clear, factual overview: what happened, who or what is affected, and the main points. Plain language, no board jargon. This is the "what this article says" summary.]
 
 Briefing - Variant A:
 [ONE paragraph, 90–140 words. LinkedIn-ready. Through your chosen angle. Lead with the so-what. No bullets. Natural tone. End with a forward-looking insight, not a question.]
@@ -201,7 +201,7 @@ Briefing - Variant B:
 
 IMPORTANT:
 - Use the exact article title/headline as in the articles list below.
-- For each article output "Angle for this story:" then the exact angle text from the list. Then write One-Line Board Take, Board-Level Impact, Briefing - Variant A, and Briefing - Variant B through that angle.
+- For each article output "Angle for this story:" then the exact angle text from the list. Then write One-Line Board Take, Article Summary, Briefing - Variant A, and Briefing - Variant B through that angle.
 - Vary the chosen angle across the three articles when it fits the stories.
 
 Articles:
@@ -326,7 +326,7 @@ def format_email_html(llm_response, articles, lens_name=None):
             .link:hover {{ text-decoration: underline; }}
             .angle-tag {{ background: #e8eaf6; border-left: 4px solid #3f51b5; padding: 10px 15px; margin: 10px 0; border-radius: 4px; font-size: 14px; color: #283593; }}
             .board-one-liner {{ background: #f0f4f8; border-left: 4px solid #5c6bc0; padding: 12px 15px; margin: 12px 0; border-radius: 4px; font-style: italic; color: #37474f; }}
-            .executive-note {{ background: #fff3cd; border-left: 4px solid #ffc107; padding: 15px; margin: 15px 0; border-radius: 4px; }}
+            .article-summary {{ background: #f5f5f5; border-left: 4px solid #616161; padding: 15px; margin: 15px 0; border-radius: 4px; }}
             .briefing-paragraph {{ background: #e3f2fd; border-left: 4px solid #1976d2; padding: 20px; margin: 20px 0; border-radius: 4px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }}
             .briefing-paragraph h3 {{ color: #1565c0; margin-top: 0; font-size: 16px; }}
             .briefing-paragraph .briefing-text {{ background: white; padding: 15px; border-radius: 4px; font-size: 15px; line-height: 1.7; color: #333; }}
@@ -395,7 +395,7 @@ def format_email_html(llm_response, articles, lens_name=None):
                 html_content += f'<div class="score">Score: {score}/10</div>\n'
             
             # Extract Key Takeaways bullets (limit to 2-3)
-            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=Angle for this story|One-Line Board Take|Board-Level Impact|Briefing|$)', section, re.IGNORECASE | re.DOTALL)
+            takeaways_match = re.search(r'Key Takeaways?:(.+?)(?=Angle for this story|One-Line Board Take|Article Summary|Board-Level Impact|Briefing|$)', section, re.IGNORECASE | re.DOTALL)
             bullets = []
             if takeaways_match:
                 takeaways_text = takeaways_match.group(1)
@@ -428,16 +428,18 @@ def format_email_html(llm_response, articles, lens_name=None):
                 if one_liner and len(one_liner) < 200:
                     html_content += f'<div class="board-one-liner"><strong>One-line board take:</strong> {one_liner}</div>\n'
             
-            # Extract Board-Level Impact section (stop at Briefing - Variant A)
-            board_match = re.search(r'Board-Level Impact:(.+?)(?=Briefing - Variant A|Briefing - Variant B|Variant A|Variant B|$)', section, re.IGNORECASE | re.DOTALL)
-            if board_match:
-                board_text = board_match.group(1).strip()
-                board_text_html = board_text.replace('\n', '<br>')
-                board_text_html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', board_text_html)
+            # Extract Article Summary section (stop at Briefing - Variant A)
+            summary_match = re.search(r'Article Summary:(.+?)(?=Briefing - Variant A|Briefing - Variant B|Variant A|Variant B|$)', section, re.IGNORECASE | re.DOTALL)
+            if not summary_match:
+                summary_match = re.search(r'Board-Level Impact:(.+?)(?=Briefing - Variant A|Briefing - Variant B|Variant A|Variant B|$)', section, re.IGNORECASE | re.DOTALL)
+            if summary_match:
+                summary_text = summary_match.group(1).strip()
+                summary_text_html = summary_text.replace('\n', '<br>')
+                summary_text_html = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', summary_text_html)
                 html_content += f'''
-                <div class="executive-note">
-                    <strong>Board-Level Impact:</strong><br>
-                    {board_text_html}
+                <div class="article-summary">
+                    <strong>Article Summary:</strong><br>
+                    {summary_text_html}
                 </div>
                 '''
             
