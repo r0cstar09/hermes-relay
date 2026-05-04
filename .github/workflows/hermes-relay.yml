@@ -25,36 +25,37 @@ jobs:
       - name: Validate environment variables
         run: |
           echo "Checking required secrets..."
-          if [ -z "${{ secrets.AZURE_OPENAI_ENDPOINT }}" ]; then
-            echo "❌ AZURE_OPENAI_ENDPOINT is not set"
+          if [ -z "${{ secrets.GOOGLE_CLOUD_PROJECT }}" ]; then
+            echo "❌ GOOGLE_CLOUD_PROJECT is not set"
             exit 1
           fi
-          if [ -z "${{ secrets.AZURE_OPENAI_API_KEY }}" ]; then
-            echo "❌ AZURE_OPENAI_API_KEY is not set"
-            exit 1
-          fi
-          if [ -z "${{ secrets.AZURE_OPENAI_DEPLOYMENT }}" ]; then
-            echo "⚠️  AZURE_OPENAI_DEPLOYMENT is not set, will use default: gpt-4o-mini"
+          if [ -z "${{ secrets.GOOGLE_CLOUD_LOCATION }}" ]; then
+            echo "⚠️  GOOGLE_CLOUD_LOCATION is not set, will use default: us-central1"
           else
-            echo "✓ AZURE_OPENAI_DEPLOYMENT is set"
+            echo "✓ GOOGLE_CLOUD_LOCATION is set"
           fi
+          echo "✓ GOOGLE_CLOUD_PROJECT is set"
           echo "✓ All required secrets are configured"
-          echo "Deployment name: ${{ secrets.AZURE_OPENAI_DEPLOYMENT }}"
-          echo "Endpoint: ${{ secrets.AZURE_OPENAI_ENDPOINT }}"
+          echo "Project: ${{ secrets.GOOGLE_CLOUD_PROJECT }}"
+          echo "Location: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}"
 
       - name: Run Hermes Relay Orchestrator
         env:
-          AZURE_OPENAI_ENDPOINT: ${{ secrets.AZURE_OPENAI_ENDPOINT }}
-          AZURE_OPENAI_API_KEY: ${{ secrets.AZURE_OPENAI_API_KEY }}
-          AZURE_OPENAI_DEPLOYMENT: ${{ secrets.AZURE_OPENAI_DEPLOYMENT || '' }}
-          AZURE_OPENAI_API_VERSION: ${{ secrets.AZURE_OPENAI_API_VERSION || '' }}
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+          GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
+          VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
+          VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE || '' }}
           ICLOUD_EMAIL: ${{ secrets.ICLOUD_EMAIL }}
           ICLOUD_PASSWORD: ${{ secrets.ICLOUD_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
         run: |
           echo "Environment check before running:"
-          echo "DEPLOYMENT_NAME will be: ${AZURE_OPENAI_DEPLOYMENT:-gpt-4o-mini (default)}"
-          echo "API_VERSION will be: ${AZURE_OPENAI_API_VERSION:-2024-02-15-preview (default)}"
+          echo "GOOGLE_CLOUD_PROJECT: ${GOOGLE_CLOUD_PROJECT}"
+          echo "GOOGLE_CLOUD_LOCATION: ${GOOGLE_CLOUD_LOCATION:-us-central1 (default)}"
+          echo "VERTEX_MODEL: ${VERTEX_MODEL:-gemini-2.5-flash (default)}"
+          if [ -n "${VERTEX_MODEL_RESOURCE}" ]; then
+            echo "Using VERTEX_MODEL_RESOURCE override"
+          fi
           python orchestrator.py
 
       - name: Upload output artifacts

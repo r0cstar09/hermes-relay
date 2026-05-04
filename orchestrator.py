@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 def check_env():
-    required = ["AZURE_OPENAI_ENDPOINT", "AZURE_OPENAI_API_KEY"]
+    required = ["GOOGLE_CLOUD_PROJECT"]
     missing = [v for v in required if not os.getenv(v)]
     if missing:
         print(f"Missing environment variables: {missing}")

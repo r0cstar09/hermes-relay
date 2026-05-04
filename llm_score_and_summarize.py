@@ -1,34 +1,33 @@
 import os
 import json
 import glob
-import requests
 import smtplib
 import re
 from datetime import date
 from pathlib import Path
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
+from google import genai
+from google.genai import types
 
 # -----------------------------
 # CONFIG
 # -----------------------------
-AZURE_OPENAI_ENDPOINT = os.getenv("AZURE_OPENAI_ENDPOINT")
-AZURE_OPENAI_API_KEY = os.getenv("AZURE_OPENAI_API_KEY")
+GOOGLE_CLOUD_PROJECT = os.getenv("GOOGLE_CLOUD_PROJECT")
+GOOGLE_CLOUD_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1")
+if not GOOGLE_CLOUD_LOCATION or GOOGLE_CLOUD_LOCATION.strip() == "":
+    GOOGLE_CLOUD_LOCATION = "us-central1"
+    print(
+        f"Warning: GOOGLE_CLOUD_LOCATION was empty, using default: {GOOGLE_CLOUD_LOCATION}"
+    )
 
-# Deployment name - change this to match your Azure OpenAI deployment name
-# If not set in environment, defaults to gpt-4o-mini
-DEPLOYMENT_NAME = os.getenv("AZURE_OPENAI_DEPLOYMENT", "gpt-4o-mini")
-# Ensure deployment name is not empty (handle case where secret exists but is empty)
-if not DEPLOYMENT_NAME or DEPLOYMENT_NAME.strip() == "":
-    DEPLOYMENT_NAME = "gpt-4o-mini"
-    print(f"Warning: AZURE_OPENAI_DEPLOYMENT was empty, using default: {DEPLOYMENT_NAME}")
+VERTEX_MODEL = os.getenv("VERTEX_MODEL", "gemini-2.5-flash")
+if not VERTEX_MODEL or VERTEX_MODEL.strip() == "":
+    VERTEX_MODEL = "gemini-2.5-flash"
+    print(f"Warning: VERTEX_MODEL was empty, using default: {VERTEX_MODEL}")
 
-# API version - required for Azure OpenAI
-API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-02-15-preview")
-# Ensure API version is not empty (handle case where secret exists but is empty)
-if not API_VERSION or API_VERSION.strip() == "":
-    API_VERSION = "2024-02-15-preview"
-    print(f"Warning: AZURE_OPENAI_API_VERSION was empty, using default: {API_VERSION}")
+VERTEX_MODEL_RESOURCE = os.getenv("VERTEX_MODEL_RESOURCE", "").strip()
+MODEL_NAME = VERTEX_MODEL_RESOURCE or VERTEX_MODEL
 
 # Email configuration
 ICLOUD_EMAIL = os.getenv("ICLOUD_EMAIL")
@@ -44,26 +43,32 @@ OUTPUT_FILE = OUTPUT_DIR / f"hermes_llm_top3_{today}.json"
 # -----------------------------
 # VALIDATION
 # -----------------------------
-if not AZURE_OPENAI_ENDPOINT or not AZURE_OPENAI_API_KEY:
+if not GOOGLE_CLOUD_PROJECT or GOOGLE_CLOUD_PROJECT.strip() == "":
     raise EnvironmentError(
-        "Missing AZURE_OPENAI_ENDPOINT or AZURE_OPENAI_API_KEY environment variables"
+        "Missing GOOGLE_CLOUD_PROJECT environment variable. ADC authentication is required."
     )
-
-# Final validation - ensure values are set
-if not DEPLOYMENT_NAME or DEPLOYMENT_NAME.strip() == "":
+if not GOOGLE_CLOUD_LOCATION or GOOGLE_CLOUD_LOCATION.strip() == "":
+    raise EnvironmentError("GOOGLE_CLOUD_LOCATION cannot be empty.")
+if not MODEL_NAME or MODEL_NAME.strip() == "":
     raise EnvironmentError(
-        f"DEPLOYMENT_NAME is empty. Please set AZURE_OPENAI_DEPLOYMENT environment variable."
-    )
-if not API_VERSION or API_VERSION.strip() == "":
-    raise EnvironmentError(
-        f"API_VERSION is empty. Please set AZURE_OPENAI_API_VERSION environment variable."
+        "Model configuration is empty. Set VERTEX_MODEL or VERTEX_MODEL_RESOURCE."
     )
 
 print(f"=== Configuration Loaded ===")
-print(f"  Deployment: '{DEPLOYMENT_NAME}'")
-print(f"  API Version: '{API_VERSION}'")
-print(f"  Endpoint: {AZURE_OPENAI_ENDPOINT[:50]}..." if AZURE_OPENAI_ENDPOINT else "  Endpoint: NOT SET")
+print(f"  Google Cloud Project: '{GOOGLE_CLOUD_PROJECT}'")
+print(f"  Google Cloud Location: '{GOOGLE_CLOUD_LOCATION}'")
+print(f"  Vertex Model: '{MODEL_NAME}'")
+if VERTEX_MODEL_RESOURCE:
+    print("  Vertex Model Source: VERTEX_MODEL_RESOURCE override")
+else:
+    print("  Vertex Model Source: VERTEX_MODEL default")
 print(f"============================")
+
+client = genai.Client(
+    vertexai=True,
+    project=GOOGLE_CLOUD_PROJECT,
+    location=GOOGLE_CLOUD_LOCATION,
+)
 
 # -----------------------------
 # HELPERS
@@ -209,80 +214,77 @@ Articles:
 """
 
 
+def extract_response_text(response):
+    """Safely extract text from Vertex response."""
+    if getattr(response, "text", None):
+        return response.text
+
+    parts_text = []
+    for candidate in getattr(response, "candidates", []) or []:
+        content = getattr(candidate, "content", None)
+        for part in getattr(content, "parts", []) or []:
+            if getattr(part, "text", None):
+                parts_text.append(part.text)
+
+    if parts_text:
+        return "\n".join(parts_text).strip()
+
+    return ""
+
+
 def call_llm(prompt):
-    # Validate environment variables
-    if not AZURE_OPENAI_ENDPOINT:
-        raise ValueError("AZURE_OPENAI_ENDPOINT is not set")
-    if not AZURE_OPENAI_API_KEY:
-        raise ValueError("AZURE_OPENAI_API_KEY is not set")
-    if not DEPLOYMENT_NAME:
-        raise ValueError("DEPLOYMENT_NAME is not set")
-    
-    # Clean the endpoint URL
-    base = AZURE_OPENAI_ENDPOINT.rstrip("/")
-    
-    # Construct the API URL with API version parameter (required for Azure OpenAI)
-    url = f"{base}/openai/deployments/{DEPLOYMENT_NAME}/chat/completions?api-version={API_VERSION}"
-    
-    print(f"=== Azure OpenAI Configuration ===")
-    print(f"Endpoint base: {base}")
-    print(f"Deployment name: {DEPLOYMENT_NAME}")
-    print(f"API version: {API_VERSION}")
-    print(f"Full URL: {url}")
-    print(f"API key present: {'Yes' if AZURE_OPENAI_API_KEY else 'No'}")
-    print(f"API key length: {len(AZURE_OPENAI_API_KEY) if AZURE_OPENAI_API_KEY else 0} characters")
-    print(f"================================")
+    print(f"=== Vertex AI Configuration ===")
+    print(f"Project: {GOOGLE_CLOUD_PROJECT}")
+    print(f"Location: {GOOGLE_CLOUD_LOCATION}")
+    print(f"Model: {MODEL_NAME}")
+    print(f"===============================")
 
-    headers = {
-        "Content-Type": "application/json",
-        "api-key": AZURE_OPENAI_API_KEY,
-    }
-
-    payload = {
-        "messages": [
-            {"role": "system", "content": "You are a senior cybersecurity practitioner writing for LinkedIn. Your audience is security leaders, practitioners, and technical managers. You write in a calm, confident, practical tone with an executive-technical style. You explain why things matter and what you would do next based on experience, not theory. You avoid bullet points, lists, headings, and generic advice. You end with a subtle forward-looking insight, not a question."},
-            {"role": "user", "content": prompt},
-        ],
-        "temperature": 1,
-    }
-
-    response = requests.post(url, headers=headers, json=payload)
     try:
-        response.raise_for_status()
-    except requests.HTTPError:
+        response = client.models.generate_content(
+            model=MODEL_NAME,
+            contents=prompt,
+            config=types.GenerateContentConfig(
+                temperature=1,
+                system_instruction=(
+                    "You are a senior cybersecurity practitioner writing for LinkedIn. "
+                    "Your audience is security leaders, practitioners, and technical managers. "
+                    "You write in a calm, confident, practical tone with an executive-technical style. "
+                    "You explain why things matter and what you would do next based on experience, not theory. "
+                    "You avoid bullet points, lists, headings, and generic advice. "
+                    "You end with a subtle forward-looking insight, not a question."
+                ),
+            ),
+        )
+        text = extract_response_text(response)
+        if not text:
+            raise ValueError("Vertex response did not contain text output.")
+        return text
+    except Exception as e:
         print(f"\n❌ LLM request failed!")
-        print(f"Status code: {response.status_code}")
-        print(f"Response: {response.text}")
+        print(f"Error type: {type(e).__name__}")
+        print(f"Error details: {e}")
         print(f"\nDebugging info:")
-        print(f"  - Endpoint: {AZURE_OPENAI_ENDPOINT}")
-        print(f"  - Deployment: {DEPLOYMENT_NAME}")
-        print(f"  - API Version: {API_VERSION}")
-        print(f"  - URL called: {url}")
-        
-        # Write a helpful error file for debugging
-        with open(OUTPUT_FILE, "w") as f:
-            json.dump({
-                "error": "LLM request failed", 
-                "status": response.status_code, 
-                "response": response.text,
-                "url": url,
-                "deployment": DEPLOYMENT_NAME,
-                "endpoint": AZURE_OPENAI_ENDPOINT,
-                "api_version": API_VERSION
-            }, f, indent=2)
-        
-        # Provide helpful error message
-        if response.status_code == 404:
-            print(f"\n💡 Troubleshooting 404 'Resource not found' error:")
-            print(f"   1. Verify DEPLOYMENT_NAME matches your Azure deployment exactly")
-            print(f"   2. Check that the deployment exists in your Azure OpenAI resource")
-            print(f"   3. Ensure the deployment name in GitHub secrets is: {DEPLOYMENT_NAME}")
-            print(f"   4. Verify the endpoint URL is correct: {AZURE_OPENAI_ENDPOINT}")
-        
-        import sys
-        sys.exit(1)
+        print(f"  - Project: {GOOGLE_CLOUD_PROJECT}")
+        print(f"  - Location: {GOOGLE_CLOUD_LOCATION}")
+        print(f"  - Model: {MODEL_NAME}")
 
-    return response.json()["choices"][0]["message"]["content"]
+        with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+            json.dump(
+                {
+                    "error": "LLM request failed",
+                    "error_type": type(e).__name__,
+                    "response": str(e),
+                    "project": GOOGLE_CLOUD_PROJECT,
+                    "location": GOOGLE_CLOUD_LOCATION,
+                    "model": MODEL_NAME,
+                },
+                f,
+                indent=2,
+            )
+
+        import sys
+
+        sys.exit(1)
 
 
 def match_headline_to_article(headline, articles):
@@ -629,7 +631,7 @@ def main():
 
         prompt = build_prompt(articles, lens_name, lens_description)
 
-        print("Calling Azure OpenAI…")
+        print("Calling Vertex AI Gemini…")
         result = call_llm(prompt)
 
         # Save JSON output (for backup/debugging)

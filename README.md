@@ -1,37 +1,53 @@
-# Hermes-Relay
+# Hermes Relay
 
-Hermes Relay is a lightweight automation project that curates high-impact cybersecurity news and distills it into concise, executive-relevant insights.
-
-The goal is simple:
-surface the stories that matter, extract the signal, and remove the noise.
+Hermes Relay curates high-impact cybersecurity news and produces a daily executive-ready briefing.
 
 ## What It Does
-- Aggregates cybersecurity news from trusted RSS sources
-- Identifies stories with high operational, financial, or reputational impact
-- Generates short, human-readable summaries and commentary
-- Outputs daily briefings ready for sharing (e.g., LinkedIn, internal notes)
+- Pulls fresh stories from selected cybersecurity RSS feeds
+- Deduplicates against previously seen articles
+- Uses Google Vertex AI Gemini to score and summarize the top stories
+- Writes JSON + HTML briefing outputs and optionally emails the result
 
-## Why It Exists
-Cybersecurity news is abundant but unfocused.  
-Hermes Signal is designed to prioritize relevance, consequence, and decision-making impact.
+## Runtime Requirements
+- Python 3.10+
+- Google Cloud CLI (`gcloud`)
+- Vertex AI API enabled in your Google Cloud project
+- Application Default Credentials (ADC)
 
-## Workflow
-1. Pull articles from selected RSS feeds
-2. Filter for material impact (breaches, threat actors, regulatory action)
-3. Generate concise summaries and perspective
-4. Output a daily markdown briefing
+## Environment Variables
+Required:
+- `GOOGLE_CLOUD_PROJECT` - Google Cloud project ID used by Vertex AI
 
-## Tech Stack (Initial)
-- RSS feeds (public sources)
-- Python or Node.js
-- GitHub Actions (scheduled runs)
-- Markdown outputs
-- LLM-assisted summarization
+Optional:
+- `GOOGLE_CLOUD_LOCATION` - Vertex region (default: `us-central1`)
+- `VERTEX_MODEL` - model ID (default: `gemini-2.5-flash`)
+- `VERTEX_MODEL_RESOURCE` - full Vertex model resource name override (if set, this takes precedence over `VERTEX_MODEL`)
+- `ICLOUD_EMAIL`, `ICLOUD_PASSWORD`, `EMAIL_RECIPIENT` - only required for SMTP email delivery
 
-## Status
-Early-stage. Iterative by design.
+## ADC Setup
+Run the bootstrap script:
 
-## Philosophy
-Less content. More signal.  
-Clarity over volume.  
-Human judgment first, automation second.
+```bash
+bash <(curl -sSL https://storage.googleapis.com/cloud-samples-data/adc/setup_adc.sh)
+```
+
+If you need to complete setup manually:
+
+```bash
+gcloud auth application-default login
+gcloud auth login --update-adc
+gcloud config set project <your-project-id>
+gcloud auth application-default set-quota-project <your-project-id>
+gcloud services enable aiplatform.googleapis.com --project <your-project-id>
+```
+
+## Install and Run
+```bash
+python -m pip install -r requirements.txt
+python orchestrator.py
+```
+
+## Pipeline Steps
+1. `hermes-relay.py` fetches and stores today's new articles
+2. `llm_score_and_summarize.py` builds a prompt and calls Vertex Gemini
+3. The script saves JSON/HTML output and sends email if SMTP vars are configured
