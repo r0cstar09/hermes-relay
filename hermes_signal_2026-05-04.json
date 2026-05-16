@@ -1,0 +1,620 @@
+[
+  {
+    "title": "Anti-DDoS Firm Heaped Attacks on Brazilian ISPs",
+    "link": "https://krebsonsecurity.com/2026/04/anti-ddos-firm-heaped-attacks-on-brazilian-isps/",
+    "published": "Thu, 30 Apr 2026 14:04:26 +0000",
+    "summary": "A Brazilian tech firm that specializes in protecting networks from distributed denial-of-service (DDoS) attacks has been enabling a botnet responsible for an extended campaign of massive DDoS attacks against other network operators in Brazil, KrebsOnSecurity has learned. The firm's chief executive says the malicious activity resulted from a security breach and was likely the work of a competitor trying to tarnish his company's public image."
+  },
+  {
+    "title": "‘Scattered Spider’ Member ‘Tylerb’ Pleads Guilty",
+    "link": "https://krebsonsecurity.com/2026/04/scattered-spider-member-tylerb-pleads-guilty/",
+    "published": "Tue, 21 Apr 2026 14:53:59 +0000",
+    "summary": "A 24-year-old British national and senior member of the cybercrime group \"Scattered Spider\" has pleaded guilty to wire fraud conspiracy and aggravated identity theft. Tyler Robert Buchanan admitted his role in a series of text-message phishing attacks in the summer of 2022 that allowed the group to hack into at least a dozen major technology companies and steal tens of millions of dollars worth of cryptocurrency from investors."
+  },
+  {
+    "title": "Patch Tuesday, April 2026 Edition",
+    "link": "https://krebsonsecurity.com/2026/04/patch-tuesday-april-2026-edition/",
+    "published": "Tue, 14 Apr 2026 21:47:59 +0000",
+    "summary": "Microsoft today pushed software updates to fix a staggering 167 security vulnerabilities in its Windows operating systems and related software, including a SharePoint Server zero-day and a publicly disclosed weakness in Windows Defender dubbed \"BlueHammer.\" Separately, Google Chrome fixed its fourth zero-day of 2026, and an emergency update for Adobe Reader nixes an actively exploited flaw that can lead to remote code execution."
+  },
+  {
+    "title": "Russia Hacked Routers to Steal Microsoft Office Tokens",
+    "link": "https://krebsonsecurity.com/2026/04/russia-hacked-routers-to-steal-microsoft-office-tokens/",
+    "published": "Tue, 07 Apr 2026 17:02:44 +0000",
+    "summary": "Hackers linked to Russia's military intelligence units are using known flaws in older Internet routers to mass harvest authentication tokens from Microsoft Office users, security experts warned today. The spying campaign allowed state-backed Russian hackers to quietly siphon authentication tokens from users on more than 18,000 networks without deploying any malicious software or code."
+  },
+  {
+    "title": "Germany Doxes “UNKN,” Head of RU Ransomware Gangs REvil, GandCrab",
+    "link": "https://krebsonsecurity.com/2026/04/germany-doxes-unkn-head-of-ru-ransomware-gangs-revil-gandcrab/",
+    "published": "Mon, 06 Apr 2026 02:07:17 +0000",
+    "summary": "An elusive hacker who went by the handle \"UNKN\" and ran the early Russian ransomware groups GandCrab and REvil now has a name and a face. Authorities in Germany say 31-year-old Russian Daniil Maksimovich Shchukin headed both cybercrime gangs and helped carry out at least 130 acts of computer sabotage and extortion against victims across the country between 2019 and 2021."
+  },
+  {
+    "title": "‘CanisterWorm’ Springs Wiper Attack Targeting Iran",
+    "link": "https://krebsonsecurity.com/2026/03/canisterworm-springs-wiper-attack-targeting-iran/",
+    "published": "Mon, 23 Mar 2026 15:43:04 +0000",
+    "summary": "A financially motivated data theft and extortion group is attempting to inject itself into the Iran war, unleashing a worm that spreads through poorly secured cloud services and wipes data on infected systems that use Iran's time zone or have Farsi set as the default language."
+  },
+  {
+    "title": "Feds Disrupt IoT Botnets Behind Huge DDoS Attacks",
+    "link": "https://krebsonsecurity.com/2026/03/feds-disrupt-iot-botnets-behind-huge-ddos-attacks/",
+    "published": "Fri, 20 Mar 2026 00:49:19 +0000",
+    "summary": "The U.S. Justice Department joined authorities in Canada and Germany in dismantling the online infrastructure behind four highly disruptive botnets that compromised more than three million hacked Internet of Things (IoT) devices, such as routers and web cameras. The feds say the four botnets -- named Aisuru, Kimwolf, JackSkid and Mossad -- are responsible for a series of recent record-smashing distributed denial-of-service (DDoS) attacks capable of knocking nearly any target offline."
+  },
+  {
+    "title": "Iran-Backed Hackers Claim Wiper Attack on Medtech Firm Stryker",
+    "link": "https://krebsonsecurity.com/2026/03/iran-backed-hackers-claim-wiper-attack-on-medtech-firm-stryker/",
+    "published": "Wed, 11 Mar 2026 16:20:13 +0000",
+    "summary": "A hacktivist group with links to Iran's intelligence agencies is claiming responsibility for a data-wiping attack against Stryker, a global medical technology company based in Michigan. News reports out of Ireland, Stryker's largest hub outside of the United States, said the company sent home more than 5,000 workers there today. Meanwhile, a voicemail message at Stryker's main U.S. headquarters says the company is currently experiencing a building emergency."
+  },
+  {
+    "title": "Microsoft Patch Tuesday, March 2026 Edition",
+    "link": "https://krebsonsecurity.com/2026/03/microsoft-patch-tuesday-march-2026-edition/",
+    "published": "Wed, 11 Mar 2026 00:32:51 +0000",
+    "summary": "Microsoft Corp. today pushed security updates to fix at least 77 vulnerabilities in its Windows operating systems and other software. There are no pressing \"zero-day\" flaws this month (compared to February's five zero-day treat), but as usual some patches may deserve more rapid attention from organizations using Windows. Here are a few highlights from this month's Patch Tuesday."
+  },
+  {
+    "title": "How AI Assistants are Moving the Security Goalposts",
+    "link": "https://krebsonsecurity.com/2026/03/how-ai-assistants-are-moving-the-security-goalposts/",
+    "published": "Sun, 08 Mar 2026 23:35:42 +0000",
+    "summary": "AI-based assistants or \"agents\" -- autonomous programs that have access to the user's computer, files, online services and can automate virtually any task -- are growing in popularity with developers and IT workers. But as so many eyebrow-raising headlines over the past few weeks have shown, these powerful and assertive new tools are rapidly shifting the security priorities for organizations, while blurring the lines between data and code, trusted co-worker and insider threat, ninja hacker and novice code jockey."
+  },
+  {
+    "title": "Instructure confirms data breach, ShinyHunters claims attack",
+    "link": "https://www.bleepingcomputer.com/news/security/instructure-confirms-data-breach-shinyhunters-claims-attack/",
+    "published": "Sun, 03 May 2026 18:16:27 -0400",
+    "summary": "Educational tech giant Instructure has confirmed that data was stolen in a cyberattack, with the ShinyHunters extortion gang claiming responsibility. [...]"
+  },
+  {
+    "title": "Microsoft Defender wrongly flags DigiCert certs as Trojan:Win32/Cerdigent.A!dha",
+    "link": "https://www.bleepingcomputer.com/news/security/microsoft-defender-wrongly-flags-digicert-certs-as-trojan-win32-cerdigentadha/",
+    "published": "Sun, 03 May 2026 14:11:25 -0400",
+    "summary": "Microsoft Defender is detecting legitimate DigiCert root certificates as Trojan:Win32/Cerdigent.A!dha, resulting in widespread false-positive alerts, and in some cases, removing certificates from Windows. [...]"
+  },
+  {
+    "title": "Telegram Mini Apps abused for crypto scams, Android malware delivery",
+    "link": "https://www.bleepingcomputer.com/news/security/telegram-mini-apps-abused-for-crypto-scams-android-malware-delivery/",
+    "published": "Sun, 03 May 2026 10:11:21 -0400",
+    "summary": "Cybersecurity researchers have uncovered a large-scale fraud operation that uses Telegram's Mini App feature to run crypto scams, impersonate well-known brands, and distribute Android malware. [...]"
+  },
+  {
+    "title": "Critrical cPanel flaw mass-exploited in \"Sorry\" ransomware attacks",
+    "link": "https://www.bleepingcomputer.com/news/security/critrical-cpanel-flaw-mass-exploited-in-sorry-ransomware-attacks/",
+    "published": "Sat, 02 May 2026 17:54:00 -0400",
+    "summary": "A new disclosed cPanel flaw tracked as CVE-2026-41940 is being mass-exploited to breach websites and encrypt data in \"Sorry\" ransomware attacks. [...]"
+  },
+  {
+    "title": "ConsentFix v3 attacks target Azure with automated OAuth abuse",
+    "link": "https://www.bleepingcomputer.com/news/security/consentfix-v3-attacks-target-azure-with-automated-oauth-abuse/",
+    "published": "Sat, 02 May 2026 10:32:25 -0400",
+    "summary": "A new attack type, dubbed ConsentFix v3, has been circulating on hacker forums, building on the previous technique by adding automation and scaling potential. [...]"
+  },
+  {
+    "title": "Microsoft tests modern Windows Run, says it's faster than legacy dialog",
+    "link": "https://www.bleepingcomputer.com/news/microsoft/microsoft-tests-modern-windows-run-says-its-faster-than-legacy-dialog/",
+    "published": "Fri, 01 May 2026 20:18:05 -0400",
+    "summary": "Microsoft has confirmed that Windows 11 is getting a new modern Run dialog with dark mode support and faster performance in a new preview build. [...]"
+  },
+  {
+    "title": "Edu tech firm Instructure discloses cyber incident, probes impact",
+    "link": "https://www.bleepingcomputer.com/news/security/edu-tech-firm-instructure-discloses-cyber-incident-probes-impact/",
+    "published": "Fri, 01 May 2026 19:43:35 -0400",
+    "summary": "Instructure, the company behind the widely used Canvas learning platform, has disclosed that it recently suffered a cybersecurity incident and is now investigating its impact. [...]"
+  },
+  {
+    "title": "15-year-old detained over French govt agency data breach",
+    "link": "https://www.bleepingcomputer.com/news/security/15-year-old-detained-over-french-govt-agency-data-breach/",
+    "published": "Fri, 01 May 2026 13:52:06 -0400",
+    "summary": "French authorities have detained a 15-year-old suspected of selling data stolen in a cyberattack on France Titres (ANTS), the country's agency for issuing and managing administrative documents. [...]"
+  },
+  {
+    "title": "Story retracted",
+    "link": "https://www.bleepingcomputer.com/news/security/story-retracted/",
+    "published": "Fri, 01 May 2026 12:26:28 -0400",
+    "summary": "BleepingComputer initially published a story about a new data breach at Instructure. Shortly after publication, we determined that the information was incorrect and primarily based on outdated details from a prior incident. The article has been retracted, and we regret the error. [...]"
+  },
+  {
+    "title": "Criminal IP and Securonix ThreatQ Collaborate to Enhance Threat Intelligence Operations",
+    "link": "https://www.bleepingcomputer.com/news/security/criminal-ip-and-securonix-threatq-collaborate-to-enhance-threat-intelligence-operations/",
+    "published": "Fri, 01 May 2026 10:02:12 -0400",
+    "summary": "Raw threat intel isn't enough without real-world context. Criminal IP has partnered with Securonix to integrate exposure-based intelligence into ThreatQ, automating analysis and speeding up investigations. [...]"
+  },
+  {
+    "title": "Microsoft fixes Remote Desktop warnings displaying incorrectly",
+    "link": "https://www.bleepingcomputer.com/news/microsoft/microsoft-fixes-remote-desktop-warnings-displaying-incorrectly/",
+    "published": "Fri, 01 May 2026 08:46:48 -0400",
+    "summary": "Microsoft has fixed a known issue causing newly introduced Windows security warnings to display incorrectly when opening Remote Desktop (.rdp) files. [...]"
+  },
+  {
+    "title": "Microsoft now lets admins choose pre-installed Store apps to uninstall",
+    "link": "https://www.bleepingcomputer.com/news/microsoft/microsoft-now-lets-admins-choose-pre-installed-store-apps-to-uninstall/",
+    "published": "Fri, 01 May 2026 07:10:07 -0400",
+    "summary": "Microsoft has updated a Windows 11 in-box app removal policy introduced in October to include a dynamic list that lets IT admins choose which preinstalled Store apps to uninstall. [...]"
+  },
+  {
+    "title": "Windows 11 KB5083631 update released with 34 changes and fixes",
+    "link": "https://www.bleepingcomputer.com/news/microsoft/windows-11-kb5083631-update-released-with-34-changes-and-fixes/",
+    "published": "Fri, 01 May 2026 06:00:53 -0400",
+    "summary": "Microsoft has released the KB5083631 optional cumulative update for Windows 11, which includes 34 changes, such as a new Xbox mode for Windows PCs, enhanced security and performance for batch files, and performance improvements for launching startup apps. [...]"
+  },
+  {
+    "title": "US ransomware negotiators get 4 years in prison over BlackCat attacks",
+    "link": "https://www.bleepingcomputer.com/news/security/us-ransomware-negotiators-get-4-years-in-prison-over-blackcat-attacks/",
+    "published": "Fri, 01 May 2026 03:47:11 -0400",
+    "summary": "Two former employees of cybersecurity incident response companies Sygnia and DigitalMint were sentenced to four years in prison each for targeting U.S. companies in BlackCat (ALPHV) ransomware attacks. [...]"
+  },
+  {
+    "title": "New Bluekit phishing service includes an AI assistant, 40 templates",
+    "link": "https://www.bleepingcomputer.com/news/security/new-bluekit-phishing-service-includes-an-ai-assistant-40-templates/",
+    "published": "Thu, 30 Apr 2026 14:58:50 -0400",
+    "summary": "A new phishing kit named Bluekit offers more than 40 templates targeting popular services and includes basic AI features for generating campaign drafts. [...]"
+  },
+  {
+    "title": "CVE-2026-31431: Copy Fail vulnerability enables Linux root privilege escalation across cloud environments",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/05/01/cve-2026-31431-copy-fail-vulnerability-enables-linux-root-privilege-escalation/",
+    "published": "Sat, 02 May 2026 03:06:08 +0000",
+    "summary": "<p>A high-severity Linux vulnerability, “Copy Fail” (CVE-2026-31431), enables root privilege escalation across cloud environments and Kubernetes workloads. With a working exploit already in the wild, organizations should act quickly to detect, mitigate, and reduce risk.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/05/01/cve-2026-31431-copy-fail-vulnerability-enables-linux-root-privilege-escalation/\">CVE-2026-31431: Copy Fail vulnerability enables Linux root privilege escalation across cloud environments</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "Microsoft Agent 365, now generally available, expands capabilities and integrations",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/05/01/microsoft-agent-365-now-generally-available-expands-capabilities-and-integrations/",
+    "published": "Fri, 01 May 2026 15:00:00 +0000",
+    "summary": "<p>​Today we’re announcing the general availability of Agent 365, plus previews of new capabilities to discover and manage shadow AI agents, including local agents like OpenClaw and Claude Code.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/05/01/microsoft-agent-365-now-generally-available-expands-capabilities-and-integrations/\">Microsoft Agent 365, now generally available, expands capabilities and integrations</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "What’s new, updated, or recently released in Microsoft Security",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/30/whats-new-updated-or-recently-released-in-microsoft-security/",
+    "published": "Thu, 30 Apr 2026 16:00:00 +0000",
+    "summary": "<p>Stay ahead of emerging threats with Microsoft’s newest security innovations and updates, delivered through the In the Loop series.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/30/whats-new-updated-or-recently-released-in-microsoft-security/\">What’s new, updated, or recently released in Microsoft Security</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "Email threat landscape: Q1 2026 trends and insights",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/30/email-threat-landscape-q1-2026-trends-and-insights/",
+    "published": "Thu, 30 Apr 2026 15:00:00 +0000",
+    "summary": "<p>In early 2026, email threats increased with a rise in credential phishing, QR code phishing, and CAPTCHA-gated campaigns, highlighted by Microsoft’s disruption of the Tycoon2FA phishing platform which led to a 15% volume decrease and shifts in threat actor tactics.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/30/email-threat-landscape-q1-2026-trends-and-insights/\">Email threat landscape: Q1 2026 trends and insights</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "8 best practices for CISOs conducting risk reviews",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/29/8-best-practices-for-cisos-conducting-risk-reviews/",
+    "published": "Wed, 29 Apr 2026 16:00:00 +0000",
+    "summary": "<p>Embracing strong proactive security is something we can all do to mitigate our increased exposure to security threats.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/29/8-best-practices-for-cisos-conducting-risk-reviews/\">8 best practices for CISOs conducting risk reviews</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "Simplifying AWS defense with Microsoft Sentinel UEBA",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/28/simplifying-aws-defense-microsoft-sentinel-ueba/",
+    "published": "Tue, 28 Apr 2026 13:00:00 +0000",
+    "summary": "<p>Learn how Microsoft Sentinel UEBA helps defenders distinguish benign AWS activity from attacker behavior by enriching raw CloudTrail logs with clear, binary behavioral signals derived from baseline user, peer, and device behavior patterns.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/28/simplifying-aws-defense-microsoft-sentinel-ueba/\">Simplifying AWS defense with Microsoft Sentinel UEBA</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "AI-powered defense for an AI-accelerated threat landscape",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/22/ai-powered-defense-for-an-ai-accelerated-threat-landscape/",
+    "published": "Wed, 22 Apr 2026 17:00:00 +0000",
+    "summary": "<p>Read how Microsoft is partnering with Anthropic and broader industry to use leading models, paired with our platforms and expertise, to turn AI-driven discovery into protection at scale.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/22/ai-powered-defense-for-an-ai-accelerated-threat-landscape/\">AI-powered defense for an AI-accelerated threat landscape</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "Detection strategies across cloud and identities against infiltrating IT workers",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/21/detection-strategies-cloud-identities-against-infiltrating-it-workers/",
+    "published": "Tue, 21 Apr 2026 16:03:09 +0000",
+    "summary": "<p>The shift to remote and hybrid work since the pandemic expanded global hiring and accelerated digital onboarding, increasing reliance on online identity verification and remote access.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/21/detection-strategies-cloud-identities-against-infiltrating-it-workers/\">Detection strategies across cloud and identities against infiltrating IT workers</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "Making opportunistic cyberattacks harder by design",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/20/making-opportunistic-cyberattacks-harder-by-design/",
+    "published": "Mon, 20 Apr 2026 16:00:00 +0000",
+    "summary": "<p>How Microsoft secures Dynamics 365 and Power Platform by removing credentials, reducing attack surfaces, and using platform engineering to block opportunistic threats.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/20/making-opportunistic-cyberattacks-harder-by-design/\">Making opportunistic cyberattacks harder by design</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "Cross‑tenant helpdesk impersonation to data exfiltration: A human-operated intrusion playbook",
+    "link": "https://www.microsoft.com/en-us/security/blog/2026/04/18/crosstenant-helpdesk-impersonation-data-exfiltration-human-operated-intrusion-playbook/",
+    "published": "Sat, 18 Apr 2026 12:55:45 +0000",
+    "summary": "<p>Threat actors are abusing external Microsoft Teams collaboration to impersonate IT helpdesk staff and convince users to grant remote access. Once inside, attackers can abuse legitimate tools and standard admin protocols to move laterally and exfiltrate data while appearing as routine IT support—activity Microsoft Defender helps detect across Teams, endpoint, and identity telemetry.</p>\n<p>The post <a href=\"https://www.microsoft.com/en-us/security/blog/2026/04/18/crosstenant-helpdesk-impersonation-data-exfiltration-human-operated-intrusion-playbook/\">Cross‑tenant helpdesk impersonation to data exfiltration: A human-operated intrusion playbook</a> appeared first on <a href=\"https://www.microsoft.com/en-us/security/blog\">Microsoft Security Blog</a>.</p>"
+  },
+  {
+    "title": "TAG Bulletin: Q4 2025",
+    "link": "https://blog.google/threat-analysis-group/tag-bulletin-q4-2025/",
+    "published": "Thu, 29 Jan 2026 19:30:00 +0000",
+    "summary": "An overview of coordinated influence operation campaigns terminated on our platforms in Q4 2025."
+  },
+  {
+    "title": "A review of zero-day in-the-wild exploits in 2023",
+    "link": "https://blog.google/innovation-and-ai/technology/safety-security/a-review-of-zero-day-in-the-wild-exploits-in-2023/",
+    "published": "Wed, 27 Mar 2024 13:00:00 +0000",
+    "summary": "Today, Google released its report “We’re All in this Together: A Year in Review of Zero-Days Exploited In-the-Wild in 2023.”"
+  },
+  {
+    "title": "Tool of First Resort: Israel-Hamas War in Cyber",
+    "link": "https://blog.google/innovation-and-ai/technology/safety-security/tool-of-first-resort-israel-hamas-war-in-cyber/",
+    "published": "Wed, 14 Feb 2024 00:01:00 +0000",
+    "summary": "blue squares forming the abstract shape of an arrow set against a white background"
+  },
+  {
+    "title": "The npm Threat Landscape: Attack Surface and Mitigations (Updated May 1)",
+    "link": "https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/",
+    "published": "Sat, 02 May 2026 00:10:33 +0000",
+    "summary": "<p>Unit 42 analyzes npm supply chain evolution post-Shai Hulud. Discover wormable malware, CI/CD persistence, multi-stage attacks and more. </p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/monitoring-npm-supply-chain-attacks/\">The npm Threat Landscape: Attack Surface and Mitigations (Updated May 1)</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Essential Data Sources for Detection Beyond the Endpoint",
+    "link": "https://unit42.paloaltonetworks.com/detection-beyond-the-endpoint/",
+    "published": "Fri, 01 May 2026 23:00:13 +0000",
+    "summary": "<p>Unit 42 highlights the need for a comprehensive security strategy that spans every IT zone. Explore the full details here.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/detection-beyond-the-endpoint/\">Essential Data Sources for Detection Beyond the Endpoint</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "That AI Extension Helping You Write Emails? It’s Reading Them First",
+    "link": "https://unit42.paloaltonetworks.com/high-risk-gen-ai-browser-extensions/",
+    "published": "Thu, 30 Apr 2026 22:00:57 +0000",
+    "summary": "<p>Unit 42 uncovers high-risk AI browser extensions. Disguised as productivity tools, they steal data, intercept prompts, and exfiltrate passwords. Protect your browser.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/high-risk-gen-ai-browser-extensions/\">That AI Extension Helping You Write Emails? It’s Reading Them First</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "TGR-STA-1030: New Activity in Central and South America",
+    "link": "https://unit42.paloaltonetworks.com/new-activity-central-south-america/",
+    "published": "Fri, 24 Apr 2026 20:30:19 +0000",
+    "summary": "<p>Unit 42 research reports that TGR-STA-1030 remains an active threat, particularly in Central and South America.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/new-activity-central-south-america/\">TGR-STA-1030: New Activity in Central and South America</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Frontier AI and the Future of Defense: Your Top Questions Answered",
+    "link": "https://unit42.paloaltonetworks.com/frontier-ai-top-questions-answered/",
+    "published": "Thu, 23 Apr 2026 20:45:50 +0000",
+    "summary": "<p>What are the next steps for security leaders in this new age of frontier AI? We answer the top 10 questions customers are asking.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/frontier-ai-top-questions-answered/\">Frontier AI and the Future of Defense: Your Top Questions Answered</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Can AI Attack the Cloud? Lessons From Building an Autonomous Cloud Offensive Multi-Agent System",
+    "link": "https://unit42.paloaltonetworks.com/autonomous-ai-cloud-attacks/",
+    "published": "Thu, 23 Apr 2026 10:00:31 +0000",
+    "summary": "<p>Unit 42 reveals how multi-agent AI systems can autonomously attack cloud environments. Learn critical insights and vital lessons for proactive security. </p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/autonomous-ai-cloud-attacks/\">Can AI Attack the Cloud? Lessons From Building an Autonomous Cloud Offensive Multi-Agent System</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "When Wi-Fi Encryption Fails: Protecting Your Enterprise from AirSnitch Attacks",
+    "link": "https://unit42.paloaltonetworks.com/air-snitch-enterprise-wireless-attacks/",
+    "published": "Wed, 22 Apr 2026 10:00:22 +0000",
+    "summary": "<p>Unit 42 research reveals AirSnitch attacks bypass WPA2/3 Wi-Fi encryption and client isolation, exposing critical infrastructure vulnerabilities.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/air-snitch-enterprise-wireless-attacks/\">When Wi-Fi Encryption Fails: Protecting Your Enterprise from AirSnitch Attacks</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Fracturing Software Security With Frontier AI Models",
+    "link": "https://unit42.paloaltonetworks.com/ai-software-security-risks/",
+    "published": "Mon, 20 Apr 2026 10:00:14 +0000",
+    "summary": "<p>Unit 42 finds frontier AI models enhance vulnerability discovery, acting as full-spectrum security researchers. They enable autonomous zero-day discovery and faster N-day patching.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/ai-software-security-risks/\">Fracturing Software Security With Frontier AI Models</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Threat Brief: Escalation of Cyber Risk Related to Iran (Updated April 17)",
+    "link": "https://unit42.paloaltonetworks.com/iranian-cyberattacks-2026/",
+    "published": "Fri, 17 Apr 2026 22:35:07 +0000",
+    "summary": "<p>Unit 42 details recent Iranian cyberattack activity, sharing direct observations of phishing, hacktivist activity and cybercrime. We include recommendations for defenders.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/iranian-cyberattacks-2026/\">Threat Brief: Escalation of Cyber Risk Related to Iran (Updated April 17)</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "A Deep Dive Into Attempted Exploitation of CVE-2023-33538",
+    "link": "https://unit42.paloaltonetworks.com/exploitation-of-cve-2023-33538/",
+    "published": "Thu, 16 Apr 2026 22:00:13 +0000",
+    "summary": "<p>CVE-2023-33538 allows for command injection in TP-Link routers. We discuss exploitation attempts with payloads characteristic of Mirai botnet malware.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/exploitation-of-cve-2023-33538/\">A Deep Dive Into Attempted Exploitation of CVE-2023-33538</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Cracks in the Bedrock: Agent God Mode",
+    "link": "https://unit42.paloaltonetworks.com/exploit-of-aws-agentcore-iam-god-mode/",
+    "published": "Wed, 08 Apr 2026 22:00:51 +0000",
+    "summary": "<p>Unit 42 reveals \"Agent God Mode\" in Amazon Bedrock AgentCore. Broad IAM permissions lead to privilege escalation and data exfiltration risks.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/exploit-of-aws-agentcore-iam-god-mode/\">Cracks in the Bedrock: Agent God Mode</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Cracks in the Bedrock: Escaping the AWS AgentCore Sandbox",
+    "link": "https://unit42.paloaltonetworks.com/bypass-of-aws-sandbox-network-isolation-mode/",
+    "published": "Tue, 07 Apr 2026 22:00:11 +0000",
+    "summary": "<p>Unit 42 uncovers critical vulnerabilities in Amazon Bedrock AgentCore's sandbox, demonstrating DNS tunneling and credential exposure. </p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/bypass-of-aws-sandbox-network-isolation-mode/\">Cracks in the Bedrock: Escaping the AWS AgentCore Sandbox</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Understanding Current Threats to Kubernetes Environments",
+    "link": "https://unit42.paloaltonetworks.com/modern-kubernetes-threats/",
+    "published": "Mon, 06 Apr 2026 22:00:08 +0000",
+    "summary": "<p>Unit 42 uncovers escalating Kubernetes attacks, detailing how threat actors exploit identities and critical vulnerabilities to compromise cloud environments.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/modern-kubernetes-threats/\">Understanding Current Threats to Kubernetes Environments</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "When an Attacker Meets a Group of Agents: Navigating Amazon Bedrock's Multi-Agent Applications",
+    "link": "https://unit42.paloaltonetworks.com/amazon-bedrock-multiagent-applications/",
+    "published": "Fri, 03 Apr 2026 22:00:38 +0000",
+    "summary": "<p>Unit 42 research on multi-agent AI systems on Amazon Bedrock reveals new attack surfaces and prompt injection risks. Learn how to secure your AI applications.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/amazon-bedrock-multiagent-applications/\">When an Attacker Meets a Group of Agents: Navigating Amazon Bedrock&#039;s Multi-Agent Applications</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "Threat Brief: Widespread Impact of the Axios Supply Chain Attack",
+    "link": "https://unit42.paloaltonetworks.com/axios-supply-chain-attack/",
+    "published": "Wed, 01 Apr 2026 18:30:10 +0000",
+    "summary": "<p>Unit 42 discusses the supply chain attack targeting Axios. Learn about the full attack chain, from the dropper to forensic cleanup.</p>\n<p>The post <a href=\"https://unit42.paloaltonetworks.com/axios-supply-chain-attack/\">Threat Brief: Widespread Impact of the Axios Supply Chain Attack</a> appeared first on <a href=\"https://unit42.paloaltonetworks.com\">Unit 42</a>.</p>"
+  },
+  {
+    "title": "76% of All Crypto Stolen in 2026 Is Now in North Korea",
+    "link": "https://www.darkreading.com/cybersecurity-analytics/crypto-stolen-2026-north-korea",
+    "published": "Fri, 01 May 2026 20:34:27 GMT",
+    "summary": "North Korean threat actors are pulling off historic cryptocurrency heists on a yearly, sometimes weekly basis now. AI might be helping them."
+  },
+  {
+    "title": "If AI's So Smart, Why Does It Keep Deleting Production Databases?",
+    "link": "https://www.darkreading.com/cloud-security/ais-so-smart-keep-deleting-production-databases",
+    "published": "Fri, 01 May 2026 14:39:55 GMT",
+    "summary": "The issue isn't artificial intelligence, but rather an industry adding AI agent integrations into production environments before proper security testing."
+  },
+  {
+    "title": "Name That Toon: Mark of (Security) Progress",
+    "link": "https://www.darkreading.com/cybersecurity-operations/name-that-toon-mark-security-progress",
+    "published": "Fri, 01 May 2026 12:00:55 GMT",
+    "summary": "Feeling creative? Have something to say about the last 20 years of cybersecurity? Our editors will award the best cybersecurity-related caption with a $20 gift card."
+  },
+  {
+    "title": "20 Years in Cyber: Dark Reading Marks Milestone With Month of Special Coverage",
+    "link": "https://www.darkreading.com/cybersecurity-operations/20-years-cyber-dark-reading-milestone-special-coverage",
+    "published": "Fri, 01 May 2026 12:00:00 GMT",
+    "summary": "On this day in 2006, Dark Reading went live. We have a celebration planned that spans our two decades of covering the industry, and you, dear readers, are invited."
+  },
+  {
+    "title": "TeamPCP Hits SAP Packages With 'Mini Shai-Hulud' Attack",
+    "link": "https://www.darkreading.com/cloud-security/teampcp-sap-packages-mini-shai-hulud",
+    "published": "Thu, 30 Apr 2026 21:01:18 GMT",
+    "summary": "Several npm packages for SAP's cloud application development ecosystem have been compromised as TeamPCP's supply chain attacks broaden."
+  },
+  {
+    "title": "Another AI-Assisted Software Scan Yields 9-Year-Old Linux Bug",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/ai-assisted-software-scan-linux-bug",
+    "published": "Thu, 30 Apr 2026 20:41:18 GMT",
+    "summary": "The proof-of-concept exploit code runs only 10 lines long, but luckily, a patch is already available."
+  },
+  {
+    "title": "Anthropic's Mythos Has Landed: Here's What Comes Next for Cyber",
+    "link": "https://www.darkreading.com/cybersecurity-operations/anthropic-mythos-cyber-what-comes-next",
+    "published": "Thu, 30 Apr 2026 19:09:21 GMT",
+    "summary": "In this latest installment of the Reporters' Notebook video series, we discuss how the new AI model threatens to completely upend cybersecurity, and what industry leaders are telling the press."
+  },
+  {
+    "title": "Oracle Red Bull Racing Team Revs Up Automation to Boost Security",
+    "link": "https://www.darkreading.com/identity-access-management-security/oracle-red-bull-racing-team-revs-up-automation-to-boost-security",
+    "published": "Thu, 30 Apr 2026 13:45:58 GMT",
+    "summary": "While drivers race to shave off seconds on the track, the team's IT and engineering staff are speeding up how they deliver security."
+  },
+  {
+    "title": "Claude Mythos Fears Startle Japan's Financial Services Sector",
+    "link": "https://www.darkreading.com/cyber-risk/claude-mythos-startle-japans-financial-sector",
+    "published": "Thu, 30 Apr 2026 00:00:00 GMT",
+    "summary": "Global financial institutions are panicked over Anthropic's new superhacker AI model. Cyber experts aren't quite as worried."
+  },
+  {
+    "title": "Reverse Engineering With AI Unearths High-Severity GitHub Bug",
+    "link": "https://www.darkreading.com/application-security/reverse-engineering-ai-unearths-high-severity-github-bug",
+    "published": "Wed, 29 Apr 2026 20:08:17 GMT",
+    "summary": "Wiz used an AI reverse-engineering tool to pinpoint a vulnerability that previously would have been too costly and time-consuming to undertake."
+  },
+  {
+    "title": "AI Finds 38 Security Flaws in Electronic Health Record Platform",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/ai-finds-38-security-flaws-openemr",
+    "published": "Wed, 29 Apr 2026 19:32:42 GMT",
+    "summary": "Flaws in OpenEMR's platform — used by more than 100,000 healthcare providers — enabled database compromise, remote code execution, and data theft."
+  },
+  {
+    "title": "Vect 2.0 Ransomware Acts as Wiper, Thanks to Design Error",
+    "link": "https://www.darkreading.com/threat-intelligence/vect-ransomware-wiper-design-error",
+    "published": "Wed, 29 Apr 2026 15:23:53 GMT",
+    "summary": "The emerging ransomware has been deployed against victims of the TeamPCP supply chain attacks, but organizations should think twice before paying for a decryptor."
+  },
+  {
+    "title": "Lotus Wiper Attack Targets Venezuelan Energy Firms, Utilities",
+    "link": "https://www.darkreading.com/cyber-risk/lotus-wiper-attack-targeted-venezuelan-energy-firms-utilities",
+    "published": "Wed, 29 Apr 2026 13:00:00 GMT",
+    "summary": "An analysis of the destructive malware reveals sophisticated living-off-the-land (LotL) techniques and detailed strategies for the widespread deletion of data."
+  },
+  {
+    "title": "BlueNoroff Uses Fake Zoom Calls to Turn Victims Into Attack Lures",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/bluenoroff-turns-victims-into-new-attack-lures",
+    "published": "Tue, 28 Apr 2026 21:38:39 GMT",
+    "summary": "The North Korean group is using stolen victim videos, AI-generated avatars, and fake Zoom calls to scale malware attacks against cryptocurrency executives."
+  },
+  {
+    "title": "NSA Chief During Snowden Affair Shares Regrets, Reflections 13 Years Later",
+    "link": "https://www.darkreading.com/cyber-risk/nsa-chief-during-snowden-affair-13-years-later",
+    "published": "Tue, 28 Apr 2026 20:38:59 GMT",
+    "summary": "Chris Inglis was the head civilian in charge at the NSA when the Snowden leaks exploded. He gets candid about mistakes the organization made, and what CISOs need to know about spotting potential threats, media disclosures, and &quot;enculturation.&quot;"
+  },
+  {
+    "title": "Feuding Ransomware Groups Leak Each Other's Data",
+    "link": "https://www.darkreading.com/threat-intelligence/feuding-ransomware-groups-leak-data",
+    "published": "Tue, 28 Apr 2026 20:13:30 GMT",
+    "summary": "When 0APT and KryBit attacked each other, they exposed infrastructure and operational data, giving defenders rare insight into ransomware operations."
+  },
+  {
+    "title": "Vidar Rises to Top of Chaotic Infostealer Market",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/vidar-top-chaotic-infostealer-market",
+    "published": "Tue, 28 Apr 2026 19:07:16 GMT",
+    "summary": "The malware has filled the gap created by last year's law enforcement takedowns of Lumma and Rhadamanthys."
+  },
+  {
+    "title": "Fresh Wave of GlassWorm VS Code Extensions Slices Through Supply Chain",
+    "link": "https://www.darkreading.com/application-security/fresh-glassworm-vs-code-extensions-supply-chain",
+    "published": "Tue, 28 Apr 2026 14:59:24 GMT",
+    "summary": "Attackers continue to scale a campaign to seed Open VSX with seemingly benign VS Code extensions that spread self-propagating malware."
+  },
+  {
+    "title": "UNC6692 Combines Social Engineering, Malware, Cloud Abuse",
+    "link": "https://www.darkreading.com/cloud-security/unc6692-social-engineering-malware-cloud-abuse",
+    "published": "Mon, 27 Apr 2026 20:12:34 GMT",
+    "summary": "A newly discovered threat actor is using Microsoft Teams, AWS S3 buckets, and custom &quot;Snow&quot; malware in a multipronged campaign."
+  },
+  {
+    "title": "Unpatched 'PhantomRPC' Flaw in Windows Enables Privilege Escalation",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/unpatched-phantomrpc-flaw-windows-privilege-escalation",
+    "published": "Mon, 27 Apr 2026 15:31:41 GMT",
+    "summary": "A researcher discovered five different exploit paths that stem from an architectural weakness in how Windows' Remote Procedure Call (RPC) mechanism handles connections to unavailable services."
+  },
+  {
+    "title": "20-Year-Old Malware Rewrites History of Cyber Sabotage",
+    "link": "https://www.darkreading.com/cyber-risk/20-year-old-malware-rewrites-history-of-cyber-sabotage",
+    "published": "Mon, 27 Apr 2026 13:09:54 GMT",
+    "summary": "Researchers have uncovered a malware framework dubbed &quot;fast16&quot; that predates Stuxnet by five years."
+  },
+  {
+    "title": "Parsing Agentic Offensive Security's Existential Threat",
+    "link": "https://www.darkreading.com/cyber-risk/industrialized-exploitation-agentic-offensive-security-existential-threat",
+    "published": "Mon, 27 Apr 2026 13:00:00 GMT",
+    "summary": "Some fear frontier LLMs like Claude Mythos and OpenAI's GPT-5.5 will lead to cybersecurity annihilation. Ari Herbert-Voss notes this could be an opportunity."
+  },
+  {
+    "title": "Helping Romance Scam Victims Requires a Proactive, Empathic Approach",
+    "link": "https://www.darkreading.com/cybersecurity-operations/building-teams-to-help-cyber-scam-victims",
+    "published": "Fri, 24 Apr 2026 22:34:13 GMT",
+    "summary": "People targeted by confidence schemes find getting help is a lonely road. Experts want law enforcement, financial, and government institutions to work together and protect them."
+  },
+  {
+    "title": "US Busts Myanmar Ring Targeting US Citizens in Financial Fraud",
+    "link": "https://www.darkreading.com/cyber-risk/us-busts-myanmar-ring-targeting-us-citizens-financial-fraud",
+    "published": "Fri, 24 Apr 2026 16:48:04 GMT",
+    "summary": "Some 29 people were charged, including a Cambodian senator, and authorities seized more than 500 Web domains tied to fake investment sites."
+  },
+  {
+    "title": "Glasswing Secured the Code. The Rest of Your Stack Is Still on You",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/glasswing-secured-code-stack-on-you",
+    "published": "Fri, 24 Apr 2026 15:04:29 GMT",
+    "summary": "Forgotten integrations, shadow IT, SaaS, and now shadow AI and agents are everywhere, and attackers don't need sophisticated AI models to take advantage."
+  },
+  {
+    "title": "AI Phishing Is No. 1 With a Bullet for Cyberattackers",
+    "link": "https://www.darkreading.com/cyber-risk/ai-phishing-no-1-cyberattackers",
+    "published": "Fri, 24 Apr 2026 13:30:00 GMT",
+    "summary": "In the past six months, companies have seen a significant influx of AI-powered phishing, as cyberattackers progress from small campaigns to 1-to-1 personalized attacks."
+  },
+  {
+    "title": "North Korea's Lazarus Targets macOS Users via ClickFix",
+    "link": "https://www.darkreading.com/threat-intelligence/north-koreas-lazarus-targets-macos-users-clickfix",
+    "published": "Fri, 24 Apr 2026 13:00:00 GMT",
+    "summary": "Lazarus continues leveraging ClickFix for initial access and data theft: in this case, against Mac-centric organizations and their high-value leaders."
+  },
+  {
+    "title": "Tropic Trooper APT Takes Aim at Home Routers, Japanese Targets",
+    "link": "https://www.darkreading.com/threat-intelligence/tropic-trooper-apt-takes-aim-home-routers-japanese-targets",
+    "published": "Fri, 24 Apr 2026 01:00:00 GMT",
+    "summary": "The Chinese state-sponsored cyber threat is known for moving fast and trying odd attack vectors; now it's branching out in tools, victimology, and TTPs."
+  },
+  {
+    "title": "Chinese APT Abuses Multiple Cloud Tools to Spy on Mongolia",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/chinese-apt-abuses-cloud-tools-spy-mongolia",
+    "published": "Fri, 24 Apr 2026 01:00:00 GMT",
+    "summary": "The threat actor gave itself plenty of options to support command and control, tapping Microsoft Outlook, Slack, Discord, and file.io for online espionage."
+  },
+  {
+    "title": "China-Backed Hackers Are Industrializing Botnets",
+    "link": "https://www.darkreading.com/cyber-risk/china-hackers-industrializing-botnets",
+    "published": "Thu, 23 Apr 2026 20:52:24 GMT",
+    "summary": "China's state-backed groups are now using covert networks of compromised devices to execute attacks in a low-cost, low-risk, and deniable way."
+  },
+  {
+    "title": "Bad Memories Still Haunt AI Agents",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/bad-memories-haunt-ai-agents",
+    "published": "Thu, 23 Apr 2026 14:30:31 GMT",
+    "summary": "Cisco found and fixed a significant vulnerability in the way Anthropic handles memories, but experts warn that mishandled memory files will continue to threaten AI systems."
+  },
+  {
+    "title": "'Zealot' Shows What AI's Capable of in Staged Cloud Attack",
+    "link": "https://www.darkreading.com/cyber-risk/zealot-shows-ai-execute-full-cloud-attacks",
+    "published": "Thu, 23 Apr 2026 10:00:00 GMT",
+    "summary": "The proof of concept revealed AI-based attacks unfold too fast for human defenders to respond, and that AI evinced more autonomous behavior than expected."
+  },
+  {
+    "title": "Africa Relinquishes Cyberattack Lead to Latin America — For Now",
+    "link": "https://www.darkreading.com/threat-intelligence/african-organizations-see-easing-of-cyberattacks",
+    "published": "Thu, 23 Apr 2026 07:01:00 GMT",
+    "summary": "The volume of cyberattacks targeting Africa declined in the past year, with weekly attacks down 22%, as attackers seemingly shifted their focus to other regions."
+  },
+  {
+    "title": "'The Gentlemen' Rapidly Rises to Ransomware Prominence",
+    "link": "https://www.darkreading.com/threat-intelligence/gentlemen-rapidly-rise-ransomware",
+    "published": "Wed, 22 Apr 2026 20:51:55 GMT",
+    "summary": "Not nearly as polite as the name suggests, the ransomware gang has impressed researchers with its speed in scaling up operations — and its sophistication."
+  },
+  {
+    "title": "DPRK Fake Job Scams Self-Propagate in 'Contagious Interview'",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/dprk-fake-job-scams-self-propagate-contagious-interview",
+    "published": "Wed, 22 Apr 2026 14:48:05 GMT",
+    "summary": "A compromised developer's repository serves as a worm-like infection vector to spread remote access Trojans (RATs) and other malware."
+  },
+  {
+    "title": "Electricity Is a Growing Area of Cyber-Risk",
+    "link": "https://www.darkreading.com/cyber-risk/electricity-growing-area-cyber-risk",
+    "published": "Wed, 22 Apr 2026 14:25:07 GMT",
+    "summary": "IT has long been concerned with ensuring systems receive the right amount of electricity. Cyberattackers are realizing they can manipulate voltage fluctuations for their purposes, too."
+  },
+  {
+    "title": "Ransomware Negotiator Pleads Guilty to BlackCat Scheme",
+    "link": "https://www.darkreading.com/insider-threats/ransomware-negotiator-pleads-guilty-blackcat-scheme",
+    "published": "Tue, 21 Apr 2026 21:12:43 GMT",
+    "summary": "A cautionary tale illustrates why the person negotiating should never be involved with any part of the ransom payment process."
+  },
+  {
+    "title": "Exploits Turn Windows Defender Into Attacker Tool",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/exploits-turn-windows-defender-attacker-tool",
+    "published": "Tue, 21 Apr 2026 19:12:40 GMT",
+    "summary": "Three proof-of-concept exploits are being used in active attacks against Microsoft's built-in security platform; two are unpatched."
+  },
+  {
+    "title": "Surge in Bomgar RMM Exploitation Demonstrates Supply Chain Risk",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/surge-bomgar-rmm-exploitation-demonstrates-supply-chain-risk",
+    "published": "Tue, 21 Apr 2026 15:29:17 GMT",
+    "summary": "The critical remote code execution flaw (CVE-2026-1731) in the remote monitoring and management tool can be exploited to spread ransomware and compromise supply chains."
+  },
+  {
+    "title": "Google Fixes Critical RCE Flaw in AI-Based 'Antigravity' Tool",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/google-fixes-critical-rce-flaw-ai-based-antigravity-tool",
+    "published": "Tue, 21 Apr 2026 15:00:50 GMT",
+    "summary": "The prompt-injection vulnerability in the agentic AI product for filesystem operations was a sanitization issue that allowed for sandbox escape and arbitrary code execution."
+  },
+  {
+    "title": "Chinese APT Targets Indian Banks, Korean Policy Circles",
+    "link": "https://www.darkreading.com/cyberattacks-data-breaches/chinese-apt-indian-banks-korean-policy",
+    "published": "Tue, 21 Apr 2026 12:00:00 GMT",
+    "summary": "China is spying on India's financial sector, for some reason, and it's not putting much effort into it, judging by some stale TTPs."
+  },
+  {
+    "title": "Vercel Employee's AI Tool Access Led to Data Breach",
+    "link": "https://www.darkreading.com/application-security/vercel-employees-ai-tool-access-data-breach",
+    "published": "Mon, 20 Apr 2026 21:01:31 GMT",
+    "summary": "Stolen OAuth tokens, which are at the root of these breaches, &quot;are the new attack surface, the new lateral movement,&quot; a researcher notes."
+  },
+  {
+    "title": "Serial-to-IP Devices Hide Thousands of Old &amp; New Bugs",
+    "link": "https://www.darkreading.com/ics-ot-security/serial-ip-devices-thousands-of-bugs",
+    "published": "Mon, 20 Apr 2026 21:00:00 GMT",
+    "summary": "The OT devices that translate machine talk into Internet-speak are riddled with vulnerabilities and more frequently targeted for attacks, researchers say."
+  },
+  {
+    "title": "WhatsApp Leaks User Metadata to Attackers",
+    "link": "https://www.darkreading.com/endpoint-security/whatsapp-leaks-user-metadata",
+    "published": "Mon, 20 Apr 2026 14:33:35 GMT",
+    "summary": "Strangers can infer limited info about you without knowing or messaging you, which could theoretically aid certain kinds of malicious activity."
+  },
+  {
+    "title": "How NIST's Cutback of CVE Handling Impacts Cyber Teams",
+    "link": "https://www.darkreading.com/threat-intelligence/nist-cutbacks-nvd-handling-impacts-cyber-teams",
+    "published": "Fri, 17 Apr 2026 19:51:57 GMT",
+    "summary": "Industry and ad hoc coalitions appear poised to help fill the gap created by NIST's decision to cut back on CVE data enrichment."
+  },
+  {
+    "title": "Tycoon 2FA Phishers Scatter, Adopt Device Code Phishing",
+    "link": "https://www.darkreading.com/threat-intelligence/tycoon-2fa-hackers-device-code-phishing",
+    "published": "Fri, 17 Apr 2026 19:05:51 GMT",
+    "summary": "In embracing device code phishing, attackers trick victims into handing over account access by using a service's legitimate new-device login flow."
+  },
+  {
+    "title": "Every Old Vulnerability Is Now an AI Vulnerability",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/every-old-vulnerability-ai-vulnerability",
+    "published": "Fri, 17 Apr 2026 14:47:18 GMT",
+    "summary": "AI's danger isn't that it's creating new bugs, it's that it's amplifying old ones."
+  },
+  {
+    "title": "Coast Guard's New Cybersecurity Rules Offer Lessons for CISOs",
+    "link": "https://www.darkreading.com/cybersecurity-operations/coast-guards-cybersecurity-rules-lessons-cisos",
+    "published": "Fri, 17 Apr 2026 13:00:00 GMT",
+    "summary": "The Maritime Transportation Security Act (MTSA) requires plans to protect OT systems, audits by independent third parties, and a hybrid OT-security role."
+  },
+  {
+    "title": "NIST Revamps CVE Framework to Focus on High-Impact Vulnerabilities",
+    "link": "https://www.darkreading.com/vulnerabilities-threats/nist-revamps-cve-framework-to-focus-on-high-impact-vulnerabilities",
+    "published": "Thu, 16 Apr 2026 21:47:31 GMT",
+    "summary": "The National Institute of Standards and Technology is carving a new path for vulnerability remediation by changing the way it prioritizes software flaws."
+  },
+  {
+    "title": "North Korea Uses ClickFix to Target macOS Users' Data",
+    "link": "https://www.darkreading.com/application-security/north-korea-clickfix-target-macos-users-data",
+    "published": "Thu, 16 Apr 2026 19:42:45 GMT",
+    "summary": "Sapphire Sleet uses fake job offers and phony Zoom updates to deliver ClickFix attacks that steal credentials and sensitive data from Macs."
+  }
+]

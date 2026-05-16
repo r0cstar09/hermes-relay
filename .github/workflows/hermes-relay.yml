@@ -5,6 +5,9 @@ on:
     - cron: '0 11 * * *'  # 11:00 AM EST (16:00 UTC) - EST is UTC-5, so 11AM EST = 16PM UTC
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   hermes-relay:
     runs-on: ubuntu-latest
@@ -17,6 +20,14 @@ jobs:
         with:
           python-version: '3.10'
 
+      - name: Authenticate to Google Cloud
+        id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          create_credentials_file: true
+          export_environment_variables: true
+
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
@@ -25,6 +36,10 @@ jobs:
       - name: Validate environment variables
         run: |
           echo "Checking required secrets..."
+          if [ -z "${{ secrets.GCP_SA_KEY }}" ]; then
+            echo "❌ GCP_SA_KEY is not set"
+            exit 1
+          fi
           if [ -z "${{ secrets.GOOGLE_CLOUD_PROJECT }}" ]; then
             echo "❌ GOOGLE_CLOUD_PROJECT is not set"
             exit 1
@@ -41,10 +56,12 @@ jobs:
 
       - name: Run Hermes Relay Orchestrator
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{ steps.auth.outputs.credentials_file_path }}
           GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
           GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
           VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
-          VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE || '' }}
+          VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE }}
           ICLOUD_EMAIL: ${{ secrets.ICLOUD_EMAIL }}
           ICLOUD_PASSWORD: ${{ secrets.ICLOUD_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
