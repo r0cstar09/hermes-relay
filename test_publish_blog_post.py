@@ -12,6 +12,7 @@ from publish_blog_post import (
     build_editor_prompt,
     choose_top_article,
     main,
+    parse_model_fallbacks,
     parse_articles,
     slugify,
     split_frontmatter,
@@ -106,6 +107,9 @@ class PublishBlogPostTests(unittest.TestCase):
         raw = b"fake-image-bytes"
         self.assertEqual(_image_bytes_from_generated_image(SimpleNamespace(image=SimpleNamespace(image_bytes=raw))), raw)
         self.assertEqual(_image_bytes_from_generated_image(SimpleNamespace(image=SimpleNamespace(image_bytes="ZmFrZS1pbWFnZS1ieXRlcw=="))), raw)
+
+    def test_parse_model_fallbacks_accepts_comma_separated_models(self):
+        self.assertEqual(parse_model_fallbacks("gemini-3.5-flash, gemini-2.5-pro"), ["gemini-3.5-flash", "gemini-2.5-pro"])
 
     def test_main_writes_schema_compatible_astro_markdown(self):
         with tempfile.TemporaryDirectory() as tmp:

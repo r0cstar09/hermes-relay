@@ -335,6 +335,10 @@ def extract_response_text(response) -> str:
     return "\n".join(parts).strip()
 
 
+def parse_model_fallbacks(value: str) -> list[str]:
+    return [model.strip() for model in value.split(",") if model.strip()]
+
+
 def build_editor_prompt(*, body: str, voice_profile: str, article: ArticleBlock) -> str:
     source_line = f"Source URL that must remain present if already in the draft: {article.source_url}" if article.source_url else "No source URL was matched for this article."
     return f"""You are editing a cybersecurity blog post for Tony.
@@ -376,18 +380,32 @@ def edit_markdown_with_vertex(markdown: str, *, editor_model: str, voice_profile
     voice_profile = voice_profile_path.read_text(encoding="utf-8")
     prompt = build_editor_prompt(body=body, voice_profile=voice_profile, article=article)
     client = genai.Client(vertexai=True, project=project, location=location)
-    print(f"Running Vertex blog editor pass with model: {editor_model}")
-    response = client.models.generate_content(
-        model=editor_model,
-        contents=prompt,
-        config=types.GenerateContentConfig(
-            temperature=0.6,
-            system_instruction=(
-                "You are a careful human editor for a cybersecurity practitioner's blog. "
-                "Preserve facts and links. Remove generic AI prose. Return only Markdown body."
-            ),
-        ),
-    )
+    response = None
+    last_error: Exception | None = None
+    for model in parse_model_fallbacks(editor_model):
+        try:
+            print(f"Running Vertex blog editor pass with model: {model}")
+            response = client.models.generate_content(
+                model=model,
+                contents=prompt,
+                config=types.GenerateContentConfig(
+                    temperature=0.6,
+                    system_instruction=(
+                        "You are a careful human editor for a cybersecurity practitioner's blog. "
+                        "Preserve facts and links. Remove generic AI prose. Return only Markdown body."
+                    ),
+                ),
+            )
+            break
+        except Exception as exc:
+            last_error = exc
+            message = str(exc)
+            if "404" in message or "NOT_FOUND" in message or "not found" in message.lower():
+                print(f"Vertex editor model unavailable: {model}; trying next fallback if configured.")
+                continue
+            raise
+    if response is None:
+        raise RuntimeError(f"No configured Vertex editor model succeeded: {last_error}")
     edited_body = extract_response_text(response)
     if not edited_body:
         raise ValueError("Vertex blog editor response did not contain text output")
