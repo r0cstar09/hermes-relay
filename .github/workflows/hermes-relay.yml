@@ -2,7 +2,7 @@ name: Hermes Relay
 
 on:
   schedule:
-    - cron: '0 11 * * *'  # 11:00 AM EST (16:00 UTC) - EST is UTC-5, so 11AM EST = 16PM UTC
+    - cron: '0 11 * * *'  # 11:00 UTC daily
   workflow_dispatch:
 
 permissions:
@@ -33,6 +33,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
+      - name: Run unit tests
+        run: python -m unittest discover -v
+
+      - name: Restore SQLite persistence cache
+        uses: actions/cache@v4
+        with:
+          path: hermes_relay.db*
+          key: hermes-relay-db-${{ github.run_id }}
+          restore-keys: |
+            hermes-relay-db-
+
       - name: Validate environment variables
         run: |
           echo "Checking required secrets..."
@@ -62,6 +73,7 @@ jobs:
           GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
           VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
           VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE }}
+          HERMES_RELAY_DB: hermes_relay.db
           ICLOUD_EMAIL: ${{ secrets.ICLOUD_EMAIL }}
           ICLOUD_PASSWORD: ${{ secrets.ICLOUD_PASSWORD }}
           EMAIL_RECIPIENT: ${{ secrets.EMAIL_RECIPIENT }}
@@ -80,6 +92,7 @@ jobs:
         with:
           name: hermes-relay-output
           path: |
+            hermes_relay.db*
             hermes_signal_*.json
             json_output/
           retention-days: 30

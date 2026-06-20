@@ -1,4 +1,7 @@
-venv/
-.env
 __pycache__/
-*.pyc
+*.py[cod]
+.env
+.venv/
+venv/
+hermes_relay.db*
+json_output/

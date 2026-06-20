@@ -4,7 +4,8 @@ Hermes Relay curates high-impact cybersecurity news and produces a daily executi
 
 ## What It Does
 - Pulls fresh stories from selected cybersecurity RSS feeds
-- Deduplicates against previously seen articles
+- Persists seen articles and briefing metadata in SQLite
+- Deduplicates against the persistent article history
 - Uses Google Vertex AI Gemini to score and summarize the top stories
 - Writes JSON + HTML briefing outputs and optionally emails the result
 
@@ -48,6 +49,22 @@ python orchestrator.py
 ```
 
 ## Pipeline Steps
-1. `hermes-relay.py` fetches and stores today's new articles
+1. `hermes-relay.py` fetches RSS articles, stores them in SQLite, and writes only first-seen articles for today's run
 2. `llm_score_and_summarize.py` builds a prompt and calls Vertex Gemini
-3. The script saves JSON/HTML output and sends email if SMTP vars are configured
+3. The script saves JSON/HTML output, records briefing metadata in SQLite, and sends email if SMTP vars are configured
+
+## Persistence
+Hermes Relay uses SQLite for durable history:
+
+- default path: `hermes_relay.db`
+- override path: `HERMES_RELAY_DB=/path/to/hermes_relay.db`
+- tables: `articles`, `briefings`, `metadata`
+
+On GitHub Actions, `hermes_relay.db*` is restored/saved with `actions/cache`, then uploaded as a workflow artifact with the JSON/HTML outputs. Locally, the DB file stays in the repo working directory but is ignored by git.
+
+This fixes the old artifact-only issue: daily runners can now remember articles that were already seen and avoid repeatedly drafting around the same stories.
+
+## Tests
+```bash
+python -m unittest discover -v
+```

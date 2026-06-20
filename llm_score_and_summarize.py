@@ -10,6 +10,8 @@ from email.mime.multipart import MIMEMultipart
 from google import genai
 from google.genai import types
 
+from hermes_store import connect, mark_articles_used, record_briefing
+
 # -----------------------------
 # CONFIG
 # -----------------------------
@@ -549,6 +551,34 @@ def send_email(html_content, subject="Daily Cybersecurity Briefing"):
         return False
 
 
+def email_configured():
+    return bool(ICLOUD_EMAIL and ICLOUD_PASSWORD)
+
+
+def persist_briefing_record(
+    *,
+    lens_name=None,
+    json_path=None,
+    html_path=None,
+    top_articles=None,
+    email_sent=False,
+):
+    """Persist briefing metadata so future runs have durable editorial history."""
+    with connect() as conn:
+        briefing_id = record_briefing(
+            conn,
+            run_date=today,
+            lens=lens_name,
+            model=MODEL_NAME,
+            json_path=str(json_path) if json_path else None,
+            html_path=str(html_path) if html_path else None,
+            top_articles=top_articles,
+            email_attempted=email_configured(),
+            email_sent=email_sent,
+        )
+    print(f"Persisted briefing metadata to SQLite row id {briefing_id}")
+
+
 # -----------------------------
 # MAIN
 # -----------------------------
@@ -585,8 +615,13 @@ def main():
             print("Using existing HTML file...")
             with open(html_file, "r", encoding="utf-8") as f:
                 html_email = f.read()
-            send_email(html_email)
-            print("Done! Email sent from existing file.")
+            email_sent = send_email(html_email)
+            persist_briefing_record(
+                html_path=html_file,
+                top_articles="existing HTML reused; no new articles",
+                email_sent=email_sent,
+            )
+            print("Done! Existing HTML handled.")
             return
         else:
             print("No HTML file exists and no new articles. Nothing to send.")
@@ -602,8 +637,14 @@ def main():
             if html_file.exists():
                 with open(html_file, "r", encoding="utf-8") as f:
                     html_email = f.read()
-                send_email(html_email)
-                print("Done! Email sent from existing file.")
+                email_sent = send_email(html_email)
+                persist_briefing_record(
+                    json_path=OUTPUT_FILE if OUTPUT_FILE.exists() else None,
+                    html_path=html_file,
+                    top_articles="existing HTML reused; output already up to date",
+                    email_sent=email_sent,
+                )
+                print("Done! Existing HTML handled.")
                 return
             elif OUTPUT_FILE.exists():
                 # Regenerate HTML from existing JSON
@@ -613,8 +654,15 @@ def main():
                 html_email = format_email_html(data["top_articles"], articles, lens_name=data.get("lens"))
                 with open(html_file, "w", encoding="utf-8") as f:
                     f.write(html_email)
-                send_email(html_email)
-                print("Done! Email sent from regenerated HTML.")
+                email_sent = send_email(html_email)
+                persist_briefing_record(
+                    lens_name=data.get("lens"),
+                    json_path=OUTPUT_FILE,
+                    html_path=html_file,
+                    top_articles=data.get("top_articles"),
+                    email_sent=email_sent,
+                )
+                print("Done! Regenerated HTML handled.")
                 return
     
     # Generate new summaries from today's new articles
@@ -655,8 +703,17 @@ def main():
             f.write(html_email)
         print(f"Saved HTML → {html_file}")
         
-        send_email(html_email)
-        print("Done! New summaries generated and email sent.")
+        email_sent = send_email(html_email)
+        with connect() as conn:
+            mark_articles_used(conn, articles)
+        persist_briefing_record(
+            lens_name=lens_name,
+            json_path=OUTPUT_FILE,
+            html_path=html_file,
+            top_articles=result,
+            email_sent=email_sent,
+        )
+        print("Done! New summaries generated and persisted.")
 
 
 if __name__ == "__main__":
