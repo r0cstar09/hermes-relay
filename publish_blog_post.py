@@ -10,6 +10,7 @@ and optionally commits/pushes the result.
 from __future__ import annotations
 
 import argparse
+import base64
 import json
 import os
 import re
@@ -25,6 +26,7 @@ DEFAULT_SITE_DIR = Path(os.getenv("OPPOSITE_OSIRIS_DIR", "/mnt/c/Users/antho/opp
 DEFAULT_BLOG_DIR = Path("src/content/blog")
 DEFAULT_VOICE_PROFILE = Path("prompts/tony_voice.md")
 DEFAULT_VERTEX_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1") or "us-central1"
+DEFAULT_IMAGE_MODEL = os.getenv("VERTEX_BLOG_IMAGE_MODEL")
 
 
 @dataclass
@@ -181,7 +183,14 @@ def choose_top_article(blocks: list[ArticleBlock]) -> ArticleBlock:
     return sorted(blocks, key=lambda b: b.score if b.score is not None else -1, reverse=True)[0]
 
 
-def build_markdown(article: ArticleBlock, run_date: str, lens: str | None, model: str | None) -> str:
+def build_markdown(
+    article: ArticleBlock,
+    run_date: str,
+    lens: str | None,
+    model: str | None,
+    hero_image: str | None = None,
+    hero_image_alt: str | None = None,
+) -> str:
     description = article.board_take or (article.key_takeaways[0] if article.key_takeaways else article.summary[:150])
     tags = ["cyber", "threat-intelligence", "defense"]
     body: list[str] = []
@@ -190,6 +199,9 @@ def build_markdown(article: ArticleBlock, run_date: str, lens: str | None, model
     body.append(f"description: {yaml_quote(description[:180])}")
     body.append(f"publishDate: {yaml_quote(run_date)}")
     body.append(f"tags: [{', '.join(yaml_quote(t) for t in tags)}]")
+    if hero_image:
+        body.append(f"img: {yaml_quote(hero_image)}")
+        body.append(f"img_alt: {yaml_quote(hero_image_alt or f'Abstract cyber defense illustration for {article.title}')}")
     body.append("---")
     body.append("")
     if article.board_take:
@@ -233,6 +245,72 @@ def build_markdown(article: ArticleBlock, run_date: str, lens: str | None, model
         body.append(f"\nPipeline note: {'; '.join(details)}.")
     body.append("")
     return "\n".join(body)
+
+
+def build_hero_image_prompt(article: ArticleBlock) -> str:
+    context = article.board_take or article.angle or article.summary[:220]
+    return f"""Create a 16:9 hero image for a cybersecurity practitioner's blog post.
+
+Article title: {article.title}
+Editorial angle: {context}
+
+Visual direction:
+- abstract cyber defense operations, not a literal news screenshot
+- network edge, telemetry streams, detection logic, incident-response pressure
+- dark navy/charcoal background with restrained cyan/teal/amber accents
+- premium editorial illustration, clean composition, high contrast
+- no humans, no faces, no company logos, no vendor names, no UI screenshots
+- no readable text, no fake CVE strings, no lock/key clichés
+- suitable for a professional portfolio/blog hero image
+"""
+
+
+def _image_bytes_from_generated_image(generated) -> bytes | None:
+    image = getattr(generated, "image", None)
+    if not image:
+        return None
+    raw = getattr(image, "image_bytes", None)
+    if isinstance(raw, bytes):
+        return raw
+    if isinstance(raw, str):
+        return base64.b64decode(raw)
+    return None
+
+
+def generate_hero_image_with_vertex(*, article: ArticleBlock, image_model: str, output_path: Path) -> str:
+    project = os.getenv("GOOGLE_CLOUD_PROJECT")
+    location = DEFAULT_VERTEX_LOCATION
+    if not project:
+        raise EnvironmentError("GOOGLE_CLOUD_PROJECT is required for the Vertex blog hero image pass")
+
+    from google import genai
+    from google.genai import types
+
+    prompt = build_hero_image_prompt(article)
+    client = genai.Client(vertexai=True, project=project, location=location)
+    print(f"Running Vertex blog hero image pass with model: {image_model}")
+    response = client.models.generate_images(
+        model=image_model,
+        prompt=prompt,
+        config=types.GenerateImagesConfig(
+            number_of_images=1,
+            aspect_ratio="16:9",
+            output_mime_type="image/png",
+            add_watermark=False,
+            enhance_prompt=True,
+        ),
+    )
+    generated_images = getattr(response, "generated_images", None) or []
+    for generated in generated_images:
+        data = _image_bytes_from_generated_image(generated)
+        if data:
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            output_path.write_bytes(data)
+            return output_path.as_posix()
+    reasons = [getattr(item, "rai_filtered_reason", None) for item in generated_images]
+    reasons = [reason for reason in reasons if reason]
+    suffix = f": {'; '.join(reasons)}" if reasons else ""
+    raise ValueError(f"Vertex image generation did not return image bytes{suffix}")
 
 
 def split_frontmatter(markdown: str) -> tuple[str, str]:
@@ -336,9 +414,11 @@ def run(cmd: list[str], cwd: Path, check: bool = True) -> subprocess.CompletedPr
     return proc
 
 
-def maybe_commit_and_push(site_dir: Path, post_path: Path, message: str, push: bool) -> None:
-    rel = post_path.relative_to(site_dir)
-    run(["git", "add", str(rel)], cwd=site_dir)
+def maybe_commit_and_push(site_dir: Path, paths: Path | list[Path], message: str, push: bool) -> None:
+    if isinstance(paths, Path):
+        paths = [paths]
+    rel_paths = [str(path.relative_to(site_dir)) for path in paths]
+    run(["git", "add", *rel_paths], cwd=site_dir)
     diff = run(["git", "diff", "--cached", "--quiet"], cwd=site_dir, check=False)
     if diff.returncode == 0:
         print("No blog changes to commit.")
@@ -358,6 +438,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--editor-model", default=os.getenv("VERTEX_BLOG_EDITOR_MODEL"), help="Optional Vertex model for final Tony-voice editor pass")
     parser.add_argument("--voice-profile", type=Path, default=DEFAULT_VOICE_PROFILE, help="Markdown voice profile for the editor pass")
     parser.add_argument("--skip-editor", action="store_true", help="Disable the Vertex final editor pass even if --editor-model/env is set")
+    parser.add_argument("--image-model", default=DEFAULT_IMAGE_MODEL, help="Optional Vertex image model for blog hero image generation")
+    parser.add_argument("--image-dir", type=Path, default=Path("public/assets/blog/hermes-relay"), help="Site-relative public directory for generated hero images")
+    parser.add_argument("--skip-image", action="store_true", help="Disable the Vertex hero image pass even if --image-model/env is set")
     parser.add_argument("--commit", action="store_true", help="Commit the generated post in the Astro site repo")
     parser.add_argument("--push", action="store_true", help="Push the commit to origin main; implies --commit")
     args = parser.parse_args(argv)
@@ -375,15 +458,27 @@ def main(argv: list[str] | None = None) -> int:
 
     selected = choose_top_article(parse_articles(llm_text, signal_articles))
     slug = f"{run_date}-{slugify(selected.title)}.md"
+    slug_stem = slug[:-3]
     site_dir = args.site_dir.resolve()
     blog_dir = site_dir / args.blog_dir
     blog_dir.mkdir(parents=True, exist_ok=True)
     post_path = blog_dir / slug
+    hero_image = None
+    hero_image_alt = None
+    hero_image_path = None
+    if args.image_model and not args.skip_image:
+        hero_image_path = site_dir / args.image_dir / f"{slug_stem}.png"
+        generate_hero_image_with_vertex(article=selected, image_model=args.image_model, output_path=hero_image_path)
+        public_dir = site_dir / "public"
+        hero_image = "/" + hero_image_path.relative_to(public_dir).as_posix()
+        hero_image_alt = f"Abstract cyber defense illustration for {selected.title}"
     markdown = build_markdown(
         selected,
         run_date=run_date,
         lens=briefing_data.get("lens"),
         model=os.getenv("VERTEX_MODEL_RESOURCE") or os.getenv("VERTEX_MODEL"),
+        hero_image=hero_image,
+        hero_image_alt=hero_image_alt,
     )
     if args.editor_model and not args.skip_editor:
         markdown = edit_markdown_with_vertex(
@@ -401,9 +496,12 @@ def main(argv: list[str] | None = None) -> int:
     if args.push:
         args.commit = True
     if args.commit:
+        commit_paths = [post_path]
+        if hero_image_path:
+            commit_paths.append(hero_image_path)
         maybe_commit_and_push(
             site_dir,
-            post_path,
+            commit_paths,
             message=f"Publish Hermes Relay blog post for {run_date}",
             push=args.push,
         )

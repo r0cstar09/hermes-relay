@@ -3,8 +3,12 @@ import os
 import tempfile
 import unittest
 from pathlib import Path
+from types import SimpleNamespace
 
 from publish_blog_post import (
+    _image_bytes_from_generated_image,
+    build_hero_image_prompt,
+    build_markdown,
     build_editor_prompt,
     choose_top_article,
     main,
@@ -76,6 +80,32 @@ class PublishBlogPostTests(unittest.TestCase):
         self.assertIn("Tony says the dashboard is not the control", prompt)
         self.assertIn("Do not add facts", prompt)
         self.assertIn("https://example.com/vpn", prompt)
+
+    def test_markdown_can_include_generated_hero_image_frontmatter(self):
+        selected = choose_top_article(parse_articles(SAMPLE_LLM, []))
+        markdown = build_markdown(
+            selected,
+            run_date="2026-06-20",
+            lens=None,
+            model="gemini-2.5-flash",
+            hero_image="/assets/blog/hermes-relay/2026-06-20-critical-vpn-bug-now-exploited.png",
+            hero_image_alt="Abstract cyber defense illustration for Critical VPN Bug Now Exploited",
+        )
+        self.assertIn('img: "/assets/blog/hermes-relay/2026-06-20-critical-vpn-bug-now-exploited.png"', markdown)
+        self.assertIn('img_alt: "Abstract cyber defense illustration for Critical VPN Bug Now Exploited"', markdown)
+
+    def test_hero_image_prompt_avoids_text_logos_and_people(self):
+        selected = choose_top_article(parse_articles(SAMPLE_LLM, []))
+        prompt = build_hero_image_prompt(selected)
+        self.assertIn("16:9", prompt)
+        self.assertIn("no humans", prompt)
+        self.assertIn("no company logos", prompt)
+        self.assertIn("no readable text", prompt)
+
+    def test_image_bytes_helper_accepts_bytes_and_base64(self):
+        raw = b"fake-image-bytes"
+        self.assertEqual(_image_bytes_from_generated_image(SimpleNamespace(image=SimpleNamespace(image_bytes=raw))), raw)
+        self.assertEqual(_image_bytes_from_generated_image(SimpleNamespace(image=SimpleNamespace(image_bytes="ZmFrZS1pbWFnZS1ieXRlcw=="))), raw)
 
     def test_main_writes_schema_compatible_astro_markdown(self):
         with tempfile.TemporaryDirectory() as tmp:

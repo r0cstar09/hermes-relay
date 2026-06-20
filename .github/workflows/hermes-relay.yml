@@ -120,6 +120,7 @@ jobs:
           VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
           VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE }}
           VERTEX_BLOG_EDITOR_MODEL: ${{ secrets.VERTEX_BLOG_EDITOR_MODEL || 'gemini-3.5-flash' }}
+          VERTEX_BLOG_IMAGE_MODEL: ${{ secrets.VERTEX_BLOG_IMAGE_MODEL || 'imagen-4.0-generate-001' }}
         run: |
           git -C opposite-osiris-site config user.name "Hermes Relay Bot"
           git -C opposite-osiris-site config user.email "actions@github.com"
@@ -135,6 +136,7 @@ jobs:
             --signal-json "${signal_json}" \
             --site-dir opposite-osiris-site \
             --editor-model "${VERTEX_BLOG_EDITOR_MODEL}" \
+            --image-model "${VERTEX_BLOG_IMAGE_MODEL}" \
             --voice-profile prompts/tony_voice.md \
             --verify-build \
             --commit \
