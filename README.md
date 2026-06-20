@@ -24,7 +24,7 @@ Optional:
 - `GOOGLE_CLOUD_LOCATION` - Vertex region (default: `us-central1`)
 - `VERTEX_MODEL` - draft/ranking model ID (default: `gemini-2.5-flash`)
 - `VERTEX_MODEL_RESOURCE` - full Vertex model resource name override (if set, this takes precedence over `VERTEX_MODEL`)
-- `VERTEX_BLOG_EDITOR_MODEL` - stronger Vertex model used for final Tony-voice blog editing (GitHub Actions default: `gemini-2.5-pro`)
+- `VERTEX_BLOG_EDITOR_MODEL` - stronger Vertex model used for final Tony-voice blog editing (GitHub Actions default: `gemini-3.5-flash`)
 - `ICLOUD_EMAIL`, `ICLOUD_PASSWORD`, `EMAIL_RECIPIENT` - only required for SMTP email delivery
 - `OPPOSITE_OSIRIS_DIR` - local path to the Astro site when running `publish_blog_post.py` manually (default: `/mnt/c/Users/antho/opposite-osiris`)
 - GitHub secret `OPPOSITE_OSIRIS_PAT` - fine-grained token with contents read/write on `r0cstar09/opposite-osiris`; required for scheduled cross-repo blog publishing
@@ -64,7 +64,7 @@ Manual local publish after a briefing exists:
 ```bash
 python publish_blog_post.py \
   --site-dir /mnt/c/Users/antho/opposite-osiris \
-  --editor-model "${VERTEX_BLOG_EDITOR_MODEL:-gemini-2.5-pro}" \
+  --editor-model "${VERTEX_BLOG_EDITOR_MODEL:-gemini-3.5-flash}" \
   --voice-profile prompts/tony_voice.md \
   --verify-build \
   --commit \
