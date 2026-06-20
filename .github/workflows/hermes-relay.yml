@@ -11,6 +11,8 @@ permissions:
 jobs:
   hermes-relay:
     runs-on: ubuntu-latest
+    env:
+      OPPOSITE_OSIRIS_PAT: ${{ secrets.OPPOSITE_OSIRIS_PAT }}
 
     steps:
       - uses: actions/checkout@v4
@@ -32,6 +34,27 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
+
+      - name: Checkout opposite-osiris blog repo
+        if: env.OPPOSITE_OSIRIS_PAT != ''
+        uses: actions/checkout@v4
+        with:
+          repository: r0cstar09/opposite-osiris
+          token: ${{ secrets.OPPOSITE_OSIRIS_PAT }}
+          path: opposite-osiris-site
+
+      - name: Set up Node for opposite-osiris
+        if: env.OPPOSITE_OSIRIS_PAT != ''
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: opposite-osiris-site/package-lock.json
+
+      - name: Install opposite-osiris dependencies
+        if: env.OPPOSITE_OSIRIS_PAT != ''
+        working-directory: opposite-osiris-site
+        run: npm ci
 
       - name: Run unit tests
         run: python -m unittest discover -v
@@ -86,6 +109,33 @@ jobs:
             echo "Using VERTEX_MODEL_RESOURCE override"
           fi
           python orchestrator.py
+
+      - name: Publish top story to opposite-osiris blog
+        if: env.OPPOSITE_OSIRIS_PAT != ''
+        env:
+          VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
+          VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE }}
+        run: |
+          git -C opposite-osiris-site config user.name "Hermes Relay Bot"
+          git -C opposite-osiris-site config user.email "actions@github.com"
+          today=$(date -u +%F)
+          briefing_json="json_output/${today}/hermes_llm_top3_${today}.json"
+          signal_json="hermes_signal_${today}.json"
+          if [ ! -f "${briefing_json}" ] || [ ! -f "${signal_json}" ]; then
+            echo "No current-day briefing/signal files found; skipping blog publish."
+            exit 0
+          fi
+          python publish_blog_post.py \
+            --briefing-json "${briefing_json}" \
+            --signal-json "${signal_json}" \
+            --site-dir opposite-osiris-site \
+            --verify-build \
+            --commit \
+            --push
+
+      - name: Skip blog publishing when opposite-osiris token is missing
+        if: env.OPPOSITE_OSIRIS_PAT == ''
+        run: echo "OPPOSITE_OSIRIS_PAT is not configured; skipping blog publish."
 
       - name: Upload output artifacts
         uses: actions/upload-artifact@v4
