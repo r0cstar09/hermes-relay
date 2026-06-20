@@ -23,6 +23,8 @@ from typing import Iterable
 
 DEFAULT_SITE_DIR = Path(os.getenv("OPPOSITE_OSIRIS_DIR", "/mnt/c/Users/antho/opposite-osiris"))
 DEFAULT_BLOG_DIR = Path("src/content/blog")
+DEFAULT_VOICE_PROFILE = Path("prompts/tony_voice.md")
+DEFAULT_VERTEX_LOCATION = os.getenv("GOOGLE_CLOUD_LOCATION", "us-central1") or "us-central1"
 
 
 @dataclass
@@ -193,31 +195,33 @@ def build_markdown(article: ArticleBlock, run_date: str, lens: str | None, model
     if article.board_take:
         body.append(f"> {article.board_take}")
         body.append("")
-    body.append("Hermes Relay surfaced this as the highest-priority cyber story in today's feed. The useful question is not just what happened, but what a defender should do with the signal.")
+    body.append("The headline is the easy part. The useful question is what this story exposes about how security programs actually work under pressure.")
     body.append("")
     body.append("## What happened")
     body.append("")
     body.append(article.summary.strip())
     body.append("")
     if article.key_takeaways:
-        body.append("## Why it matters")
+        body.append("## What people will get wrong")
+        body.append("")
+        body.append("The common mistake is treating this as a standalone news item instead of a test of ownership, visibility, and response discipline.")
         body.append("")
         for takeaway in article.key_takeaways[:4]:
             body.append(f"- {takeaway}")
         body.append("")
     commentary = article.variant_a or article.variant_b
     if commentary:
-        body.append("## Practitioner take")
+        body.append("## Practitioner lens")
         body.append("")
         body.append(commentary.strip())
         body.append("")
     body.append("## What I would watch next")
     body.append("")
-    body.append("The next useful signal is whether this turns into repeatable attacker tradecraft, a one-off disclosure, or a control-validation problem for teams that assumed they already had coverage. I would use it as a prompt to verify exposure, confirm logging, and make sure the response path is owned before the story fades from the feed.")
+    body.append("The next useful signal is whether this becomes repeatable attacker tradecraft, a one-off disclosure, or a control-validation problem for teams that assumed they already had coverage. I would use it as a prompt to verify exposure, confirm logging, and make sure the response path is owned before the story fades from the feed.")
     body.append("")
     body.append("---")
     body.append("")
-    body.append("*Generated from Hermes Relay's daily cyber briefing and reviewed through a practitioner lens before publishing to this blog.*")
+    body.append("*Generated from Hermes Relay's daily cyber briefing and edited through Tony's practitioner voice profile before publishing to this blog.*")
     if article.source_url:
         body.append(f"\nSource: [{article.title}]({article.source_url})")
     if lens or model:
@@ -225,10 +229,99 @@ def build_markdown(article: ArticleBlock, run_date: str, lens: str | None, model
         if lens:
             details.append(f"lens: {lens}")
         if model:
-            details.append(f"model: {model}")
+            details.append(f"draft model: {model}")
         body.append(f"\nPipeline note: {'; '.join(details)}.")
     body.append("")
     return "\n".join(body)
+
+
+def split_frontmatter(markdown: str) -> tuple[str, str]:
+    if not markdown.startswith("---\n"):
+        return "", markdown
+    end = markdown.find("\n---\n", 4)
+    if end == -1:
+        return "", markdown
+    return markdown[: end + len("\n---\n")], markdown[end + len("\n---\n") :]
+
+
+def extract_response_text(response) -> str:
+    if getattr(response, "text", None):
+        return response.text.strip()
+    parts: list[str] = []
+    for candidate in getattr(response, "candidates", []) or []:
+        content = getattr(candidate, "content", None)
+        for part in getattr(content, "parts", []) or []:
+            text = getattr(part, "text", None)
+            if text:
+                parts.append(text)
+    return "\n".join(parts).strip()
+
+
+def build_editor_prompt(*, body: str, voice_profile: str, article: ArticleBlock) -> str:
+    source_line = f"Source URL that must remain present if already in the draft: {article.source_url}" if article.source_url else "No source URL was matched for this article."
+    return f"""You are editing a cybersecurity blog post for Tony.
+
+Use the voice profile below as the target. Do not copy the profile phrases mechanically; use it to match directness, skepticism, rhythm, and word choice.
+
+{voice_profile}
+
+Editing task:
+- Rewrite the draft body so it sounds like Tony, not an AI-generated cyber summary.
+- Make one clear practitioner argument.
+- Keep the factual recap short.
+- Preserve Markdown headings unless changing a heading makes the argument clearer.
+- Preserve source links, the disclosure note, and pipeline note if present.
+- Do not add facts, CVEs, vendors, dates, numbers, breach details, exploit mechanics, quotes, or source claims that are not already in the draft.
+- Keep it publishable as a blog post, not LinkedIn.
+- Return Markdown body only. Do not return YAML frontmatter. Do not wrap in code fences.
+
+{source_line}
+
+Draft body:
+
+{body}
+"""
+
+
+def edit_markdown_with_vertex(markdown: str, *, editor_model: str, voice_profile_path: Path, article: ArticleBlock) -> str:
+    project = os.getenv("GOOGLE_CLOUD_PROJECT")
+    location = DEFAULT_VERTEX_LOCATION
+    if not project:
+        raise EnvironmentError("GOOGLE_CLOUD_PROJECT is required for the Vertex blog editor pass")
+    if not voice_profile_path.exists():
+        raise FileNotFoundError(f"Voice profile not found: {voice_profile_path}")
+
+    from google import genai
+    from google.genai import types
+
+    frontmatter, body = split_frontmatter(markdown)
+    voice_profile = voice_profile_path.read_text(encoding="utf-8")
+    prompt = build_editor_prompt(body=body, voice_profile=voice_profile, article=article)
+    client = genai.Client(vertexai=True, project=project, location=location)
+    print(f"Running Vertex blog editor pass with model: {editor_model}")
+    response = client.models.generate_content(
+        model=editor_model,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            temperature=0.6,
+            system_instruction=(
+                "You are a careful human editor for a cybersecurity practitioner's blog. "
+                "Preserve facts and links. Remove generic AI prose. Return only Markdown body."
+            ),
+        ),
+    )
+    edited_body = extract_response_text(response)
+    if not edited_body:
+        raise ValueError("Vertex blog editor response did not contain text output")
+    edited_body = re.sub(r"^```(?:markdown|md)?\s*", "", edited_body.strip(), flags=re.I)
+    edited_body = re.sub(r"\s*```$", "", edited_body.strip())
+    if article.source_url and article.source_url not in edited_body and article.source_url in body:
+        print("Editor removed source URL; restoring source/footer from draft body.")
+        for line in body.splitlines():
+            if article.source_url in line:
+                edited_body = edited_body.rstrip() + "\n\n" + line.strip() + "\n"
+                break
+    return frontmatter + edited_body.strip() + "\n"
 
 
 def run(cmd: list[str], cwd: Path, check: bool = True) -> subprocess.CompletedProcess:
@@ -262,6 +355,9 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--site-dir", type=Path, default=DEFAULT_SITE_DIR)
     parser.add_argument("--blog-dir", type=Path, default=DEFAULT_BLOG_DIR)
     parser.add_argument("--verify-build", action="store_true", help="Run npm run build in the Astro site")
+    parser.add_argument("--editor-model", default=os.getenv("VERTEX_BLOG_EDITOR_MODEL"), help="Optional Vertex model for final Tony-voice editor pass")
+    parser.add_argument("--voice-profile", type=Path, default=DEFAULT_VOICE_PROFILE, help="Markdown voice profile for the editor pass")
+    parser.add_argument("--skip-editor", action="store_true", help="Disable the Vertex final editor pass even if --editor-model/env is set")
     parser.add_argument("--commit", action="store_true", help="Commit the generated post in the Astro site repo")
     parser.add_argument("--push", action="store_true", help="Push the commit to origin main; implies --commit")
     args = parser.parse_args(argv)
@@ -289,6 +385,13 @@ def main(argv: list[str] | None = None) -> int:
         lens=briefing_data.get("lens"),
         model=os.getenv("VERTEX_MODEL_RESOURCE") or os.getenv("VERTEX_MODEL"),
     )
+    if args.editor_model and not args.skip_editor:
+        markdown = edit_markdown_with_vertex(
+            markdown,
+            editor_model=args.editor_model,
+            voice_profile_path=args.voice_profile,
+            article=selected,
+        )
     post_path.write_text(markdown, encoding="utf-8")
     print(f"Published blog markdown -> {post_path}")
 

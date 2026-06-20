@@ -113,8 +113,13 @@ jobs:
       - name: Publish top story to opposite-osiris blog
         if: env.OPPOSITE_OSIRIS_PAT != ''
         env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ steps.auth.outputs.credentials_file_path }}
+          CLOUDSDK_AUTH_CREDENTIAL_FILE_OVERRIDE: ${{ steps.auth.outputs.credentials_file_path }}
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+          GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
           VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
           VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE }}
+          VERTEX_BLOG_EDITOR_MODEL: ${{ secrets.VERTEX_BLOG_EDITOR_MODEL || 'gemini-2.5-pro' }}
         run: |
           git -C opposite-osiris-site config user.name "Hermes Relay Bot"
           git -C opposite-osiris-site config user.email "actions@github.com"
@@ -129,6 +134,8 @@ jobs:
             --briefing-json "${briefing_json}" \
             --signal-json "${signal_json}" \
             --site-dir opposite-osiris-site \
+            --editor-model "${VERTEX_BLOG_EDITOR_MODEL}" \
+            --voice-profile prompts/tony_voice.md \
             --verify-build \
             --commit \
             --push

@@ -4,7 +4,14 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from publish_blog_post import parse_articles, choose_top_article, slugify, main
+from publish_blog_post import (
+    build_editor_prompt,
+    choose_top_article,
+    main,
+    parse_articles,
+    slugify,
+    split_frontmatter,
+)
 
 
 SAMPLE_LLM = """1) Critical VPN Bug Now Exploited
@@ -56,6 +63,19 @@ class PublishBlogPostTests(unittest.TestCase):
         self.assertEqual(selected.source_url, "https://example.com/vpn")
         self.assertIsNotNone(selected.board_take)
         self.assertIn("incident-response", selected.board_take or "")
+
+    def test_split_frontmatter_keeps_schema_separate_from_editor_body(self):
+        markdown = '---\ntitle: "A"\npublishDate: "2026-06-20"\n---\n\nBody text'
+        frontmatter, body = split_frontmatter(markdown)
+        self.assertIn('title: "A"', frontmatter)
+        self.assertEqual(body, "\nBody text")
+
+    def test_editor_prompt_uses_voice_profile_and_forbids_new_facts(self):
+        selected = choose_top_article(parse_articles(SAMPLE_LLM, [{"title": "Critical VPN Bug Now Exploited", "link": "https://example.com/vpn"}]))
+        prompt = build_editor_prompt(body="## Draft\nSource: https://example.com/vpn", voice_profile="Tony says the dashboard is not the control.", article=selected)
+        self.assertIn("Tony says the dashboard is not the control", prompt)
+        self.assertIn("Do not add facts", prompt)
+        self.assertIn("https://example.com/vpn", prompt)
 
     def test_main_writes_schema_compatible_astro_markdown(self):
         with tempfile.TemporaryDirectory() as tmp:
