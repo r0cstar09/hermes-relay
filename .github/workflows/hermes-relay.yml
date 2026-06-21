@@ -128,8 +128,10 @@ jobs:
           briefing_json="json_output/${today}/hermes_llm_top3_${today}.json"
           signal_json="hermes_signal_${today}.json"
           if [ ! -f "${briefing_json}" ] || [ ! -f "${signal_json}" ]; then
-            echo "No current-day briefing/signal files found; skipping blog publish."
-            exit 0
+            echo "❌ No current-day briefing/signal files found; failing instead of silently skipping blog publish."
+            echo "Expected briefing: ${briefing_json}"
+            echo "Expected signal: ${signal_json}"
+            exit 1
           fi
           python publish_blog_post.py \
             --briefing-json "${briefing_json}" \

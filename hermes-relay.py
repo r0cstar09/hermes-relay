@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from datetime import datetime, timezone
 
 import feedparser
 
@@ -19,11 +19,50 @@ FEEDS = [
 ]
 
 # Output file
-TODAY = datetime.utcnow().strftime("%Y-%m-%d")
+TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 OUTPUT_JSON = f"hermes_signal_{TODAY}.json"
+RUN_STARTED_AT = datetime.now(timezone.utc).isoformat(timespec="seconds")
 
-# Holds current-run new items only
+# Holds current-run new items or selected unbriefed backlog items.
 all_items = []
+
+
+def row_to_article(row):
+    return {
+        "title": row["title"],
+        "link": row["link"],
+        "published": row["published"] or "",
+        "summary": row["summary"] or "",
+        "source_feed": row["source_feed"] or "sqlite-backlog",
+    }
+
+
+def load_unbriefed_backlog(conn, *, since=None, limit=40):
+    """Return unused articles from SQLite so no-new-feed days still publish.
+
+    RSS front pages often keep the same high-value stories visible for several
+    days. If the scheduled runner has already seen those links but never used
+    them in a briefing, treating "no first-seen articles" as success silently
+    skips the blog. Prefer unused articles touched during this run, then fall
+    back to the freshest unused backlog.
+    """
+    params = []
+    where = "WHERE used_in_briefing = 0"
+    if since:
+        where += " AND last_seen_at >= ?"
+        params.append(since)
+    params.append(limit)
+    rows = conn.execute(
+        f"""
+        SELECT title, link, source_feed, published, summary, first_seen_at, last_seen_at
+        FROM articles
+        {where}
+        ORDER BY last_seen_at DESC, first_seen_at DESC
+        LIMIT ?
+        """,
+        params,
+    ).fetchall()
+    return [row_to_article(row) for row in rows]
 
 
 def bootstrap_database():
@@ -85,13 +124,30 @@ def fetch_and_parse():
             except Exception as e:
                 print(f"Error fetching {url}: {e}")
                 continue
+
+        print(
+            f"\nFound {new_count} first-seen article(s), "
+            f"skipped {skipped_count} article(s) already in SQLite history"
+        )
+
+        if not all_items:
+            touched_unused = load_unbriefed_backlog(conn, since=RUN_STARTED_AT)
+            if touched_unused:
+                all_items.extend(touched_unused)
+                print(
+                    "No first-seen articles; using "
+                    f"{len(touched_unused)} unbriefed article(s) still visible in feeds."
+                )
+            else:
+                backlog = load_unbriefed_backlog(conn)
+                if backlog:
+                    all_items.extend(backlog)
+                    print(
+                        "No first-seen or currently visible unused articles; using "
+                        f"{len(backlog)} freshest unbriefed backlog article(s)."
+                    )
     finally:
         conn.close()
-
-    print(
-        f"\nFound {new_count} first-seen article(s), "
-        f"skipped {skipped_count} article(s) already in SQLite history"
-    )
 
 
 def save_output():
