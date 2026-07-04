@@ -231,19 +231,11 @@ def build_markdown(
     body.append("")
     body.append("The next useful signal is whether this becomes repeatable attacker tradecraft, a one-off disclosure, or a control-validation problem for teams that assumed they already had coverage. I would use it as a prompt to verify exposure, confirm logging, and make sure the response path is owned before the story fades from the feed.")
     body.append("")
-    body.append("---")
-    body.append("")
-    body.append("*Generated from Hermes Relay's daily cyber briefing and edited through Tony's practitioner voice profile before publishing to this blog.*")
     if article.source_url:
-        body.append(f"\nSource: [{article.title}]({article.source_url})")
-    if lens or model:
-        details = []
-        if lens:
-            details.append(f"lens: {lens}")
-        if model:
-            details.append(f"draft model: {model}")
-        body.append(f"\nPipeline note: {'; '.join(details)}.")
-    body.append("")
+        body.append("---")
+        body.append("")
+        body.append(f"Source: [{article.title}]({article.source_url})")
+        body.append("")
     return "\n".join(body)
 
 
@@ -352,7 +344,7 @@ Editing task:
 - Make one clear practitioner argument.
 - Keep the factual recap short.
 - Preserve Markdown headings unless changing a heading makes the argument clearer.
-- Preserve source links, the disclosure note, and pipeline note if present.
+- Preserve source links if present.
 - Do not add facts, CVEs, vendors, dates, numbers, breach details, exploit mechanics, quotes, or source claims that are not already in the draft.
 - Keep it publishable as a blog post, not LinkedIn.
 - Return Markdown body only. Do not return YAML frontmatter. Do not wrap in code fences.
