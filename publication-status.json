@@ -1,11 +1,12 @@
 {
-  "title": "Widespread PHP Flaw May Cause Many Site Outages Today",
+  "title": "PHP2Shell: AI-assisted discovery is only half the security story",
   "date": "2026-10-26",
   "url": "https://www.tonymuzo.dev/blog/2026-10-26-widespread-php-flaw-may-cause-many-site-outages-today/",
   "source_urls": [
-    "https://krebsonsecurity.com/2026/10/widespread-php-flaw-may-cause-many-site-outages-today/"
+    "https://krebsonsecurity.com/2026/10/widespread-php-flaw-may-cause-many-site-outages-today/",
+    "https://openai.com/index/coordinated-disclosure-of-critical-vulnerabilities/"
   ],
-  "image_sha256": "ffeaa1e54d85e232b376b75bf8b6e5dc1ce4661518ce9a1c46ca93106b06eb38",
-  "blog_commit": "8f65274e16c92c736d24f97d18de03d482051f95",
-  "verified_at": "2026-10-26T22:40:49.932531+00:00"
+  "image_sha256": "44a7c768a2f086a72357f13d16b490e516be62a42a7c0c9bfeb8869737ed9f34",
+  "blog_commit": "5cddfa5874fe979b6420eb49ce0ccf5989568c8f",
+  "verified_at": "2026-10-26T22:55:55.099802+00:00"
 }
