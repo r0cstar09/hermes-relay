@@ -1,6 +1,14 @@
 # Hermes Relay
 
-Hermes Relay curates high-impact cybersecurity news and produces a daily executive-ready briefing.
+Hermes Relay curates substantive AI, builder, and cybersecurity developments into a source-backed daily practitioner briefing.
+
+## Website publication operating mode
+
+Tony has authorized **automatic daily website updates**. The repository-owned GitHub Actions workflow runs at **11:00 UTC daily**, independently of Alienware or the legacy VPS editorial cockpit. LinkedIn is never automatically posted; this website repair does not re-enable the separate email digest.
+
+A successful run means the Astro build passed, the post was pushed, and the actual public article title, source links, and exact hero-image bytes were verified. `publication-status.json` records that receipt; committing the receipt also keeps this scheduled repository active. The workflow is serialized and checks for an existing same-day post, so a retry verifies the existing edition instead of generating another.
+
+An unavailable Vertex hero-image service falls back to a local SVG editorial cover; it must not prevent a source-backed story from publishing. Editorial and source-validation failures still stop publication. Diagnostics are uploaded even on failure. Review the [workflow runs](https://github.com/r0cstar09/hermes-relay/actions/workflows/hermes-relay.yml) and `publication-status.json` for the last genuinely verified publication, not just a green collector run.
 
 ## What It Does
 - Pulls fresh stories from selected cybersecurity RSS feeds

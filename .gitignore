@@ -4,4 +4,5 @@ __pycache__/
 .venv/
 venv/
 hermes_relay.db*
+hermes_signal_*.json
 json_output/

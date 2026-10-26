@@ -4,6 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import patch
 
 from publish_blog_post import (
     _image_bytes_from_generated_image,
@@ -16,6 +17,7 @@ from publish_blog_post import (
     parse_articles,
     slugify,
     split_frontmatter,
+    write_editorial_svg_fallback,
 )
 
 
@@ -80,6 +82,8 @@ class PublishBlogPostTests(unittest.TestCase):
         prompt = build_editor_prompt(body="## Draft\nSource: https://example.com/vpn", voice_profile="Tony says the dashboard is not the control.", article=selected)
         self.assertIn("Tony says the dashboard is not the control", prompt)
         self.assertIn("Do not add facts", prompt)
+        self.assertIn("story-specific argument", prompt)
+        self.assertIn("Never pretend Tony personally", prompt)
         self.assertIn("https://example.com/vpn", prompt)
 
     def test_markdown_can_include_generated_hero_image_frontmatter(self):
@@ -107,6 +111,19 @@ class PublishBlogPostTests(unittest.TestCase):
         raw = b"fake-image-bytes"
         self.assertEqual(_image_bytes_from_generated_image(SimpleNamespace(image=SimpleNamespace(image_bytes=raw))), raw)
         self.assertEqual(_image_bytes_from_generated_image(SimpleNamespace(image=SimpleNamespace(image_bytes="ZmFrZS1pbWFnZS1ieXRlcw=="))), raw)
+
+    def test_svg_fallback_is_deterministic_and_escapes_title(self):
+        selected = choose_top_article(parse_articles(SAMPLE_LLM, []))
+        selected.title = '<script>alert("x")</script> & VPN'
+        with tempfile.TemporaryDirectory() as tmp:
+            first = Path(tmp) / "first.svg"
+            second = Path(tmp) / "second.svg"
+            write_editorial_svg_fallback(article=selected, output_path=first)
+            write_editorial_svg_fallback(article=selected, output_path=second)
+            first_text = first.read_text(encoding="utf-8")
+            self.assertEqual(first_text, second.read_text(encoding="utf-8"))
+            self.assertIn('&lt;script&gt;alert(&quot;x&quot;)&lt;/script&gt; &amp; VPN', first_text)
+            self.assertNotIn('<script>', first_text)
 
     def test_parse_model_fallbacks_accepts_comma_separated_models(self):
         self.assertEqual(parse_model_fallbacks("gemini-3.5-flash, gemini-2.5-pro"), ["gemini-3.5-flash", "gemini-2.5-pro"])
@@ -147,6 +164,68 @@ class PublishBlogPostTests(unittest.TestCase):
             self.assertNotIn("Pipeline note", text)
             self.assertNotIn("draft model", text)
             self.assertNotIn("gemini", text.lower())
+
+    def test_main_uses_svg_fallback_when_vertex_image_generation_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site = root / "opposite-osiris"
+            (site / "src/content/blog").mkdir(parents=True)
+            briefing = root / "hermes_llm_top3_2026-06-20.json"
+            briefing.write_text(
+                json.dumps({"date": "2026-06-20", "top_articles": SAMPLE_LLM}),
+                encoding="utf-8",
+            )
+            signal = root / "hermes_signal_2026-06-20.json"
+            signal.write_text(
+                json.dumps([{"title": "Critical VPN Bug Now Exploited", "link": "https://example.com/vpn"}]),
+                encoding="utf-8",
+            )
+            cwd = Path.cwd()
+            try:
+                os.chdir(root)
+                with patch(
+                    "publish_blog_post.generate_hero_image_with_vertex",
+                    side_effect=RuntimeError("404 imagen-4.0-generate-001 not found"),
+                ):
+                    rc = main([
+                        "--briefing-json", str(briefing),
+                        "--site-dir", str(site),
+                        "--image-model", "imagen-4.0-generate-001",
+                    ])
+            finally:
+                os.chdir(cwd)
+            self.assertEqual(rc, 0)
+            post = site / "src/content/blog/2026-06-20-critical-vpn-bug-now-exploited.md"
+            text = post.read_text(encoding="utf-8")
+            expected_asset = "/assets/blog/hermes-relay/2026-06-20-critical-vpn-bug-now-exploited.svg"
+            self.assertIn(f'img: "{expected_asset}"', text)
+            self.assertIn('img_alt: "Editorial cyber defense illustration for Critical VPN Bug Now Exploited"', text)
+            self.assertTrue((site / f"public{expected_asset}").is_file())
+            self.assertFalse((site / "public/assets/blog/hermes-relay/2026-06-20-critical-vpn-bug-now-exploited.png").exists())
+            self.assertNotIn("Vertex", text)
+
+    def test_main_refuses_to_publish_without_matching_https_source(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            site = root / "opposite-osiris"
+            briefing = root / "hermes_llm_top3_2026-06-20.json"
+            briefing.write_text(
+                json.dumps({"date": "2026-06-20", "top_articles": SAMPLE_LLM}),
+                encoding="utf-8",
+            )
+            signal = root / "hermes_signal_2026-06-20.json"
+            signal.write_text(
+                json.dumps([{"title": "Critical VPN Bug Now Exploited", "link": "http://example.com/vpn"}]),
+                encoding="utf-8",
+            )
+            cwd = Path.cwd()
+            try:
+                os.chdir(root)
+                with self.assertRaisesRegex(ValueError, "supported HTTPS source"):
+                    main(["--briefing-json", str(briefing), "--site-dir", str(site)])
+            finally:
+                os.chdir(cwd)
+            self.assertFalse((site / "src/content/blog").exists())
 
 
 if __name__ == "__main__":

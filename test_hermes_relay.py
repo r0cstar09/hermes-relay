@@ -4,6 +4,7 @@ import tempfile
 import types
 import unittest
 from pathlib import Path
+from datetime import datetime, timezone
 
 from hermes_store import connect, mark_articles_used, record_article
 
@@ -34,7 +35,7 @@ class HermesRelayCollectorTests(unittest.TestCase):
                     title="Unused but still relevant",
                     link="https://example.com/unused",
                     source_feed="feed",
-                    published="today",
+                    published=datetime.now(timezone.utc).isoformat(),
                     summary="summary",
                     seen_at="2026-06-21T10:00:00+00:00",
                 )
@@ -43,7 +44,7 @@ class HermesRelayCollectorTests(unittest.TestCase):
                     title="Already briefed",
                     link="https://example.com/used",
                     source_feed="feed",
-                    published="today",
+                    published=datetime.now(timezone.utc).isoformat(),
                     summary="summary",
                     seen_at="2026-06-21T10:00:00+00:00",
                 )

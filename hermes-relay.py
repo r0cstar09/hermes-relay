@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 import feedparser
 
 from hermes_store import connect, import_legacy_signal_files, record_article, stats
+from relay_sources import AI_FEEDS, MAX_PER_SOURCE, balanced_candidates, fetch_feed_bytes, is_current
 
 # List of RSS feeds
 FEEDS = [
@@ -16,7 +17,7 @@ FEEDS = [
     "https://www.cisa.gov/alerts.xml",
     "https://www.cisa.gov/advisories.xml",
     "https://www.darkreading.com/rss.xml",
-]
+] + AI_FEEDS
 
 # Output file
 TODAY = datetime.now(timezone.utc).strftime("%Y-%m-%d")
@@ -62,7 +63,7 @@ def load_unbriefed_backlog(conn, *, since=None, limit=40):
         """,
         params,
     ).fetchall()
-    return [row_to_article(row) for row in rows]
+    return [row_to_article(row) for row in rows if is_current(row['published'])]
 
 
 def bootstrap_database():
@@ -89,15 +90,19 @@ def fetch_and_parse():
         for url in FEEDS:
             print(f"Fetching: {url}")
             try:
-                feed = feedparser.parse(url)
+                feed = feedparser.parse(fetch_feed_bytes(url))
+                eligible = 0
                 for item in feed.entries:
                     title = item.get("title", "").strip()
                     link = item.get("link", "").strip()
                     published = item.get("published", item.get("updated", ""))
-                    summary = item.get("summary", "")
+                    summary = item.get("summary", "")[:2000]
 
-                    if not title or not link:
+                    if not title or not link.startswith('https://') or not is_current(published):
                         continue
+                    if eligible >= MAX_PER_SOURCE:
+                        break
+                    eligible += 1
 
                     is_new, _ = record_article(
                         conn,
@@ -152,9 +157,9 @@ def fetch_and_parse():
 
 def save_output():
     """Save current-run first-seen articles to JSON for the LLM step/artifacts."""
+    all_items[:] = balanced_candidates(all_items)
     if not all_items:
-        print("No first-seen articles to save. Output file will not be created.")
-        return
+        raise RuntimeError('No source-dated articles from the last seven days; refusing stale publication')
 
     with open(OUTPUT_JSON, "w", encoding="utf-8") as f:
         json.dump(all_items, f, indent=2, ensure_ascii=False)

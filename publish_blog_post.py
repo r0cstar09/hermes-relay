@@ -11,6 +11,8 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
+import html
 import json
 import os
 import re
@@ -20,6 +22,8 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 from typing import Iterable
+from urllib.parse import urlparse
+from editorial_quality import validate_article
 
 
 DEFAULT_SITE_DIR = Path(os.getenv("OPPOSITE_OSIRIS_DIR", "/mnt/c/Users/antho/opposite-osiris"))
@@ -123,15 +127,29 @@ def normalize_title(value: str) -> str:
     return re.sub(r"\W+", " ", value).strip().lower()
 
 
+def supported_https_url(value: object) -> str | None:
+    if not isinstance(value, str):
+        return None
+    value = value.strip()
+    parsed = urlparse(value)
+    if parsed.scheme != "https" or not parsed.netloc:
+        return None
+    return value
+
+
 def find_source_url(title: str, signal_articles: list[dict]) -> str | None:
     norm = normalize_title(title)
     for article in signal_articles:
         if normalize_title(str(article.get("title", ""))) == norm:
-            return article.get("link") or article.get("url")
+            source_url = supported_https_url(article.get("link") or article.get("url"))
+            if source_url:
+                return source_url
     for article in signal_articles:
         article_title = normalize_title(str(article.get("title", "")))
         if article_title and (article_title in norm or norm in article_title):
-            return article.get("link") or article.get("url")
+            source_url = supported_https_url(article.get("link") or article.get("url"))
+            if source_url:
+                return source_url
     return None
 
 
@@ -234,7 +252,8 @@ def build_markdown(
     if article.source_url:
         body.append("---")
         body.append("")
-        body.append(f"Source: [{article.title}]({article.source_url})")
+        source_title = re.sub(r"([\\\[\]])", r"\\\1", article.title)
+        body.append(f"Source: [{source_title}]({article.source_url})")
         body.append("")
     return "\n".join(body)
 
@@ -305,6 +324,57 @@ def generate_hero_image_with_vertex(*, article: ArticleBlock, image_model: str, 
     raise ValueError(f"Vertex image generation did not return image bytes{suffix}")
 
 
+def write_editorial_svg_fallback(*, article: ArticleBlock, output_path: Path) -> str:
+    """Write deterministic, locally rendered editorial art for image-generation failures."""
+    safe_title = html.escape(" ".join(article.title.split()), quote=True)
+    digest = hashlib.sha256(article.title.encode("utf-8")).digest()
+    accent_hue = 174 + digest[0] % 28
+    warm_hue = 32 + digest[1] % 18
+    nodes = []
+    for index in range(8):
+        x = 120 + ((digest[index + 2] * 37 + index * 173) % 1360)
+        y = 100 + ((digest[index + 10] * 29 + index * 97) % 620)
+        radius = 5 + digest[index + 18] % 8
+        nodes.append(f'<circle cx="{x}" cy="{y}" r="{radius}" />')
+    svg = f'''<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="900" viewBox="0 0 1600 900" role="img" aria-labelledby="hero-title hero-desc">
+  <title id="hero-title">{safe_title}</title>
+  <desc id="hero-desc">Editorial cyber defense illustration with a protected network edge and telemetry paths.</desc>
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#07111f" />
+      <stop offset="1" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="signal" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="hsl({accent_hue} 74% 48%)" stop-opacity="0.15" />
+      <stop offset="0.68" stop-color="hsl({accent_hue} 82% 58%)" />
+      <stop offset="1" stop-color="hsl({warm_hue} 90% 58%)" />
+    </linearGradient>
+    <radialGradient id="glow">
+      <stop offset="0" stop-color="hsl({accent_hue} 82% 58%)" stop-opacity="0.24" />
+      <stop offset="1" stop-color="hsl({accent_hue} 82% 58%)" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="url(#background)" />
+  <circle cx="1120" cy="450" r="420" fill="url(#glow)" />
+  <g fill="none" stroke="#203149" stroke-width="2" opacity="0.65">
+    <path d="M0 180 H620 L760 320 H1600" />
+    <path d="M0 690 H510 L720 480 H1600" />
+    <path d="M170 0 V235 L390 455 V900" />
+  </g>
+  <path d="M80 590 C350 590 385 300 650 390 S1060 700 1510 270" fill="none" stroke="url(#signal)" stroke-width="8" stroke-linecap="round" />
+  <g transform="translate(690 205)" fill="#0b1728" stroke="hsl({accent_hue} 82% 58%)" stroke-width="7">
+    <path d="M110 0 L220 42 V150 C220 247 163 310 110 338 C57 310 0 247 0 150 V42 Z" />
+    <path d="M67 164 L98 195 L158 125" fill="none" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+  <g fill="hsl({accent_hue} 82% 58%)" opacity="0.9">{''.join(nodes)}</g>
+  <rect x="76" y="74" width="1448" height="752" rx="28" fill="none" stroke="#31445f" stroke-width="2" />
+</svg>
+'''
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+    output_path.write_text(svg, encoding="utf-8")
+    return output_path.as_posix()
+
+
 def split_frontmatter(markdown: str) -> tuple[str, str]:
     if not markdown.startswith("---\n"):
         return "", markdown
@@ -341,6 +411,9 @@ Use the voice profile below as the target. Do not copy the profile phrases mecha
 
 Editing task:
 - Rewrite the draft body so it sounds like Tony, not an AI-generated cyber summary.
+- Replace canned template openings and headings with a story-specific argument. Do not force every AI/builder story into a breach or governance narrative.
+- Balance useful technical progress with specific security implications; avoid fear-first framing and marketing hype.
+- Aim for 350–800 words. Never pretend Tony personally tested, deployed, investigated, or observed something unless the source material explicitly establishes that.
 - Make one clear practitioner argument.
 - Keep the factual recap short.
 - Preserve Markdown headings unless changing a heading makes the argument clearer.
@@ -467,6 +540,10 @@ def main(argv: list[str] | None = None) -> int:
         raise ValueError(f"{briefing_json} does not contain non-empty top_articles text")
 
     selected = choose_top_article(parse_articles(llm_text, signal_articles))
+    if not selected.source_url:
+        raise ValueError(
+            "Selected article has no exact or fuzzy title match with a supported HTTPS source; refusing to publish"
+        )
     slug = f"{run_date}-{slugify(selected.title)}.md"
     slug_stem = slug[:-3]
     site_dir = args.site_dir.resolve()
@@ -477,11 +554,27 @@ def main(argv: list[str] | None = None) -> int:
     hero_image_alt = None
     hero_image_path = None
     if args.image_model and not args.skip_image:
-        hero_image_path = site_dir / args.image_dir / f"{slug_stem}.png"
-        generate_hero_image_with_vertex(article=selected, image_model=args.image_model, output_path=hero_image_path)
+        vertex_image_path = site_dir / args.image_dir / f"{slug_stem}.png"
+        try:
+            generate_hero_image_with_vertex(
+                article=selected,
+                image_model=args.image_model,
+                output_path=vertex_image_path,
+            )
+            hero_image_path = vertex_image_path
+            hero_image_alt = f"Abstract cyber defense illustration for {selected.title}"
+        except Exception as exc:
+            if vertex_image_path.exists():
+                vertex_image_path.unlink()
+            print(
+                f"Vertex blog hero image pass failed ({exc}); using local editorial SVG fallback.",
+                file=sys.stderr,
+            )
+            hero_image_path = site_dir / args.image_dir / f"{slug_stem}.svg"
+            write_editorial_svg_fallback(article=selected, output_path=hero_image_path)
+            hero_image_alt = f"Editorial cyber defense illustration for {selected.title}"
         public_dir = site_dir / "public"
         hero_image = "/" + hero_image_path.relative_to(public_dir).as_posix()
-        hero_image_alt = f"Abstract cyber defense illustration for {selected.title}"
     markdown = build_markdown(
         selected,
         run_date=run_date,
@@ -497,6 +590,8 @@ def main(argv: list[str] | None = None) -> int:
             voice_profile_path=args.voice_profile,
             article=selected,
         )
+        _, edited_body = split_frontmatter(markdown)
+        validate_article(edited_body, source_url=selected.source_url, score=selected.score)
     post_path.write_text(markdown, encoding="utf-8")
     print(f"Published blog markdown -> {post_path}")
 

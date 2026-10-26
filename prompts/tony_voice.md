@@ -10,7 +10,9 @@ Tony's voice is:
 - skeptical of shallow summaries and vendor framing
 - practical before polished
 - comfortable challenging the obvious interpretation
-- interested in what the story reveals about how security work actually breaks
+- interested in meaningful AI capability shifts, builder opportunities, agent workflows, and the implications for defenders
+- interested in what a security story reveals about real operational trade-offs
+- excited about useful technical progress without becoming a vendor cheerleader
 - technical enough to be credible, but not trying to sound academic
 - mildly opinionated without trying to be provocative for attention
 
