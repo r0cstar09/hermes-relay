@@ -1,0 +1,69 @@
+name: Editorial verification (no publication)
+on:
+  workflow_dispatch:
+    inputs:
+      site_ref:
+        description: Blog branch to build alongside the isolated candidate
+        type: string
+        default: main
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install -r requirements.txt
+      - run: python -m unittest discover -v
+      - uses: actions/checkout@v4
+        with:
+          repository: r0cstar09/opposite-osiris
+          ref: ${{ inputs.site_ref }}
+          token: ${{ secrets.OPPOSITE_OSIRIS_PAT }}
+          path: opposite-osiris-site
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm ci && npm run build
+        working-directory: opposite-osiris-site
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          export_environment_variables: true
+      - name: Exercise real collection, writing, and source review
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+          GOOGLE_CLOUD_LOCATION: ${{ secrets.GOOGLE_CLOUD_LOCATION || 'us-central1' }}
+          VERTEX_MODEL: ${{ secrets.VERTEX_MODEL || 'gemini-2.5-flash' }}
+          VERTEX_MODEL_RESOURCE: ${{ secrets.VERTEX_MODEL_RESOURCE }}
+          VERTEX_BLOG_EDITOR_MODEL: ${{ secrets.VERTEX_BLOG_EDITOR_MODEL || 'gemini-2.5-pro,gemini-2.5-flash' }}
+          VERTEX_BLOG_IMAGE_MODEL: ${{ secrets.VERTEX_BLOG_IMAGE_MODEL || 'imagen-4.0-generate-001' }}
+          ICLOUD_EMAIL: ''
+          ICLOUD_PASSWORD: ''
+          EMAIL_RECIPIENT: ''
+        run: |
+          python orchestrator.py
+          python publish_blog_post.py --site-dir opposite-osiris-site --verify-build
+          python - <<'PY'
+          import subprocess
+          from pathlib import Path
+          out=Path('editorial-candidates'); out.mkdir()
+          paths=subprocess.check_output(['git','ls-files','--others','--exclude-standard','src/content/blog'],cwd='opposite-osiris-site',text=True).splitlines()
+          for value in paths:
+              path=Path('opposite-osiris-site')/value
+              (out/path.name).write_text(path.read_text())
+          print('Isolated editorial check completed; no commit, push, email, or publication performed.')
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: editorial-verification
+          path: |
+            editorial-candidates/
+            hermes_signal_*.json
+            json_output/
+          retention-days: 7

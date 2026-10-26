@@ -11,12 +11,14 @@ A successful run means the Astro build passed, the post was pushed, and the actu
 An unavailable Vertex hero-image service falls back to a local SVG editorial cover; it must not prevent a source-backed story from publishing. Editorial and source-validation failures still stop publication. Diagnostics are uploaded even on failure. Review the [workflow runs](https://github.com/r0cstar09/hermes-relay/actions/workflows/hermes-relay.yml) and `publication-status.json` for the last genuinely verified publication, not just a green collector run.
 
 ## What It Does
-- Pulls fresh stories from selected cybersecurity RSS feeds
+- Pulls source-dated stories from cybersecurity, primary AI, and builder feeds, balances sources, and rejects stale or undated candidates
 - Persists seen articles and briefing metadata in SQLite
 - Deduplicates against the persistent article history
 - Uses Google Vertex AI Gemini to score and summarize the top stories
 - Writes JSON + HTML briefing outputs and optionally emails the result
 - Publishes the highest-priority story as a blog post in `opposite-osiris` when a cross-repo GitHub token is configured
+
+The final editor fetches the original article from an approved public source host rather than treating the ranker's summary as evidence. A separate model review must approve grounding, specificity, and non-generic writing; deterministic gates reject unsupported CVE identifiers and recycled stock slogans. A model review is an additional check, not a guarantee of factual or editorial perfection. The manual `editorial-check.yml` workflow exercises real collection, generation, review, and Astro builds without publishing, emailing, or changing daily dedupe state.
 
 ## Runtime Requirements
 - Python 3.10+

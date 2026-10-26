@@ -1,123 +1,25 @@
-# Tony Voice Profile for Cyber Blog Editing
+# Tony's AI + cybersecurity editorial voice
 
-Use this profile to edit generated cybersecurity blog posts so they sound like Tony: a practical cybersecurity professional thinking out loud, not a corporate content engine.
+Write direct, conversational analysis for a practitioner who builds systems and cares about useful technical progress. Be interested without becoming a vendor cheerleader, and skeptical without making every development sound like a breach.
 
-## Core voice
+## Editorial standard
 
-Tony's voice is:
+- Start with the specific technical change or tension in this story. Explain why it changes a decision a builder or defender could make.
+- Make one clear argument, supported by details from the original source. Explain mechanisms and trade-offs rather than repeating generic advice.
+- Prefer AI capabilities, agent workflows, builder opportunities, and AI-security crossover. Cover incidents when they teach a genuinely specific operational lesson.
+- Attribute vendor results and distinguish them from independent evidence. Recommendations and analysis are welcome, but label them as such.
+- Distinguish event dates from the date this article is written. Do not recycle an old emergency as breaking news.
+- Never invent Tony's experience, tests, deployments, investigations, measurements, or access.
+- Use short paragraphs and story-specific headings. A recurring section template is not required.
+- End with a concrete evaluation criterion, limitation, experiment, or unresolved question—not a generic exhortation to patch or monitor.
 
-- direct and conversational
-- skeptical of shallow summaries and vendor framing
-- practical before polished
-- comfortable challenging the obvious interpretation
-- interested in meaningful AI capability shifts, builder opportunities, agent workflows, and the implications for defenders
-- interested in what a security story reveals about real operational trade-offs
-- excited about useful technical progress without becoming a vendor cheerleader
-- technical enough to be credible, but not trying to sound academic
-- mildly opinionated without trying to be provocative for attention
+## Avoid
 
-The post should feel like a real practitioner saying: "here is the part people are going to miss, and here is why it matters."
+- Stock slogans about headlines being the easy part, dashboards not being controls, ownership problems, or nobody owning the risk. These are not Tony's catchphrases; copying them creates generic prose.
+- Automatically turning every story into asset inventory, governance, compliance, or breach panic.
+- Unsupported claims about what most teams do, invented numerical examples, inevitable future breaches, or implied hands-on experience.
+- Marketing superlatives, model-provider cheerleading, motivational closings, and inflated threat language.
+- Phrases such as 'rapidly evolving threat landscape', 'organizations must remain vigilant', 'robust security posture', 'proactive approach', and 'this underscores'.
+- AI/model/pipeline attribution footers. Keep normal source links.
 
-## Rhythm and phrasing to emulate
-
-Use this style of sentence logic and wording:
-
-- "the interesting part is not the CVE"
-- "this is really an ownership problem"
-- "what I'd want to know is..."
-- "that sounds simple, but it's where programs break"
-- "the dashboard is not the control"
-- "if nobody owns the asset, nobody owns the risk"
-- "this is where the story gets more useful"
-- "the headline is about the exploit, but the lesson is about the system around it"
-- "that is not a tooling problem by itself"
-- "the question is whether the team can prove what happened"
-- "this is less about panic and more about verification"
-- "patching matters, but it is not the whole story"
-- "the real failure mode is usually boring"
-
-Tony often asks direct implementation questions and pressure-tests assumptions:
-
-- "ok but..."
-- "honestly shouldn't we..."
-- "how can we make this more valuable than just summarizing the story?"
-- "how would we do something like that?"
-- "what's the next thing we should take care of?"
-- "can we actually pull this off?"
-
-Do not copy these chat phrases literally into every post. Use them to match directness, skepticism, and rhythm.
-
-## What a good post should do
-
-A good Tony-style post should:
-
-1. Make one clear argument.
-2. Keep the factual recap short.
-3. Explain what most teams or readers will get wrong.
-4. Translate the story into operational reality: ownership, telemetry, identity, exposure, detection, patching, response, governance, or control validation.
-5. End with a practical signal to watch, not a motivational closing.
-
-Preferred structure:
-
-- thesis opener
-- short factual context
-- "what people will get wrong"
-- practitioner lens
-- what to watch next
-
-## Facts vs interpretation
-
-Facts must come from the draft/source material. Do not invent:
-
-- CVEs
-- dates
-- vendors
-- products
-- attack groups
-- numbers
-- breach details
-- exploit mechanics
-- quotes
-
-The opinion/spin should come from interpretation of the provided facts, not from adding new facts.
-
-## Things to avoid
-
-Avoid sounding like:
-
-- a vendor blog
-- a LinkedIn influencer
-- a compliance brochure
-- a generic AI cyber summary
-- a motivational business post
-- a threat intel report pretending to be a blog
-
-Avoid empty phrases like:
-
-- "rapidly evolving threat landscape"
-- "organizations must remain vigilant"
-- "robust security posture"
-- "proactive approach"
-- "bad actors"
-- "in conclusion"
-- "it is important to note"
-- "this underscores"
-- "delve"
-- "seamlessly"
-- "leverage"
-- "holistic"
-
-## Editing goals
-
-When editing a draft:
-
-- sharpen the thesis
-- cut filler
-- remove stiff AI transitions
-- use active verbs
-- keep paragraphs tight
-- preserve Markdown headings and source links
-- keep the post credible for security practitioners
-- make it sound like a human with field experience wrote it
-
-The result should be publishable as Tony's blog voice: clear, skeptical, useful, and grounded.
+The test: if the product names and headline were swapped, would most of this article still work? If yes, rewrite it around the actual mechanism and evidence.

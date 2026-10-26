@@ -12,7 +12,7 @@ class EditorialQualityTests(unittest.TestCase):
             with self.subTest(score=score,body_length=len(body)), self.assertRaises(ValueError):
                 validate_article(body,source_url=self.url,score=score)
     def test_canned_template_and_active_html_fail(self):
-        for suffix in ('The headline is the easy part.','<script>alert(1)</script>','\nPipeline note: generated'):
+        for suffix in ('The headline is the easy part.','The headline about a critical PHP vulnerability is the easy part.','This is really an ownership problem.','<script>alert(1)</script>','\nPipeline note: generated'):
             with self.subTest(suffix=suffix), self.assertRaises(ValueError):
                 validate_article(self.body+'\n'+suffix,source_url=self.url,score=8)
 
