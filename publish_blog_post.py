@@ -45,6 +45,7 @@ class ArticleBlock:
     variant_a: str | None
     variant_b: str | None
     source_url: str | None
+    source_published: str | None = None
 
 
 def slugify(value: str, max_len: int = 72) -> str:
@@ -182,6 +183,8 @@ def parse_articles(llm_text: str, signal_articles: list[dict]) -> list[ArticleBl
         if not summary:
             # Fallback for older briefing formats.
             summary = re.sub(r"(?im)^Score:.*$", "", raw).strip()
+        source_url = find_source_url(title, signal_articles)
+        source_published = next((str(item.get('published','')) for item in signal_articles if (item.get('link') or item.get('url')) == source_url), None)
         parsed.append(
             ArticleBlock(
                 title=title,
@@ -192,7 +195,8 @@ def parse_articles(llm_text: str, signal_articles: list[dict]) -> list[ArticleBl
                 summary=summary.strip(),
                 variant_a=variant_a.strip() if variant_a else None,
                 variant_b=variant_b.strip() if variant_b else None,
-                source_url=find_source_url(title, signal_articles),
+                source_url=source_url,
+                source_published=source_published,
             )
         )
     return parsed
@@ -444,7 +448,7 @@ def edit_markdown_with_vertex(markdown: str, *, editor_model: str, voice_profile
 
     frontmatter, body = split_frontmatter(markdown)
     voice_profile = voice_profile_path.read_text(encoding="utf-8")
-    source_context = fetch_source_context(article.source_url)
+    source_context = f"Source publication date from RSS/Atom: {article.source_published or 'not supplied'}\n\n" + fetch_source_context(article.source_url)
     prompt = build_editor_prompt(body=body, voice_profile=voice_profile, article=article, source_context=source_context)
     client = genai.Client(vertexai=True, project=project, location=location)
     response = None
