@@ -1,11 +1,11 @@
 {
-  "title": "GPT-6.1 Terra",
-  "date": "2026-10-27",
-  "url": "https://www.tonymuzo.dev/blog/2026-10-27-gpt-6-1-terra/",
+  "title": "GitHub Octoverse 2026",
+  "date": "2026-10-29",
+  "url": "https://www.tonymuzo.dev/blog/2026-10-29-github-octoverse-2026/",
   "source_urls": [
-    "https://simonwillison.net/2026/Oct/26/gpt-61-terra/"
+    "https://simonwillison.net/2026/Oct/28/github-octoverse-2026/"
   ],
-  "image_sha256": "e2944e3a44c4f58360eb06cb9deaddc8732869dc2acf6cf634712bc845cbc0bf",
-  "blog_commit": "0044f98f46bcfd46b7009344f42a95340c9e801d",
-  "verified_at": "2026-10-27T16:14:51.359375+00:00"
+  "image_sha256": "d901e1bad643bc9ce132e9e414b5293852981ca5be7d902bd60f7249d7831d6a",
+  "blog_commit": "e3ef7e535549765865dc3407e0a4a2c0826b54ff",
+  "verified_at": "2026-10-29T17:21:29.199737+00:00"
 }
