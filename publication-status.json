@@ -1,11 +1,11 @@
 {
-  "title": "GitHub Octoverse 2026",
-  "date": "2026-10-29",
-  "url": "https://www.tonymuzo.dev/blog/2026-10-29-github-octoverse-2026/",
+  "title": "Malicious Claude Code extension on Cursor planted SSH backdoors",
+  "date": "2026-10-30",
+  "url": "https://www.tonymuzo.dev/blog/2026-10-30-malicious-claude-code-extension-on-cursor-planted-ssh-backdoors/",
   "source_urls": [
-    "https://simonwillison.net/2026/Oct/28/github-octoverse-2026/"
+    "https://www.bleepingcomputer.com/news/security/malicious-claude-code-extension-on-cursor-planted-ssh-backdoors/"
   ],
-  "image_sha256": "d901e1bad643bc9ce132e9e414b5293852981ca5be7d902bd60f7249d7831d6a",
-  "blog_commit": "e3ef7e535549765865dc3407e0a4a2c0826b54ff",
-  "verified_at": "2026-10-29T17:21:29.199737+00:00"
+  "image_sha256": "3009943a65c16075ebf140f934b7872fcdafe7c31ee452b6852b8bc59581ab0c",
+  "blog_commit": "a00edab84d988733a876f76749abed2c6c345684",
+  "verified_at": "2026-10-30T16:59:09.131968+00:00"
 }
