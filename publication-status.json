@@ -1,11 +1,11 @@
 {
-  "title": "Chainalysis discloses data breach from \"offensive agentic techniques\"",
-  "date": "2026-11-01",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-01-chainalysis-discloses-data-breach-from-offensive-agentic-techniques/",
+  "title": "Hackers disrupt refrigeration systems at European supermarkets",
+  "date": "2026-11-02",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-02-hackers-disrupt-refrigeration-systems-at-european-supermarkets/",
   "source_urls": [
-    "https://www.bleepingcomputer.com/news/security/chainalysis-discloses-data-breach-from-offensive-agentic-techniques/"
+    "https://www.bleepingcomputer.com/news/security/hackers-disrupt-refrigeration-systems-at-european-supermarkets/"
   ],
-  "image_sha256": "dd5b7c1d9a10a0b8e66e01767c8dc33757acd2b9203262aa4b2310c4fd73617e",
-  "blog_commit": "17f51eb6b96741c2b61f4bffa9e6cf03c20363e5",
-  "verified_at": "2026-11-01T17:02:00.674386+00:00"
+  "image_sha256": "9278226805eee8e4e4c858af1dd1d2a047603c1fb1b110d15603cc7ecefd0091",
+  "blog_commit": "4c06434c53a1cf4edc36917705b1cbacf449e0c8",
+  "verified_at": "2026-11-02T20:41:11.486463+00:00"
 }
