@@ -222,6 +222,7 @@ Source: [Research report](https://example.com/refrigeration)
             self.assertEqual(calls[1].kwargs["config"].response_modalities, ["IMAGE"])
             self.assertEqual(calls[1].kwargs["config"].image_config.aspect_ratio, "16:9")
             self.assertEqual(calls[1].kwargs["config"].image_config.image_size, "1K")
+            self.assertIn("no visible text", calls[1].kwargs["config"].system_instruction)
             with Image.open(output) as generated:
                 self.assertEqual(generated.format, "PNG")
                 self.assertEqual(generated.width * 9, generated.height * 16)
