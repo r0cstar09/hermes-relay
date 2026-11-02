@@ -16,7 +16,7 @@ class PublicationGateTests(unittest.TestCase):
         self.post = self.blog/'2026-10-26-example.md'
         self.text = '---\ntitle: "A & B"\npublishDate: "2026-10-26"\nimg: "/assets/cover.svg"\n---\nRead [the source](https://example.org/source).\n'
         self.post.write_text(self.text)
-        self.html = b'<h1>A &amp; B</h1><a href="https://example.org/source">Source</a>'
+        self.html = b'<h1>A &amp; B</h1><a href="https://example.org/source">Source</a><img src="/assets/cover.svg">'
     def getter(self,url):
         return self.asset.read_bytes() if url.endswith('.svg') else self.html
     def test_preflight_finds_existing_post(self):
@@ -33,6 +33,10 @@ class PublicationGateTests(unittest.TestCase):
         self.assertEqual(receipt['title'],'A & B')
         self.assertEqual(receipt['source_urls'],['https://example.org/source'])
         self.assertEqual(len(receipt['image_sha256']),64)
+    def test_rejects_article_still_referencing_previous_cover(self):
+        self.html = self.html.replace(b'/assets/cover.svg', b'/assets/old-shield.svg')
+        with self.assertRaisesRegex(ValueError, 'reference the committed hero'):
+            verify_once(self.site,self.post,'https://www.tonymuzo.dev',self.getter)
     def test_rejects_stale_or_missing_article(self):
         self.html=b'<h1>August article</h1>'
         with self.assertRaisesRegex(ValueError,'heading'): verify_once(self.site,self.post,'https://www.tonymuzo.dev',self.getter)

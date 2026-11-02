@@ -8,7 +8,7 @@ Tony has authorized **automatic daily website updates**. The repository-owned Gi
 
 A successful run means the Astro build passed, the post was pushed, and the actual public article title, source links, and exact hero-image bytes were verified. `publication-status.json` records that receipt; committing the receipt also keeps this scheduled repository active. The workflow is serialized and checks for an existing same-day post, so a retry verifies the existing edition instead of generating another.
 
-An unavailable Vertex hero-image service falls back to a local SVG editorial cover; it must not prevent a source-backed story from publishing. Editorial and source-validation failures still stop publication. Diagnostics are uploaded even on failure. Review the [workflow runs](https://github.com/r0cstar09/hermes-relay/actions/workflows/hermes-relay.yml) and `publication-status.json` for the last genuinely verified publication, not just a green collector run.
+Each cover is generated from the final edited article, with story-specific objects, action, and composition—not a stock cyber shield. The image pass tries the configured Gemini image models and rejects invalid or duplicate artwork. If all attempts fail, publication stops with diagnostics instead of silently publishing a repeated placeholder. Editorial and source-validation failures also stop publication. Diagnostics are uploaded even on failure. Review the [workflow runs](https://github.com/r0cstar09/hermes-relay/actions/workflows/hermes-relay.yml) and `publication-status.json` for the last genuinely verified publication, not just a green collector run.
 
 ## What It Does
 - Pulls source-dated stories from cybersecurity, primary AI, and builder feeds, balances sources, and rejects stale or undated candidates
@@ -35,7 +35,8 @@ Optional:
 - `VERTEX_MODEL` - draft/ranking model ID (default: `gemini-2.5-flash`)
 - `VERTEX_MODEL_RESOURCE` - full Vertex model resource name override (if set, this takes precedence over `VERTEX_MODEL`)
 - `VERTEX_BLOG_EDITOR_MODEL` - stronger Vertex model used for final Tony-voice blog editing (GitHub Actions default: `gemini-2.5-pro`; use a comma-separated fallback list if testing newer Vertex models)
-- `VERTEX_BLOG_IMAGE_MODEL` - Vertex image model used for generated blog hero images (GitHub Actions default: `imagen-4.0-generate-001`)
+- `VERTEX_BLOG_IMAGE_MODEL` - comma-separated image models (Actions default: `gemini-3.1-flash-image,gemini-3-pro-image`); Gemini models use `generate_content`, not the Imagen-only API
+- `VERTEX_BLOG_IMAGE_LOCATION` - image endpoint (default: `global`), independent of the text editor region
 - `ICLOUD_EMAIL`, `ICLOUD_PASSWORD`, `EMAIL_RECIPIENT` - only required for SMTP email delivery
 - `OPPOSITE_OSIRIS_DIR` - local path to the Astro site when running `publish_blog_post.py` manually (default: `/mnt/c/Users/antho/opposite-osiris`)
 - GitHub secret `OPPOSITE_OSIRIS_PAT` - fine-grained token with contents read/write on `r0cstar09/opposite-osiris`; required for scheduled cross-repo blog publishing
@@ -76,7 +77,7 @@ Manual local publish after a briefing exists:
 python publish_blog_post.py \
   --site-dir /mnt/c/Users/antho/opposite-osiris \
   --editor-model "${VERTEX_BLOG_EDITOR_MODEL:-gemini-2.5-pro}" \
-  --image-model "${VERTEX_BLOG_IMAGE_MODEL:-imagen-4.0-generate-001}" \
+  --image-model "${VERTEX_BLOG_IMAGE_MODEL:-gemini-3.1-flash-image,gemini-3-pro-image}" \
   --voice-profile prompts/tony_voice.md \
   --verify-build \
   --commit \
@@ -97,6 +98,14 @@ Hermes Relay uses SQLite for durable history:
 On GitHub Actions, `hermes_relay.db*` is restored/saved with `actions/cache`, then uploaded as a workflow artifact with the JSON/HTML outputs. Locally, the DB file stays in the repo working directory but is ignored by git.
 
 This fixes the old artifact-only issue: daily runners can now remember articles that were already seen and avoid repeatedly drafting around the same stories.
+
+## Repairing legacy covers
+
+The manual **Repair article images (stage only)** workflow uses the same production image generator and credentials, but has no website push credential. It selects only the old repeated shield SVG covers, requires an exact bounded count, preserves every article body/date/title/source, and uploads replacement Markdown, PNGs, and a checksum manifest for visual review. The resulting site must build. Review the artifact, compare its recorded original Markdown hashes with the current website, then commit only those image/frontmatter changes. It does not create another edition, change dedupe history, send email, or auto-publish. The optional `include_ad_project` input also generates a dedicated cover for the AD portfolio project; its existing dashboard screenshot is retained within the article. Blog prose stays byte-for-byte unchanged; the portfolio body changes only to restore that screenshot.
+
+```bash
+python repair_blog_images.py --site-dir /path/to/site --output-dir image-repair --expected-count 6
+```
 
 ## Tests
 ```bash

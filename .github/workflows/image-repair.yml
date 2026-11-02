@@ -1,0 +1,78 @@
+name: Repair article images (stage only)
+
+on:
+  workflow_dispatch:
+    inputs:
+      expected_count:
+        description: Exact number of legacy shield covers to replace (maximum 12)
+        required: true
+        type: string
+        default: '6'
+      include_ad_project:
+        description: Also generate a dedicated Active Directory portfolio cover
+        required: true
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hermes-relay-daily-publication
+  cancel-in-progress: false
+
+jobs:
+  stage-images:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install and test publisher
+        run: |
+          python -m pip install -r requirements.txt
+          python -m unittest discover -v
+      - name: Checkout website without a write credential
+        uses: actions/checkout@v4
+        with:
+          repository: r0cstar09/opposite-osiris
+          path: opposite-osiris-site
+          persist-credentials: false
+      - uses: google-github-actions/auth@v2
+        with:
+          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          create_credentials_file: true
+          export_environment_variables: true
+      - name: Generate story-specific covers using production credentials
+        env:
+          GOOGLE_CLOUD_PROJECT: ${{ secrets.GOOGLE_CLOUD_PROJECT }}
+          VERTEX_BLOG_IMAGE_LOCATION: ${{ secrets.VERTEX_BLOG_IMAGE_LOCATION || 'global' }}
+          VERTEX_BLOG_IMAGE_MODEL: ${{ secrets.VERTEX_BLOG_IMAGE_MODEL || 'gemini-3.1-flash-image,gemini-3-pro-image' }}
+          EXPECTED_COUNT: ${{ inputs.expected_count }}
+          INCLUDE_AD_PROJECT: ${{ inputs.include_ad_project }}
+          ICLOUD_EMAIL: ''
+          ICLOUD_PASSWORD: ''
+          EMAIL_RECIPIENT: ''
+        run: |
+          extra=()
+          if [[ "${INCLUDE_AD_PROJECT}" == 'true' ]]; then extra+=(--include-ad-project); fi
+          python repair_blog_images.py \
+            --site-dir opposite-osiris-site \
+            --output-dir image-repair \
+            --expected-count "${EXPECTED_COUNT}" "${extra[@]}"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify the website with replacement artwork
+        working-directory: opposite-osiris-site
+        run: npm ci && npm run build
+      - name: Preserve reviewable image replacements
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: article-image-repair
+          path: image-repair/
+          retention-days: 7
+          if-no-files-found: warn

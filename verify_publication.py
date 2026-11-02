@@ -20,8 +20,10 @@ class PageHeadings(HTMLParser):
         self.in_h1 = False
         self.headings = []
         self.current = []
+        self.image_sources = []
     def handle_starttag(self, tag, attrs):
         if tag == 'h1': self.in_h1 = True; self.current = []
+        if tag == 'img': self.image_sources.append(dict(attrs).get('src', ''))
     def handle_endtag(self, tag):
         if tag == 'h1' and self.in_h1:
             self.headings.append(' '.join(''.join(self.current).split()))
@@ -79,6 +81,8 @@ def verify_once(site_dir, post_path, base_url, getter=fetch):
         public = (Path(site_dir)/'public').resolve()
         local = (public/image.lstrip('/')).resolve()
         if not local.is_relative_to(public): raise ValueError('Invalid image path')
+        if image not in parser.image_sources:
+            raise ValueError('Live article does not reference the committed hero image')
         expected = local.read_bytes()
         actual = getter(urljoin(base_url, image))
         if actual != expected: raise ValueError('Live hero image differs from committed bytes')
