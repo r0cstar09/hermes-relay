@@ -1,11 +1,11 @@
 {
-  "title": "Qwen 3.8 27B on my laptop can interpret model weights, too",
-  "date": "2026-11-03",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-03-qwen-3-8-27b-on-my-laptop-can-interpret-model-weights-too/",
+  "title": "Threat actors use agentic AI tooling to find and abuse exposed secrets",
+  "date": "2026-11-06",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-06-threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/",
   "source_urls": [
-    "https://simonwillison.net/2026/Nov/3/qwen-can-interpret-model-weights/"
+    "https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/"
   ],
-  "image_sha256": "ccb001dec5e333224f398347ab4949d59927798b805e588d4b2cc04589ccb646",
-  "blog_commit": "c5a227afb26f10f0728193ff7649743570dd22a8",
-  "verified_at": "2026-11-03T18:18:07.279739+00:00"
+  "image_sha256": "ec664e4fc5479f71abc97af6f1cff698a483628ea31450f031755c0fd5b961a9",
+  "blog_commit": "49f19b5de87112c584081b92087494b4d1964e7c",
+  "verified_at": "2026-11-06T17:51:00.063382+00:00"
 }
