@@ -1,11 +1,11 @@
 {
-  "title": "Threat actors use agentic AI tooling to find and abuse exposed secrets",
-  "date": "2026-11-06",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-06-threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/",
+  "title": "Hackers pull off $133 million French bank heist via service provider",
+  "date": "2026-11-07",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-07-hackers-pull-off-133-million-french-bank-heist-via-service-provider/",
   "source_urls": [
-    "https://www.microsoft.com/en-us/security/blog/2026/11/05/threat-actors-use-agentic-ai-tooling-to-find-and-abuse-exposed-secrets/"
+    "https://www.bleepingcomputer.com/news/security/hackers-pull-off-133-million-french-bank-heist-via-service-provider/"
   ],
-  "image_sha256": "ec664e4fc5479f71abc97af6f1cff698a483628ea31450f031755c0fd5b961a9",
-  "blog_commit": "49f19b5de87112c584081b92087494b4d1964e7c",
-  "verified_at": "2026-11-06T17:51:00.063382+00:00"
+  "image_sha256": "76f75fe1ff7dcfc7beaa85ccf4834dc662b6b3aeafb32a2be3bf8f018fe64e75",
+  "blog_commit": "6656c7200167a01f38534dd1536db330aba01719",
+  "verified_at": "2026-11-07T16:47:03.881821+00:00"
 }
