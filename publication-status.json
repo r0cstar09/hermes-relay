@@ -1,11 +1,11 @@
 {
-  "title": "Iris Ohyama data cloud breach exposes info of 7.7 million customers",
-  "date": "2026-11-08",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-08-iris-ohyama-data-cloud-breach-exposes-info-of-7-7-million-customers/",
+  "title": "Introducing Our Smallest, Most Efficient Model: Muse Ember",
+  "date": "2026-11-10",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-10-introducing-our-smallest-most-efficient-model-muse-ember/",
   "source_urls": [
-    "https://www.bleepingcomputer.com/news/security/iris-ohyama-data-cloud-breach-exposes-info-of-77-million-customers/"
+    "https://simonwillison.net/2026/Nov/10/muse-ember/"
   ],
-  "image_sha256": "06cda6bad4984efcfbe81057fb0267a553baf52fce20f01db6fcbff0670b5c6d",
-  "blog_commit": "6ff756836db2f9cacb0a4123b3dd86f46f41406c",
-  "verified_at": "2026-11-08T16:57:17.200984+00:00"
+  "image_sha256": "90bab59484962127eac8424a23b638e258d6dde0158050823c63c0948d1f82a4",
+  "blog_commit": "f73d84ed56d1a5ffd2bfff6c2d92331925a66fe8",
+  "verified_at": "2026-11-10T18:31:11.854846+00:00"
 }
