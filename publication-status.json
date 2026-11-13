@@ -1,11 +1,11 @@
 {
-  "title": "Attackers Use Autonomous AI to Target Semiconductor, Defense and Civil Society Sectors",
-  "date": "2026-11-12",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-12-attackers-use-autonomous-ai-to-target-semiconductor-defense-and-civil-so/",
+  "title": "Introducing ChatGPT Wallet",
+  "date": "2026-11-13",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-13-introducing-chatgpt-wallet/",
   "source_urls": [
-    "https://unit42.paloaltonetworks.com/cairn-framework-ai-autonomous-attacks/"
+    "https://openai.com/index/introducing-chatgpt-wallet"
   ],
-  "image_sha256": "76c9dba10610cfeb18079681125945b82bbc3b7361c3980e9b3d4420e227575d",
-  "blog_commit": "d3de3e5acb8442076bbbeb92cbf24640ab2cd3f6",
-  "verified_at": "2026-11-12T18:43:51.099184+00:00"
+  "image_sha256": "2ce788433f60abe995543023bb7fe33197354ec5f0310780838fb13cc978a626",
+  "blog_commit": "b616c42c2c4a9794332905efbc51798caf8a8fca",
+  "verified_at": "2026-11-13T18:26:24.930141+00:00"
 }
