@@ -1,11 +1,11 @@
 {
-  "title": "Introducing ChatGPT Wallet",
-  "date": "2026-11-13",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-13-introducing-chatgpt-wallet/",
+  "title": "Cursor confirms security breach led to malicious Claude Code extension",
+  "date": "2026-11-15",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-15-cursor-confirms-security-breach-led-to-malicious-claude-code-extension/",
   "source_urls": [
-    "https://openai.com/index/introducing-chatgpt-wallet"
+    "https://www.bleepingcomputer.com/news/security/cursor-confirms-security-breach-led-to-malicious-claude-code-extension/"
   ],
-  "image_sha256": "2ce788433f60abe995543023bb7fe33197354ec5f0310780838fb13cc978a626",
-  "blog_commit": "b616c42c2c4a9794332905efbc51798caf8a8fca",
-  "verified_at": "2026-11-13T18:26:24.930141+00:00"
+  "image_sha256": "2bccdfc1a3b612a8b361fd93c987cb6ddc6f5ba046449919dcb69c0e5284dbc9",
+  "blog_commit": "dd255744f552cf5b02ce50a8cbc202e1223fdec9",
+  "verified_at": "2026-11-15T17:36:29.675400+00:00"
 }
