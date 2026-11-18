@@ -1,11 +1,11 @@
 {
-  "title": "Google warns that fully-automated AI attacks are coming soon",
-  "date": "2026-11-16",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-16-google-warns-that-fully-automated-ai-attacks-are-coming-soon/",
+  "title": "Microsoft\u2019s Agent Framework PyPI package compromised to steal credentials",
+  "date": "2026-11-18",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-18-microsoft-s-agent-framework-pypi-package-compromised-to-steal-credential/",
   "source_urls": [
-    "https://www.bleepingcomputer.com/news/security/google-warns-that-fully-automated-ai-attacks-are-coming-soon/"
+    "https://www.bleepingcomputer.com/news/security/microsofts-agent-framework-pypi-package-compromised-to-steal-credentials/"
   ],
-  "image_sha256": "39c7781fa00f013add733e9cf5e9adc4d1e456c84afede048a658b1e16aff909",
-  "blog_commit": "34b117da95e11cd7380bd743c300858b6552564c",
-  "verified_at": "2026-11-16T20:51:59.657284+00:00"
+  "image_sha256": "f6910be24ed50f9ffb8aa4db15739c8d97ef1e6e0baa464bedb2bf2fa916ed93",
+  "blog_commit": "9715bae2c4ed0b80f90dbb74d9edb9e5c2cae7f1",
+  "verified_at": "2026-11-18T19:16:49.548288+00:00"
 }
