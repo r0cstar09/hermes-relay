@@ -1,11 +1,11 @@
 {
-  "title": "Microsoft\u2019s Agent Framework PyPI package compromised to steal credentials",
-  "date": "2026-11-18",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-18-microsoft-s-agent-framework-pypi-package-compromised-to-steal-credential/",
+  "title": "How OpenAI\u2019s Performance Factory keeps ChatGPT fast",
+  "date": "2026-11-19",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-19-how-openai-s-performance-factory-keeps-chatgpt-fast/",
   "source_urls": [
-    "https://www.bleepingcomputer.com/news/security/microsofts-agent-framework-pypi-package-compromised-to-steal-credentials/"
+    "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast"
   ],
-  "image_sha256": "f6910be24ed50f9ffb8aa4db15739c8d97ef1e6e0baa464bedb2bf2fa916ed93",
-  "blog_commit": "9715bae2c4ed0b80f90dbb74d9edb9e5c2cae7f1",
-  "verified_at": "2026-11-18T19:16:49.548288+00:00"
+  "image_sha256": "db7228bf5f35c06654f60f85261b269de2ecdcb9627e441ac0600fbdc2641e9b",
+  "blog_commit": "5c156d4ea92a8ad8f1f841f6c18ec58bce414e83",
+  "verified_at": "2026-11-19T19:23:51.403460+00:00"
 }
