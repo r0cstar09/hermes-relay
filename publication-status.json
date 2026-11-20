@@ -1,11 +1,11 @@
 {
-  "title": "How OpenAI\u2019s Performance Factory keeps ChatGPT fast",
-  "date": "2026-11-19",
-  "url": "https://www.tonymuzo.dev/blog/2026-11-19-how-openai-s-performance-factory-keeps-chatgpt-fast/",
+  "title": "Bell Canada says 'agentic' hacker stole enterprise customer data",
+  "date": "2026-11-20",
+  "url": "https://www.tonymuzo.dev/blog/2026-11-20-bell-canada-says-agentic-hacker-stole-enterprise-customer-data/",
   "source_urls": [
-    "https://openai.com/index/how-openai-performance-factory-keeps-chatgpt-fast"
+    "https://www.bleepingcomputer.com/news/security/bell-canada-says-agentic-hacker-stole-enterprise-customer-data/"
   ],
-  "image_sha256": "db7228bf5f35c06654f60f85261b269de2ecdcb9627e441ac0600fbdc2641e9b",
-  "blog_commit": "5c156d4ea92a8ad8f1f841f6c18ec58bce414e83",
-  "verified_at": "2026-11-19T19:23:51.403460+00:00"
+  "image_sha256": "5709ca8a92627a48bdd6b17b77e1c2bf93645b04cc150c981aaf5317f991ecd0",
+  "blog_commit": "494fc63ce95e4763a728eff88f3087b2b97bee35",
+  "verified_at": "2026-11-20T19:00:20.117972+00:00"
 }
